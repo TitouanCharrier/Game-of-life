@@ -8,6 +8,8 @@ typedef struct element {
 }element;
 
 
-element *ch_builder(element *previous, int content, element *next);
+element *ch_insert(element *previous, int content, element *next);
+
+void ch_print(element *Buffer);
 
 #endif

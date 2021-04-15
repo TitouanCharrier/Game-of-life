@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
-int main(int argc, char **argv) {
+#include "lib/chained.h"
+#include "src/mainfunc.h"
+#include "src/struct.h"
 
+int main(int argc, char **argv) {
+	
+	
 	//Starting SL2
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -11,7 +16,7 @@ int main(int argc, char **argv) {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	//starting TTF (to display text))
-    	//TTF_Init();
+    //TTF_Init();
 	
 	//init random
 	time_t t;
@@ -33,6 +38,28 @@ int main(int argc, char **argv) {
 
 	//set event var to store events
 	SDL_Event event;
+
+	Case **ListCase = NULL;
+	ListCase = LoadCase(100,100);
+
+	PrintScene(renderer, ListCase);
+	
+	SDL_Delay(5000);
+	
+	/*Don't work for now
+	element *element_1 = ch_insert(NULL,1,NULL);
+	//element *element_2 = ch_insert(NULL,2,NULL);
+	//element *element_3 = ch_insert(element_2,3,NULL);
+	//element *element_4 = ch_insert(NULL,4,NULL);
+	
+	printf("%d\n",element_1->content );
+	ch_print(element_1);
+	*/
+
+
+	
+
+
 
 	printf("End reached\n");
 	return 0;
