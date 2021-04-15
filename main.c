@@ -38,13 +38,40 @@ int main(int argc, char **argv) {
 
 	//set event var to store events
 	SDL_Event event;
+	
+	int run = 1;
+	int timer = 0;
 
 	Case **ListCase = NULL;
 	ListCase = LoadCase(100,100);
 
 	PrintScene(renderer, ListCase);
 	
-	SDL_Delay(5000);
+	
+	while (1) {
+
+		SDL_PollEvent(&event);
+		
+		if (Detect_KeyDown(event, SDLK_ESCAPE)) {
+			break;
+		}
+		
+		
+		if (timer == 60) {
+			Life(ListCase);
+			timer = 0;
+		}
+
+		
+
+		
+		PrintScene(renderer, ListCase);
+		SDL_Delay(16);
+
+		timer ++;
+
+		
+	}
 	
 	/*Don't work for now
 	element *element_1 = ch_insert(NULL,1,NULL);
