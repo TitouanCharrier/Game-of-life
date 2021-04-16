@@ -7,7 +7,7 @@
 
 Case **LoadCase(int NumberLine);
 
-void PrintScene(SDL_Renderer *renderer, Case **ListCase, location loc, int NumberLine);
+void PrintScene(SDL_Renderer *renderer, Case **ListCase, location loc, int NumberLine, int timer);
 
 void Life(Case **LC, int NumberLine);
 

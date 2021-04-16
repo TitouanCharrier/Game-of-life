@@ -5,6 +5,7 @@ typedef struct Case {
 	int posx;
 	int posy;
 	int state;
+	int nextstate;
 }Case;
 
 typedef struct location {

@@ -41,13 +41,15 @@ int main(int argc, char **argv) {
 	
 	//main var
 	int run = 1;
-	int timer = 1;
+	int timer = 0;
+	int MaxTime = 2;
 	int Numberline = 100;
 	int space = 0;
+	int click = 0;
 
 	//init displacement
 	location loc;
-	loc.scale = 10;
+	loc.scale = 30;
 	loc.locx = 0;
 	loc.locy = 0;
 	
@@ -60,12 +62,32 @@ int main(int argc, char **argv) {
 	float Vtc = 0;
 	float Zm = 0;
 	
-	PrintScene(renderer, ListCase, loc, Numberline);
-	
 	while (run) {
 		
+		//load events
 		SDL_PollEvent(&event);
+		
+		//place new cells
+		if (event.type == SDL_MOUSEBUTTONDOWN) {
+			if (event.button.button == SDL_BUTTON_LEFT && click == 0) {
+				for (int i=0; i<Numberline; i++) {
+					for (int j=0; j<Numberline; j++) {
+						if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1) <= event.button.x
+						&& (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale >= event.button.x
+						&& (ListCase[i][j].posy+loc.locy)*(loc.scale+1) <= event.button.y
+						&& (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+loc.scale >= event.button.y) {
+							if (ListCase[i][j].state == 0) ListCase[i][j].nextstate = 1;
+							else ListCase[i][j].nextstate = 0;
+							click = 1;
+						}
+					}
+				}
+			}
+		}
 
+		if (event.type == SDL_MOUSEBUTTONUP) {
+			if (event.button.button == SDL_BUTTON_LEFT) click = 0;
+		}
 		//detect keys pressed
 		if (event.type == SDL_KEYDOWN) {
 			
@@ -80,7 +102,22 @@ int main(int argc, char **argv) {
 				else timer = 0;
 				space = 1;
 			} 
-				
+
+			//reload
+			if (event.key.keysym.sym == SDLK_r) {
+				ListCase = LoadCase(Numberline);
+			}
+
+			// timer
+			if (event.key.keysym.sym == SDLK_RSHIFT) {
+				MaxTime ++;
+			}
+
+			if (event.key.keysym.sym == SDLK_RCTRL && MaxTime > 2) {
+				MaxTime --;
+			}
+			
+			//arrows	
 			if (event.key.keysym.sym == SDLK_LEFT) {
 				Hzt = 1;
 			}
@@ -93,6 +130,7 @@ int main(int argc, char **argv) {
 			else if (event.key.keysym.sym == SDLK_DOWN) {
 				Vtc = -1;
 			}
+			//zoom
 			if (event.key.keysym.sym == SDLK_LSHIFT) {
 				Zm = 0.5;
 				Hzt = -1/(loc.scale)/100;
@@ -108,24 +146,24 @@ int main(int argc, char **argv) {
 		//detect keys released
 		if (event.type == SDL_KEYUP) {
 			
+			//start stop
 			if (event.key.keysym.sym == SDLK_SPACE) space = 0;
-
+			
+			//arrows
 			if (event.key.keysym.sym == SDLK_LEFT) {
 				Hzt = 0;
-				
 			}
 			if (event.key.keysym.sym == SDLK_RIGHT) {
 				Hzt = 0;
-				
 			}
 			if (event.key.keysym.sym == SDLK_UP) {
 				Vtc = 0;
-				
 			}
 			if (event.key.keysym.sym == SDLK_DOWN) {
-				Vtc = 0;
-				
+				Vtc = 0;	
 			}
+
+			//zoom
 			if (event.key.keysym.sym == SDLK_LSHIFT) {
 				Zm = 0;
 				Hzt = 0;
@@ -146,14 +184,14 @@ int main(int argc, char **argv) {
 		loc.scale += Zm;
 
 		
-		if (timer == 10) {
+		if (timer >= MaxTime) {
 			Life(ListCase, Numberline);
 			timer = 1;
 		}
 
 		if (timer != 0) timer ++;
 		
-		PrintScene(renderer, ListCase, loc, Numberline);
+		PrintScene(renderer, ListCase, loc, Numberline, timer);
 		SDL_Delay(16);
 
 		
@@ -176,6 +214,5 @@ int main(int argc, char **argv) {
 
 
 
-	printf("End reached\n");
 	return 0;
 }
