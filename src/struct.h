@@ -7,4 +7,10 @@ typedef struct Case {
 	int state;
 }Case;
 
+typedef struct location {
+	float scale;
+	float locx;
+	float locy;
+}location;
+
 #endif

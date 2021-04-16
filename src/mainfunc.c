@@ -1,12 +1,12 @@
 #include "mainfunc.h"
 
-Case **LoadCase(int width, int height) {
-    Case **ListCase = malloc(height*sizeof (*ListCase));
+Case **LoadCase(int NumberLine) {
+    Case **ListCase = malloc(NumberLine*sizeof (*ListCase));
     assert(ListCase);
-    for (int i = 0; i < height; i++) {
-        ListCase[i] = malloc(sizeof *ListCase[i] * width);
+    for (int i = 0; i < NumberLine; i++) {
+        ListCase[i] = malloc(sizeof *ListCase[i] * NumberLine);
         assert(ListCase[i]);
-        for (int j = 0; j < width; j++) {
+        for (int j = 0; j < NumberLine; j++) {
             ListCase[i][j].posx = j;
             ListCase[i][j].posy = i;
             ListCase[i][j].state = rand()%2;
@@ -15,38 +15,31 @@ Case **LoadCase(int width, int height) {
     return ListCase;
 }
 
-void PrintScene(SDL_Renderer *renderer, Case **ListCase) {
+void PrintScene(SDL_Renderer *renderer, Case **ListCase, location loc, int NumberLine) {
 
 	SDL_SetRenderDrawColor(renderer, 100,100,100,255);
 	SDL_RenderClear(renderer);
-	
-	for (int i=0; i<10; i++) {
-		for (int j=0; j<10; j++) {
-		}
-	}
 
-	for (int i=0; i<100; i++) {
-		for (int j=0; j<100; j++) {
+	for (int i=0; i<NumberLine; i++) {
+		for (int j=0; j<NumberLine; j++) {
 			
 			if (ListCase[i][j].state ==1) {
 				SDL_SetRenderDrawColor(renderer, 255,80,0,255);
 			}
 			else SDL_SetRenderDrawColor(renderer, 40,40,40,255);
-			SDL_Rect RectCase = {ListCase[i][j].posx*51,ListCase[i][j].posy*51,50,50};
+			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx-NumberLine/2)*(loc.scale+1),(ListCase[i][j].posy+loc.locy-NumberLine/2)*(loc.scale+1),loc.scale,loc.scale};
 			SDL_RenderFillRect(renderer,&RectCase);
 		}
 	}
 	SDL_RenderPresent(renderer);
-
-
 }
 
-void Life(Case **LC) {
+void Life(Case **LC, int NumberLine) {
 	
 	int Neib;
 
-	for (int i=0+2; i<100-2; i++) {
-		for (int j=0+2; j<100-2; j++) {
+	for (int i=0+2; i<NumberLine-1; i++) {
+		for (int j=0+2; j<NumberLine-1; j++) {
 			Neib = LC[i][j+1].state+LC[i][j-1].state
 				+LC[i+1][j].state+LC[i-1][j].state+LC[i+1][j+1].state
 				+LC[i-1][j+1].state+LC[i+1][j-1].state+LC[i-1][j-1].state;
@@ -62,8 +55,4 @@ void Life(Case **LC) {
 			}
 		}
 	}
-
-	printf("debugfinlife\n");
-	printf("adresse liste %p\n",LC);
-	
 }

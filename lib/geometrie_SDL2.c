@@ -214,7 +214,7 @@ void Circle(SDL_Renderer *renderer, int centrx, int centry, int rayon, int r, in
     SDL_SetRenderDrawColor(renderer,0,0,0,0);
 }
 
-int Detect_KeyDown(SDL_Event event,int touche) {
+int Detect_KeyDown(SDL_Event event, int touche) {
 
     SDL_PollEvent(&event);
     if (event.type == SDL_KEYDOWN) {
@@ -226,7 +226,17 @@ int Detect_KeyDown(SDL_Event event,int touche) {
     return 0;
 }
 
+int Detect_KeyUp(SDL_Event event, int touche) {
 
+    SDL_PollEvent(&event);
+    if (event.type == SDL_KEYUP) {
+        if (event.key.keysym.sym == touche) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 
 
