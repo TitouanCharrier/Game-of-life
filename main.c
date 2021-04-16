@@ -41,8 +41,9 @@ int main(int argc, char **argv) {
 	
 	//main var
 	int run = 1;
-	int timer = 0;
-	int Numberline = 500;
+	int timer = 1;
+	int Numberline = 100;
+	int space = 0;
 
 	//init displacement
 	location loc;
@@ -67,10 +68,19 @@ int main(int argc, char **argv) {
 
 		//detect keys pressed
 		if (event.type == SDL_KEYDOWN) {
+			
+			// quit
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
-				
 			}
+			
+			//start / Stop
+			if (event.key.keysym.sym == SDLK_SPACE && space == 0) {
+				if (timer == 0) timer = 1 ;
+				else timer = 0;
+				space = 1;
+			} 
+				
 			if (event.key.keysym.sym == SDLK_LEFT) {
 				Hzt = 1;
 			}
@@ -97,6 +107,9 @@ int main(int argc, char **argv) {
 
 		//detect keys released
 		if (event.type == SDL_KEYUP) {
+			
+			if (event.key.keysym.sym == SDLK_SPACE) space = 0;
+
 			if (event.key.keysym.sym == SDLK_LEFT) {
 				Hzt = 0;
 				
@@ -133,15 +146,17 @@ int main(int argc, char **argv) {
 		loc.scale += Zm;
 
 		
-		if (timer == 1) {
+		if (timer == 10) {
 			Life(ListCase, Numberline);
-			timer = 0;
+			timer = 1;
 		}
+
+		if (timer != 0) timer ++;
 		
 		PrintScene(renderer, ListCase, loc, Numberline);
 		SDL_Delay(16);
 
-		timer ++;
+		
 
 		
 	}

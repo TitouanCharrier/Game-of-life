@@ -6,4 +6,6 @@ pour l'instant la map est généré aléatoirement
 
 ECHAP vous fera quitter le jeu
 
-Z et S vous permettrons de Zoomer
+Utilisez les flèches pour vous déplacer
+
+Utilisez L-Ctrl et L-Shift pour zoomer

@@ -27,7 +27,7 @@ void PrintScene(SDL_Renderer *renderer, Case **ListCase, location loc, int Numbe
 				SDL_SetRenderDrawColor(renderer, 255,80,0,255);
 			}
 			else SDL_SetRenderDrawColor(renderer, 40,40,40,255);
-			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx-NumberLine/2)*(loc.scale+1),(ListCase[i][j].posy+loc.locy-NumberLine/2)*(loc.scale+1),loc.scale,loc.scale};
+			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx)*(loc.scale+1),(ListCase[i][j].posy+loc.locy)*(loc.scale+1),loc.scale,loc.scale};
 			SDL_RenderFillRect(renderer,&RectCase);
 		}
 	}
