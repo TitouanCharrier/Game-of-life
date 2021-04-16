@@ -2,7 +2,10 @@
 
 Voici le jeu de la vie codé en C avec SDL2
 
-pour l'instant la map est généré aléatoirement 
+Quand les cellules sont bleues le jeu est en pause, 
+Espace pour lancer
+
+Cliquez sur les cases pour faire naître des cellules
 
 ECHAP vous fera quitter le jeu
 
