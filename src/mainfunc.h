@@ -4,11 +4,12 @@
 #include "struct.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <assert.h>
-#include <time.h>
-#include <string.h>
+#include "../lib/include/SDL2/SDL.h"
+#include "../lib/include/SDL2/SDL_ttf.h"
+#include "../lib/include/assert.h"
+#include "../lib/include/time.h"
+#include "../lib/include/string.h"
+#include "../lib/include/unistd.h"
 
 Case **LoadCase(Grid *NumberOf);
 

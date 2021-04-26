@@ -1,7 +1,4 @@
-
-#include "lib/chained.h"
 #include "src/mainfunc.h"
-#include <unistd.h>
 
 int main(int argc, char **argv) {
 
