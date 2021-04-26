@@ -11,10 +11,13 @@ typedef struct Case {
 typedef struct Button {
 	int resx;
 	int resy;
+	int cornx;
+	int corny;
 	int sizex;
 	int sizey;
 	char text[50];
 	int state;
+	char img[14];
 }Button;
 
 typedef struct location {
@@ -32,7 +35,14 @@ typedef struct Grid {
 	int Lines;
 	int Cols;
 	int Buttons;
+	int Direction;
 }Grid;
+
+typedef struct Disp {
+	float Hzt;
+	float Vtc;
+	float Zm;
+}Disp;
 
 
 #endif
