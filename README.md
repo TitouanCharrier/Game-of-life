@@ -15,4 +15,4 @@ Utilisez L-Ctrl et L-Shift pour zoomer
 
 Utilisez r pour nettoyer
 
-Utilisez R-Ctrl et R-Shift pour contrôler le temps 
+Utilisez p et m pour contrôler le temps 
