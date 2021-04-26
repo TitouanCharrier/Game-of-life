@@ -9,8 +9,8 @@ typedef struct Case {
 }Case;
 
 typedef struct Button {
-	int cornx;
-	int corny;
+	int resx;
+	int resy;
 	int sizex;
 	int sizey;
 	char text[50];
@@ -27,5 +27,12 @@ typedef struct Couple {
 	int x;
 	int y;
 }Couple;
+
+typedef struct Grid {
+	int Lines;
+	int Cols;
+	int Buttons;
+}Grid;
+
 
 #endif

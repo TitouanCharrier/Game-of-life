@@ -1,6 +1,7 @@
 
 #include "lib/chained.h"
 #include "src/mainfunc.h"
+#include <unistd.h>
 
 int main(int argc, char **argv) {
 
@@ -15,7 +16,7 @@ int main(int argc, char **argv) {
 	//starting TTF (to display text))
     TTF_Init();
     TTF_Font *police = NULL;
-    police = TTF_OpenFont("/usr/share/fonts/TTF/Vera.ttf", 65);
+    police = TTF_OpenFont("fonts/arial.ttf", 65);
 
 	//main tools of SDL
 	SDL_Renderer *renderer = NULL;
@@ -23,7 +24,7 @@ int main(int argc, char **argv) {
 
 	//auto resolution
 	SDL_DisplayMode Screen;
-	SDL_GetCurrentDisplayMode(1, &Screen);
+	SDL_GetCurrentDisplayMode(0, &Screen);
 	int WIDTH = Screen.w;
 	int HEIGHT = Screen.h;
 
@@ -37,23 +38,29 @@ int main(int argc, char **argv) {
 	//main var
 	int run = 1;
 	int timer = 0;
+	int *Timer = &timer;
 	int MaxTime = 10;
-	int NumberLine = 50;
+	Grid numberOf;
+	Grid *NumberOf = &numberOf;
+	NumberOf->Lines = 50;
+	NumberOf->Cols = 50;
+	NumberOf->Buttons = 12;
+
+    //Case list
+	Case **ListCase = NULL;
+
 	int space = 0;
 	int click = 0;
 	int MapState = 0;
 	int *MapState_p = &MapState;
+	int Ctrl = 0;
+	int Shift = 0;
 
 	//init displacement
 	location loc;
 	loc.scale = 30;
 	loc.locx = 0;
 	loc.locy = 0;
-
-	//init Cases
-	Case *DiffCase = NULL;
-	Case **ListCase = NULL;
-	ListCase = LoadCase(NumberLine);
 
 	Couple Compare;
 
@@ -68,9 +75,34 @@ int main(int argc, char **argv) {
 
 	//init Buttons
 	Button *ListButton = NULL;
-	ListButton = malloc(12*sizeof(Button));
+	ListButton = malloc(NumberOf->Buttons*sizeof(Button));
 	assert(ListButton);
-	LoadButton(ListButton);
+	LoadButton(ListButton,WIDTH,HEIGHT,NumberOf);
+
+    //detect windows
+
+	//detect txt file loaded
+    if (isatty (STDIN_FILENO)) {
+    		//init Cases
+			ListCase = LoadCase(NumberOf);
+            //load menu
+            LoadMap(ListCase,NumberOf,"map/Menu.ins");
+    }
+    else {
+            
+
+        printf("Pipe detected, load initial map skipped\n");
+        scanf("%d",&NumberOf->Lines);
+        scanf("%d",&NumberOf->Cols);
+        //init Cases
+        ListCase = LoadCase(NumberOf);
+        for (int i=0; i<NumberOf->Lines; i++) {
+            for (int j=0; j<NumberOf->Cols; j++) {
+                scanf("%d",&ListCase[i][j].nextstate);
+            }
+        }
+        scanf("%d",&MapState);
+    }
 
 	while (run && ListButton[0].state == 0) {
 
@@ -81,15 +113,15 @@ int main(int argc, char **argv) {
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			if (event.button.button == SDL_BUTTON_LEFT && click == 0) {
                 /*methode 1 (WIP)
-				Compare = CompareChunk(ListCase,NumberLine, loc, event.button.x,event.button.y);
+				Compare = CompareChunk(ListCase,NumberOf, loc, event.button.x,event.button.y);
 				if (Compare.x != -1) {
 					if (ListCase[Compare.y][Compare.x].state == 0) ListCase[Compare.y][Compare.x].nextstate = 1;
 					else ListCase[Compare.y][Compare.x].nextstate = 0;
 					click = 1;
 				}*/
                 //methode 2
-                for (int i=0; i<NumberLine; i++) {
-                    for (int j=0; j<NumberLine; j++) {
+                for (int i=0; i<NumberOf->Lines; i++) {
+                    for (int j=0; j<NumberOf->Cols; j++) {
                         if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1) <= event.button.x
                         && (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale >= event.button.x
                         && (ListCase[i][j].posy+loc.locy)*(loc.scale+1) <= event.button.y
@@ -101,11 +133,11 @@ int main(int argc, char **argv) {
                     }
                 }
 
-                cornx = (ListCase[0][NumberLine-1].posx+loc.locx)*(loc.scale+1)+loc.scale+10;
-				corny = (ListCase[0][0].posy+loc.locy)*(loc.scale+1);
-                for (int j=0; j<11; j++) {
-                    if (cornx <= event.button.x && event.button.x <= cornx+ListButton[j].sizex
-                    && corny+j*50+j <= event.button.y && event.button.y <= corny+j*50+j+ListButton[j].sizey) {
+                //cornx = (ListCase[0][NumberOf->Cols-1].posx+loc.locx)*(loc.scale+1)+loc.scale+10;
+				//corny = (ListCase[0][0].posy+loc.locy)*(loc.scale+1);
+                for (int j=0; j<NumberOf->Buttons; j++) {
+                    if (ListButton[j].resx-ListButton[j].sizex-10 <= event.button.x && event.button.x <= ListButton[j].resx-10
+                    && 10+j*50+j <= event.button.y && event.button.y <= 10+j*50+j+ListButton[j].sizey) {
                     	if (ListButton[j].state == 0) ListButton[j].state = 1;
                         else ListButton[j].state = 0;
                         click = 1;
@@ -126,34 +158,44 @@ int main(int argc, char **argv) {
 
 			//start / Stop
 			if (event.key.keysym.sym == SDLK_SPACE && space == 0) {
-				if (timer == 0) timer = 1 ;
-				else timer = 0;
+				if (timer == 0) {
+					ListButton[11].state = 1;
+					strcpy(ListButton[11].text,"Arreter");
+					timer = 1 ;
+				}
+				else {
+					timer = 0;
+					ListButton[11].state = 0;
+					strcpy(ListButton[11].text,"Lancer");
+				}
 				space = 1;
 			}
 
 			//reload
 			if (event.key.keysym.sym == SDLK_r) {
-				ListCase = LoadCase(NumberLine);
+				Clean(ListCase,NumberOf);
 			}
 
 			//Save map
 			if (event.key.keysym.sym == SDLK_k) {
-				SaveMap(ListCase, NumberLine,"map/buffer.txt");
+				SaveMap(ListCase, NumberOf,"map/buffer.ins");
 			}
 
 			//Load map
 			if (event.key.keysym.sym == SDLK_l) {
-				NumberLine = LoadMap(ListCase, NumberLine,"map/buffer.txt");
-				PrintScene(renderer,ListCase,ListButton,loc,NumberLine,timer,police);
+				LoadMap(ListCase, NumberOf,"map/buffer.ins");
+				PrintScene(renderer,ListCase,ListButton,loc,NumberOf,Timer,police);
 			}
 
 			// timer
-			if (event.key.keysym.sym == SDLK_RSHIFT) {
-				MaxTime ++;
+			if (event.key.keysym.sym == SDLK_RSHIFT && Ctrl == 0) {
+				MaxTime +=2;
+				Ctrl = 1;
 			}
 
-			if (event.key.keysym.sym == SDLK_RCTRL && MaxTime > 2) {
-				MaxTime --;
+			if (event.key.keysym.sym == SDLK_RCTRL && MaxTime > 2 && Shift == 0) {
+				MaxTime -=2;
+				Shift = 1;
 			}
 
 			//arrows
@@ -172,13 +214,13 @@ int main(int argc, char **argv) {
 			//zoom
 			if (event.key.keysym.sym == SDLK_LSHIFT) {
 				Zm = 0.1;
-				Hzt = -0.4;
-				Vtc = -0.4;
+				//Hzt = -0.4;
+				//Vtc = -0.4;
 			}
 			else if (event.key.keysym.sym == SDLK_LCTRL) {
 				Zm = -0.1;
-				Hzt = -0.1;
-				Vtc = -0.1;
+				//Hzt = -0.1;
+				//Vtc = -0.1;
 			}
 		}
 
@@ -192,6 +234,15 @@ int main(int argc, char **argv) {
                 loc.scale = 30;
                 loc.locx = 0;
                 loc.locy = 0;
+			}
+
+			//timer
+			if (event.key.keysym.sym == SDLK_RSHIFT) {
+				Ctrl = 0;
+			}
+
+			if (event.key.keysym.sym == SDLK_RCTRL) {
+				Shift = 0;
 			}
 
 			//arrows
@@ -228,19 +279,17 @@ int main(int argc, char **argv) {
 		loc.locy += Vtc;
 		loc.scale += Zm;
 
-		//button application 
-		NumberLine = ButtonFunc(renderer,ListButton,ListCase, NumberLine, MapState_p,loc,timer,police);
+		//button application
+		ButtonFunc(renderer,ListButton,ListCase, NumberOf, MapState_p,loc,Timer,police);
 
 		if (timer >= MaxTime) {
-			if (MapState == 0) LifeThor(ListCase, NumberLine);
-			else LifeClosed(ListCase, NumberLine);
+			if (MapState == 0) LifeThor(ListCase, NumberOf);
+			else LifeClosed(ListCase, NumberOf);
 			timer = 1;
 		}
 
 		if (timer != 0) timer ++;
-
-		PrintScene(renderer, ListCase, ListButton, loc, NumberLine, timer, police);
-
+		PrintScene(renderer, ListCase, ListButton, loc, NumberOf, Timer, police);
 	}
 
 	/*Don't work for now

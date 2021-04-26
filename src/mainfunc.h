@@ -10,22 +10,26 @@
 #include <time.h>
 #include <string.h>
 
-Case **LoadCase(int NumberLine);
+Case **LoadCase(Grid *NumberOf);
 
-void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListButton, location loc, int NumberLine, int timer, TTF_Font *police);
+void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListButton, location loc, Grid *NumberOf, int *timer, TTF_Font *police);
 
-Couple CompareChunk(Case **ListCase, int NumberLine, location loc, int sourx, int soury);
+Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, int soury);
 
-void LifeThor(Case **LC, int NumberLine);
+void LifeThor(Case **LC, Grid *NumberOf);
 
-void LifeClosed(Case **LC, int NumberLine);
+void LifeClosed(Case **LC, Grid *NumberOf);
 
-void SaveMap(Case **ListCase, int NumberLine, char name[]);
+void SaveMap(Case **ListCase, Grid *NumberOf, char name[]);
 
-int LoadMap(Case **ListCase, int NumberLine, char name[]);
+void LoadMap(Case **ListCase, Grid *NumberOf, char name[]);
 
-void LoadButton(Button *ListButton);
+void LoadButton(Button *ListButton, int RESX, int RESY, Grid *NumberOf);
 
-int ButtonFunc(SDL_Renderer *renderer, Button *ListButton, Case **ListCase, int NumberLine, int *MapState, location loc, int timer, TTF_Font *police);
+void ButtonFunc(SDL_Renderer *renderer, Button *ListButton, Case **ListCase, Grid *NumberOf, int *MapState, location loc, int *timer, TTF_Font *police);
+
+void Clean(Case **ListCase, Grid *NumberOf);
+
+void FreeCase(Case **ListCase,Grid *NumberOf);
 
 #endif
