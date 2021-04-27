@@ -43,9 +43,10 @@ int main(int argc, char **argv) {
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
 	NumberOf->Lines = 50;
-	NumberOf->Cols = 500;
+	NumberOf->Cols = 50;
 	NumberOf->Buttons = 12;
 	NumberOf->Direction = 6;
+	NumberOf->Gen = 0;
 
     //Case list
 	Case **ListCase = NULL;
@@ -273,7 +274,7 @@ int main(int argc, char **argv) {
 			if (event.key.keysym.sym == SDLK_SPACE) space = 0;
 
 			if (event.key.keysym.sym == SDLK_c) {
-                loc.scale = 30;
+                loc.scale = HEIGHT/NumberOf->Lines;
                 loc.locx = 0;
                 loc.locy = 0;
 			}
@@ -335,6 +336,8 @@ int main(int argc, char **argv) {
 			else LifeClosed(ListCase, NumberOf);
 			timer = 1;
 		}
+		
+		if (timer !=0) NumberOf->Gen ++;
 
 		if (timer != 0) timer ++;
 		PrintScene(renderer, ListCase,ListDirection, ListButton, loc, NumberOf, Timer, police);

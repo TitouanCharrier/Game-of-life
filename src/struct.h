@@ -36,6 +36,7 @@ typedef struct Grid {
 	int Cols;
 	int Buttons;
 	int Direction;
+	long long int Gen;
 }Grid;
 
 typedef struct Disp {

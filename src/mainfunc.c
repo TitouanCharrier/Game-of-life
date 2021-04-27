@@ -198,8 +198,8 @@ void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListDirection, 
 			}
 			else SDL_SetRenderDrawColor(renderer, 40,40,40,255);
 
-			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(2560/2-loc.scale*NumberOf->Cols/2),
-                                 (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+(1080/2-loc.scale*NumberOf->Lines/2),
+			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(ListButton[0].resx/2-loc.scale*NumberOf->Cols/2),
+                                 (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+(ListButton[0].resy/2-loc.scale*NumberOf->Lines/2),
                                   loc.scale,loc.scale};
 			SDL_RenderFillRect(renderer,&RectCase);
 		}
@@ -268,6 +268,18 @@ void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListDirection, 
         SDL_DestroyTexture(texture);
         SDL_FreeSurface(surface);
 	}
+  	char CharGen[30];
+  	sprintf(CharGen, "%d", NumberOf->Gen);
+  	int w;
+  	int h;
+    TTF_SizeText(police,CharGen,&w,&h);
+    SDL_Surface *surface = TTF_RenderText_Blended(police,CharGen,White);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Rect RectButton = {ListButton[0].resx/2-w/2,10,w,h};
+    SDL_RenderCopy(renderer, texture, NULL, &RectButton);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -435,6 +447,7 @@ void ButtonFunc(SDL_Renderer *renderer, Button *ListDirection, Button *ListButto
 		Clean(ListCase,NumberOf);
 		PrintScene(renderer,ListCase, ListDirection, ListButton,loc,NumberOf,timer,police);
 		SDL_Delay(16);
+		NumberOf->Gen = 0;
 		ListButton[1].state = 0; }
 
 	if (ListButton[2].state == 1) {
