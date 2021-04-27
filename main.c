@@ -334,10 +334,9 @@ int main(int argc, char **argv) {
 		if (timer >= MaxTime) {
 			if (MapState == 0) LifeThor(ListCase, NumberOf);
 			else LifeClosed(ListCase, NumberOf);
+			NumberOf->Gen ++;
 			timer = 1;
 		}
-		
-		if (timer !=0) NumberOf->Gen ++;
 
 		if (timer != 0) timer ++;
 		PrintScene(renderer, ListCase,ListDirection, ListButton, loc, NumberOf, Timer, police);
