@@ -1,12 +1,9 @@
-
 #include "lib/chained.h"
 #include "src/mainfunc.h"
 #include <unistd.h>
 
 int main(int argc, char **argv) {
 
-	time_t time1;
-	time(&time1);
 	//Starting SL2
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -24,7 +21,7 @@ int main(int argc, char **argv) {
 
 	//auto resolution
 	SDL_DisplayMode Screen;
-	SDL_GetCurrentDisplayMode(1, &Screen);
+	SDL_GetCurrentDisplayMode(0, &Screen);
 	int WIDTH = Screen.w;
 	int HEIGHT = Screen.h;
 
@@ -39,13 +36,14 @@ int main(int argc, char **argv) {
 	int run = 1;
 	int timer = 0;
 	int *Timer = &timer;
-	int MaxTime = 10;
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
 	NumberOf->Lines = 50;
 	NumberOf->Cols = 50;
-	NumberOf->Buttons = 12;
+	NumberOf->Buttons = 9;
 	NumberOf->Direction = 6;
+	NumberOf->ButtonLeft = 8;
+	NumberOf->Time = 10;
 	NumberOf->Gen = 0;
 
     //Case list
@@ -53,8 +51,10 @@ int main(int argc, char **argv) {
 
 	int space = 0;
 	int click = 0;
-	int MapState = 0;
-	int *MapState_p = &MapState;
+	St_State state;
+	St_State *State = &state;
+	State->Map = 0;
+	State->Draw = 1;
 	int Pressed = 0;
 	int Ctrl = 0;
 	int Shift = 0;
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 
 	//init Buttons
 	Button *ListButton = NULL;
-	ListButton = malloc(NumberOf->Buttons*sizeof(Button));
+	ListButton = malloc((NumberOf->Buttons+NumberOf->ButtonLeft)*sizeof(Button));
 	assert(ListButton);
 	LoadButton(ListButton,WIDTH,HEIGHT,NumberOf);
 
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
     		//init Cases
 			ListCase = LoadCase(NumberOf);
             //load menu
-            LoadMap(ListCase,NumberOf,"map/Menu.ins");
+            //LoadMap(ListCase,NumberOf,"map/Menu.ins");
     }
     else {
         printf("Pipe detected, load initial map skipped\n");
@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
 
 		//load events
 		SDL_PollEvent(&event);
-		
+
 		//place new cells
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			if (event.button.button == SDL_BUTTON_LEFT && click == 0) {
@@ -136,9 +136,9 @@ int main(int argc, char **argv) {
 				}*/
                 //methode 2
 
-				for (int j=0; j<NumberOf->Buttons; j++) {
-                    if (ListButton[j].resx-ListButton[j].sizex-10 <= event.button.x && event.button.x <= ListButton[j].resx-10
-                    && 10+j*50+j <= event.button.y && event.button.y <= 10+j*50+j+ListButton[j].sizey) {
+				for (int j=0; j<NumberOf->Buttons+NumberOf->ButtonLeft; j++) {
+                    if (ListButton[j].cornx <= event.button.x && event.button.x <= ListButton[j].cornx + ListButton[j].sizex
+                    && ListButton[j].corny <= event.button.y && event.button.y <= ListButton[j].corny+ListButton[j].sizey) {
                     	if (ListButton[j].state == 0) ListButton[j].state = 1;
                         else ListButton[j].state = 0;
                         click = 1;
@@ -147,9 +147,9 @@ int main(int argc, char **argv) {
                 }
 
                 for (int k=0; k<NumberOf->Direction-2; k++) {
-                    if (ListDirection[k].cornx <= event.button.x 
+                    if (ListDirection[k].cornx <= event.button.x
                     && event.button.x <= ListDirection[k].cornx + ListDirection[k].sizex
-                    && ListDirection[k].corny <= event.button.y 
+                    && ListDirection[k].corny <= event.button.y
                     && event.button.y <= ListDirection[k].corny + ListDirection[k].sizey) {
                     	if (ListDirection[k].state == 0) ListDirection[k].state = 1;
                         else ListDirection[k].state = 0;
@@ -157,24 +157,44 @@ int main(int argc, char **argv) {
                         goto ENDOFCHECK;
                     }
                 }
+                while(event.type != SDL_MOUSEBUTTONUP) {
+                    for (int i=0; i<NumberOf->Lines; i++) {
+                        for (int j=0; j<NumberOf->Cols; j++) {
+                            if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(WIDTH/2-loc.scale*NumberOf->Cols/2) <= event.button.x
+                            && (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale +(WIDTH/2-loc.scale*NumberOf->Cols/2) >= event.button.x
+                            && (ListCase[i][j].posy+loc.locy)*(loc.scale+1) +(HEIGHT/2-loc.scale*NumberOf->Lines/2) <= event.button.y
+                            && (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+loc.scale +(HEIGHT/2-loc.scale*NumberOf->Lines/2) >= event.button.y) {
+                                ListCase[i][j].nextstate = 1;
+                                timer =0;
+                                PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,Timer,police);
 
-                for (int i=0; i<NumberOf->Lines; i++) {
-                    for (int j=0; j<NumberOf->Cols; j++) {
-                        if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(WIDTH/2-loc.scale*NumberOf->Cols/2) <= event.button.x
-                        && (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale +(WIDTH/2-loc.scale*NumberOf->Cols/2) >= event.button.x
-                        && (ListCase[i][j].posy+loc.locy)*(loc.scale+1) +(HEIGHT/2-loc.scale*NumberOf->Lines/2) <= event.button.y
-                        && (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+loc.scale +(HEIGHT/2-loc.scale*NumberOf->Lines/2) >= event.button.y) {
-                            if (ListCase[i][j].state == 0) ListCase[i][j].nextstate = 1;
-                            else ListCase[i][j].nextstate = 0;
-                            click = 1;
-                            goto ENDOFCHECK;
+                            }
                         }
                     }
+                    SDL_PollEvent(&event);
+                }
+			}
+
+			if (event.button.button == SDL_BUTTON_RIGHT && click == 0) {
+                while(event.type != SDL_MOUSEBUTTONUP) {
+                    for (int i=0; i<NumberOf->Lines; i++) {
+                        for (int j=0; j<NumberOf->Cols; j++) {
+                            if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(WIDTH/2-loc.scale*NumberOf->Cols/2) <= event.button.x
+                            && (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale +(WIDTH/2-loc.scale*NumberOf->Cols/2) >= event.button.x
+                            && (ListCase[i][j].posy+loc.locy)*(loc.scale+1) +(HEIGHT/2-loc.scale*NumberOf->Lines/2) <= event.button.y
+                            && (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+loc.scale +(HEIGHT/2-loc.scale*NumberOf->Lines/2) >= event.button.y) {
+                                ListCase[i][j].nextstate = 0;
+                                timer =0;
+                                PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,Timer,police);
+                            }
+                        }
+                    }
+                    SDL_PollEvent(&event);
                 }
 			}
 		}
-		
-		ENDOFCHECK: 
+
+		ENDOFCHECK:
 
 		if (event.type == SDL_MOUSEBUTTONUP) {
 			if (event.button.button == SDL_BUTTON_LEFT) click = 0;
@@ -196,14 +216,14 @@ int main(int argc, char **argv) {
 			//start / Stop
 			if (event.key.keysym.sym == SDLK_SPACE && space == 0) {
 				if (timer == 0) {
-					ListButton[11].state = 1;
-					strcpy(ListButton[11].text,"Arreter");
+					ListButton[8].state = 1;
+					strcpy(ListButton[8].text,"Arreter");
 					timer = 1 ;
 				}
 				else {
 					timer = 0;
-					ListButton[11].state = 0;
-					strcpy(ListButton[11].text,"Lancer");
+					ListButton[8].state = 0;
+					strcpy(ListButton[8].text,"Lancer");
 				}
 				space = 1;
 			}
@@ -226,12 +246,12 @@ int main(int argc, char **argv) {
 
 			// timer
 			if (event.key.keysym.sym == SDLK_m && Ctrl == 0) {
-				MaxTime +=2;
+				NumberOf->Time +=1;
 				Ctrl = 1;
 			}
 
-			if (event.key.keysym.sym == SDLK_p && MaxTime > 2 && Shift == 0) {
-				MaxTime -=2;
+			if (event.key.keysym.sym == SDLK_p && NumberOf->Time > 2 && Shift == 0) {
+				NumberOf->Time -=1;
 				Shift = 1;
 			}
 
@@ -324,15 +344,15 @@ int main(int argc, char **argv) {
 		}
 
 		//button application
-		ButtonFunc(renderer, ListDirection, ListButton,ListCase, NumberOf, MapState_p,loc,Timer,police, DispVar);
+		ButtonFunc(renderer, ListDirection, ListButton,ListCase, NumberOf, State,loc,Timer,police, DispVar);
 
 		//displacement
 		loc.locx += DispVar->Hzt;
 		loc.locy += DispVar->Vtc;
 		loc.scale += DispVar->Zm;
 
-		if (timer >= MaxTime) {
-			if (MapState == 0) LifeThor(ListCase, NumberOf);
+		if (timer >= NumberOf->Time) {
+			if (State->Map == 0) LifeThor(ListCase, NumberOf);
 			else LifeClosed(ListCase, NumberOf);
 			NumberOf->Gen ++;
 			timer = 1;

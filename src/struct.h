@@ -36,6 +36,8 @@ typedef struct Grid {
 	int Cols;
 	int Buttons;
 	int Direction;
+	int ButtonLeft;
+	int Time;
 	long long int Gen;
 }Grid;
 
@@ -44,6 +46,11 @@ typedef struct Disp {
 	float Vtc;
 	float Zm;
 }Disp;
+
+typedef struct St_State {
+	int Map;
+	int Draw;
+}St_State;
 
 
 #endif

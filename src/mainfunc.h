@@ -6,12 +6,12 @@
 #include "struct.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../lib/include/SDL2/SDL.h"
-#include "../lib/include/SDL2/SDL_ttf.h"
-#include "../lib/include/assert.h"
-#include "../lib/include/time.h"
-#include "../lib/include/string.h"
-#include "../lib/include/unistd.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <assert.h>
+#include <time.h>
+#include <string.h>
+#include <unistd.h>
 
 Case **LoadCase(Grid *NumberOf);
 
@@ -29,7 +29,7 @@ void LoadMap(Case **ListCase, Grid *NumberOf, char name[]);
 
 void LoadButton(Button *ListButton, int RESX, int RESY, Grid *NumberOf);
 
-void ButtonFunc(SDL_Renderer *renderer, Button *ListDirection, Button *ListButton, Case **ListCase, Grid *NumberOf, int *MapState, location loc, int *timer, TTF_Font *police, Disp *DispVar);
+void ButtonFunc(SDL_Renderer *renderer, Button *ListDirection, Button *ListButton, Case **ListCase, Grid *NumberOf, St_State *State, location loc, int *timer, TTF_Font *police, Disp *DispVar);
 
 void Clean(Case **ListCase, Grid *NumberOf);
 
