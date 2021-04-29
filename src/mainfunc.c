@@ -38,6 +38,7 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
     strcpy(List->Buttons[14].text, " Pulsar ");
     strcpy(List->Buttons[15].text, "    JSP    ");
     strcpy(List->Buttons[16].text, "Sharingan");
+    strcpy(List->Buttons[17].text, "Load rle");
 
     for (int i=0; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
         List->Buttons[i].state = 0;
@@ -442,32 +443,73 @@ void LoadMap(St_List *List, Grid *NumberOf, char name[]) {
     }
 }
 
-/*WIP
 void LoadRle(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
-    int FileLines;
-    int FileCols;
+    int FileLines = 0;
+    int FileCols = 0;
     char BuffChar1;
-    char BuffChar2;
-    char BuffChar3;
-    int BuffInt;
+    int BuffNum1;
+    int BuffNumF = 0;
+    int Lines = 0;
+    int CountCol = 0;
 
     MapFile = fopen(name, "r+");
     if (MapFile == NULL) printf("ERROR : failed to open map file for load\n");
 
-    fscanf(MapFile,"x = %d, y = %d rule = B3/S23\n", &FileCols, &FileLines);
+    fscanf(MapFile,"x = %d, y = %d", &FileCols, &FileLines);
 
     if (FileCols > NumberOf->Cols || FileLines > NumberOf->Lines) {
         printf("ERROR : Load map failed please increase your main map size\n");
     }
     else {
-        //load
-        BuffChar = fgetc(MapFile);
-        while (BuffChar != '!') {
 
+        //load
+        BuffChar1 = fgetc(MapFile);
+        while (BuffChar1 != EOF) {
+            //printf("%c",BuffChar1 );
+            if (BuffChar1 == 'x' || BuffChar1 == 'X' || BuffChar1 == '#') {
+                while (BuffChar1 != '\n') {
+                    BuffChar1 = fgetc(MapFile);
+                }
+            }
+            
+            else if (BuffChar1 == 'o') {
+                
+                if (BuffNumF == 0) BuffNumF = 1;
+                for(int i=0; i<BuffNumF; i++) {
+                    List->Cases[Lines][CountCol].nextstate = 1;
+                    CountCol+=1;
+                }
+                BuffNumF = 0;
+                BuffNum1 = 0;  
+
+            }
+            else if (BuffChar1 == 'b') {
+                if (BuffNumF == 0) BuffNumF = 1;
+                for(int i=0; i<BuffNumF; i++) {
+                    List->Cases[Lines][CountCol].nextstate = 0;
+                    CountCol+=1;
+                }
+                BuffNumF = 0;
+                BuffNum1 = 0;
+                
+            }
+            else if (isdigit(BuffChar1)) {
+                BuffNum1 = atoi(&BuffChar1);
+                BuffNumF = concat(BuffNumF,BuffNum1);
+            }
+            else if (BuffChar1 == '$') {
+                if (BuffNumF == 0) BuffNumF = 1;
+                for(int i=0; i<BuffNumF; i++) {
+                    Lines++;
+                }
+                BuffNumF = 0;
+                CountCol = 0;
+            }
+            BuffChar1 = fgetc(MapFile);
         }
     }
-}*/
+}
 
 void Clean(St_List *List, Grid *NumberOf) {
     for (int i=0; i<NumberOf->Lines; i++) {
@@ -541,7 +583,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 	if (List->Buttons[12].state == 1) {
         Clean(List,NumberOf);
 		LoadMap(List,NumberOf,"map/Clignotant.ins");
-		PrintScene(renderer,List,MainVar,NumberOf);
+        PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
 		List->Buttons[12].state = 0; }
 
@@ -572,6 +614,13 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
 		List->Buttons[16].state = 0; }
+
+        if (List->Buttons[17].state == 1) {
+        Clean(List,NumberOf);
+        LoadRle(List,NumberOf,"map/Load.rle");
+        PrintScene(renderer,List,MainVar,NumberOf);
+        SDL_Delay(16);
+        List->Buttons[17].state = 0; }
 
     if (List->Buttons[8].state == 1 && MainVar->timer == 0) {
 		MainVar->timer = 1;
@@ -829,6 +878,13 @@ void LoadStdin(St_List *List, Grid *NumberOf) {
             scanf("%d",&List->Cases[i][j].nextstate);
         }
     }
+}
+
+int concat(int x, int y) {
+    int buff = 10;
+    while(y >= buff)
+        buff *= 10;
+    return x * buff + y;        
 }
 
 /*WIP

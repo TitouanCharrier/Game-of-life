@@ -12,14 +12,19 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
-void LoadCase(St_List *List,Grid *NumberOf);
+int concat(int x, int y);
 
 void Clean(St_List *List, Grid *NumberOf);
 
 void FreeCase(St_List *List,Grid *NumberOf);
 
+void LoadCase(St_List *List,Grid *NumberOf);
+
 void LifeThor(St_List *List, Grid *NumberOf);
+
+void LoadStdin(St_List *List, Grid *NumberOf);
 
 void LifeClosed(St_List *List, Grid *NumberOf);
 

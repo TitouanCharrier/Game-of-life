@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 
 	//auto resolution
 	SDL_DisplayMode Screen;
-	SDL_GetCurrentDisplayMode(0, &Screen);
+	SDL_GetCurrentDisplayMode(1, &Screen);
 	int WIDTH = Screen.w;
 	int HEIGHT = Screen.h;
 
@@ -34,17 +34,19 @@ int main(int argc, char **argv) {
 	//Main settings
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
-	NumberOf->Lines = 50;
-	NumberOf->Cols = 50;
+
+	NumberOf->Lines = 60;
+	NumberOf->Cols = 60;
 	NumberOf->Buttons = 9;
 	NumberOf->Direction = 6;
-	NumberOf->ButtonLeft = 8;
+	NumberOf->ButtonLeft = 9;
 	NumberOf->Time = 10;
 	NumberOf->Gen = 0;
 
     //List init
     St_List List_v;
     St_List *List = &List_v;
+
     List->Cases = NULL;
     List->Buttons = NULL;
     List->Direction = NULL;
@@ -69,6 +71,7 @@ int main(int argc, char **argv) {
 	//States
 	St_State state;
 	St_State *State = &state;
+
 	State->Map = 0;
 	State->Draw = 1;
 	
@@ -78,6 +81,7 @@ int main(int argc, char **argv) {
 	//displacement var
 	Disp dispVar;
 	Disp *DispVar = &dispVar;
+
 	DispVar->Hzt = 0;
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
@@ -92,7 +96,7 @@ int main(int argc, char **argv) {
 	assert(List->Direction);
 	LoadDirection(List,MainVar,NumberOf);
 
-	//detect txt file loaded
+	//detect txt file loaded in stdin
     if (isatty (STDIN_FILENO)) {
 		//init Cases
 		LoadCase(List,NumberOf);
@@ -109,8 +113,6 @@ int main(int argc, char **argv) {
 	//main loop
 	while (MainVar->run && List->Buttons[0].state == 0) {
 
-		//SDL_WaitEvent(&event);
-
 		//load events
 		SDL_PollEvent(&event);
 
@@ -126,7 +128,7 @@ int main(int argc, char **argv) {
 			}
 			
 			// for deleting cells
-			if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
+			else if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
                 RemoveCell(renderer,Event,List,NumberOf,MainVar);
 			}
 		}
@@ -154,21 +156,22 @@ int main(int argc, char **argv) {
 			HandleKeyUp(renderer,List,MainVar,NumberOf,Event,DispVar);
 		}
 
-		//button application
+		//Functions to execute by buttons
 		ButtonFunc(renderer, List, NumberOf, State, MainVar, DispVar);
 
 		//displacement
 		MainVar->loc.locx += DispVar->Hzt;
 		MainVar->loc.locy += DispVar->Vtc;
 		MainVar->loc.scale += DispVar->Zm;
-
+		
+		//update life position
 		if (MainVar->timer >= NumberOf->Time) {
 			if (State->Map == 0) LifeThor(List, NumberOf);
 			else LifeClosed(List, NumberOf);
 			NumberOf->Gen ++;
 			MainVar->timer = 1;
 		}
-
+		//print the entire screen
 		if (MainVar->timer != 0) MainVar->timer ++;
 		PrintScene(renderer,List,MainVar,NumberOf);
 	}
