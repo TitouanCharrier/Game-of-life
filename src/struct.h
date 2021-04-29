@@ -1,5 +1,6 @@
 #ifndef STRUCT
 #define STRUCT
+#include "SDL2/SDL_ttf.h"
 
 typedef struct Case {
 	int posx;
@@ -52,5 +53,24 @@ typedef struct St_State {
 	int Draw;
 }St_State;
 
+typedef struct St_List {
+	Case **Cases;
+	Button *Buttons;
+	Button *Direction;
+}St_List;
+
+typedef struct St_Var {
+	location loc;
+	TTF_Font *police;
+	int timer;
+	int run;
+	int space;
+	int click;
+	int pressed;
+	int ctrl;
+	int shift;
+	int resx;
+	int resy;
+}St_Var;
 
 #endif

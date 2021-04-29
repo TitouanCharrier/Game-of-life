@@ -13,26 +13,40 @@
 #include <string.h>
 #include <unistd.h>
 
-Case **LoadCase(Grid *NumberOf);
+void LoadCase(St_List *List,Grid *NumberOf);
 
-void PrintScene(SDL_Renderer *renderer, Case **ListCase,Button *ListDirection, Button *ListButton, location loc, Grid *NumberOf, int *timer, TTF_Font *police);
+void Clean(St_List *List, Grid *NumberOf);
 
-Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, int soury);
+void FreeCase(St_List *List,Grid *NumberOf);
 
-void LifeThor(Case **LC, Grid *NumberOf);
+void LifeThor(St_List *List, Grid *NumberOf);
 
-void LifeClosed(Case **LC, Grid *NumberOf);
+void LifeClosed(St_List *List, Grid *NumberOf);
 
-void SaveMap(Case **ListCase, Grid *NumberOf, char name[]);
+void SaveMap(St_List *List, Grid *NumberOf, char name[]);
 
-void LoadMap(Case **ListCase, Grid *NumberOf, char name[]);
+void LoadMap(St_List *List, Grid *NumberOf, char name[]);
 
-void LoadButton(Button *ListButton, int RESX, int RESY, Grid *NumberOf);
+void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
-void ButtonFunc(SDL_Renderer *renderer, Button *ListDirection, Button *ListButton, Case **ListCase, Grid *NumberOf, St_State *State, location loc, int *timer, TTF_Font *police, Disp *DispVar);
+void LoadDirection(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
-void Clean(Case **ListCase, Grid *NumberOf);
+void FindCase(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
-void FreeCase(Case **ListCase,Grid *NumberOf);
+void FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
+
+void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
+
+void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
+
+void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
+
+void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State *State, St_Var *MainVar, Disp *DispVar);
+
+void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
+
+void HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
+
+Couple CompareChunk(St_List *List, Grid *NumberOf,St_Var *MainVar, int sourx, int soury);
 
 #endif

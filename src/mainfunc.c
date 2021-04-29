@@ -1,113 +1,112 @@
 #include "mainfunc.h"
 
-Case **LoadCase(Grid *NumberOf) {
-    Case **ListCase = malloc(NumberOf->Lines*sizeof (*ListCase));
-    assert(ListCase);
+void LoadCase(St_List *List, Grid *NumberOf) {
+    List->Cases = malloc(NumberOf->Lines*sizeof (*List->Cases));
+    assert(List->Cases);
     time_t t;
     srand((unsigned) time(&t));
 
     for (int i = 0; i < NumberOf->Lines; i++) {
-        ListCase[i] = malloc(sizeof *ListCase[i] * NumberOf->Cols);
-        assert(ListCase[i]);
+        List->Cases[i] = malloc(sizeof *List->Cases[i] * NumberOf->Cols);
+        assert(List->Cases[i]);
         for (int j = 0; j < NumberOf->Cols; j++) {
-            ListCase[i][j].posx = j;
-            ListCase[i][j].posy = i;
-            ListCase[i][j].nextstate = rand()%2;
-            //ListCase[i][j].state = 0;
-            ListCase[i][j].state = 0;
+            List->Cases[i][j].posx = j;
+            List->Cases[i][j].posy = i;
+            //List->Cases[i][j].nextstate = rand()%2;
+            List->Cases[i][j].nextstate = 0;
+            List->Cases[i][j].state = 0;
         }
     }
-    return ListCase;
 }
 
-void LoadButton(Button *ListButton, int RESX, int RESY, Grid *NumberOf) {
+void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 
-    strcpy(ListButton[0].text, "Quitter (echap)");
-    strcpy(ListButton[1].text, "Nettoyer (r)");
-    strcpy(ListButton[2].text, "Copier (k)");
-    strcpy(ListButton[3].text, "Coller (l)");
-    strcpy(ListButton[4].text, " Thorique ");
-    strcpy(ListButton[5].text, " Ferme ");
-    strcpy(ListButton[6].text, " Plus Vite ");
-    strcpy(ListButton[7].text, " Moins Vite ");
-    strcpy(ListButton[8].text, " Lancer ");
-    strcpy(ListButton[9].text, " Planeur 1 ");
-    strcpy(ListButton[10].text, "Cercle de Feu");
-    strcpy(ListButton[11].text, " Grenouille ");
-    strcpy(ListButton[12].text, " Clignotant ");
-    strcpy(ListButton[13].text, " Canon ");
-    strcpy(ListButton[14].text, " Pulsar ");
-    strcpy(ListButton[15].text, "    JSP    ");
-    strcpy(ListButton[16].text, "Sharingan");
+    strcpy(List->Buttons[0].text, "Quitter (echap)");
+    strcpy(List->Buttons[1].text, "Nettoyer (r)");
+    strcpy(List->Buttons[2].text, "Copier (k)");
+    strcpy(List->Buttons[3].text, "Coller (l)");
+    strcpy(List->Buttons[4].text, " Thorique ");
+    strcpy(List->Buttons[5].text, " Ferme ");
+    strcpy(List->Buttons[6].text, " Plus Vite ");
+    strcpy(List->Buttons[7].text, " Moins Vite ");
+    strcpy(List->Buttons[8].text, " Lancer ");
+    strcpy(List->Buttons[9].text, " Planeur 1 ");
+    strcpy(List->Buttons[10].text, "Cercle de Feu");
+    strcpy(List->Buttons[11].text, " Grenouille ");
+    strcpy(List->Buttons[12].text, " Clignotant ");
+    strcpy(List->Buttons[13].text, " Canon ");
+    strcpy(List->Buttons[14].text, " Pulsar ");
+    strcpy(List->Buttons[15].text, "    JSP    ");
+    strcpy(List->Buttons[16].text, "Sharingan");
 
     for (int i=0; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
-        ListButton[i].state = 0;
-        ListButton[i].sizex = 150;
-        ListButton[i].sizey = 50;
-        ListButton[i].resx = RESX;
-        ListButton[i].resy = RESY;
-        ListButton[i].cornx = RESX-ListButton[i].sizex-10;
-        ListButton[i].corny = 10 + i*50+i,ListButton[i].sizex;
+        List->Buttons[i].state = 0;
+        List->Buttons[i].sizex = 150;
+        List->Buttons[i].sizey = 50;
+        List->Buttons[i].resx = MainVar->resx;
+        List->Buttons[i].resy = MainVar->resy;
+        List->Buttons[i].cornx = MainVar->resx-List->Buttons[i].sizex-10;
+        List->Buttons[i].corny = 10 + i*50+i,List->Buttons[i].sizex;
     }
 
     for (int i=NumberOf->Buttons; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
-        ListButton[i].state = 0;
-        ListButton[i].sizex = 150;
-        ListButton[i].sizey = 50;
-        ListButton[i].resx = RESX;
-        ListButton[i].resy = RESY;
-        ListButton[i].cornx = 10;
-        ListButton[i].corny = 10 + (i-NumberOf->Buttons)*50+(i-NumberOf->Buttons),ListButton[i].sizex;
+        List->Buttons[i].state = 0;
+        List->Buttons[i].sizex = 150;
+        List->Buttons[i].sizey = 50;
+        List->Buttons[i].resx = MainVar->resx;
+        List->Buttons[i].resy = MainVar->resy;
+        List->Buttons[i].cornx = 10;
+        List->Buttons[i].corny = 10 + (i-NumberOf->Buttons)*50+(i-NumberOf->Buttons),List->Buttons[i].sizex;
     }
 
-    ListButton[5].state = 1;
+    List->Buttons[4].state = 1;
 
 }
 
-void LoadDirection(Button *ListDirection, int RESX, int RESY, Grid *NumberOf) {
+void LoadDirection(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 
-    strcpy(ListDirection[0].text, "Up");
-    strcpy(ListDirection[1].text, "Down");
-    strcpy(ListDirection[2].text, "Right");
-    strcpy(ListDirection[3].text, "Left");
-    strcpy(ListDirection[4].text, "+");
-    strcpy(ListDirection[5].text, "-");
+    strcpy(List->Direction[0].text, "Up");
+    strcpy(List->Direction[1].text, "Down");
+    strcpy(List->Direction[2].text, "Right");
+    strcpy(List->Direction[3].text, "Left");
+    strcpy(List->Direction[4].text, "+");
+    strcpy(List->Direction[5].text, "-");
 
     for (int i=0; i<NumberOf->Direction; i++) {
-        ListDirection[i].state = 0;
-        ListDirection[i].sizex = 50;
-        ListDirection[i].sizey = 50;
-        ListDirection[i].resx = RESX;
-        ListDirection[i].resy = RESY;
-        strcpy(ListDirection[i].img, "rsc/arrow.bmp");
+        List->Direction[i].state = 0;
+        List->Direction[i].sizex = 50;
+        List->Direction[i].sizey = 50;
+        List->Direction[i].resx = MainVar->resx;
+        List->Direction[i].resy = MainVar->resy;
+        strcpy(List->Direction[i].img, "rsc/arrow.bmp");
     }
-    ListDirection[4].sizey = 25;
-    strcpy(ListDirection[4].img, "rsc/_plus.bmp");
-    ListDirection[5].sizey = 25;
-    strcpy(ListDirection[5].img, "rsc/minus.bmp");
+    List->Direction[4].sizey = 25;
+    strcpy(List->Direction[4].img, "rsc/_plus.bmp");
+    List->Direction[5].sizey = 25;
+    strcpy(List->Direction[5].img, "rsc/minus.bmp");
 
-    ListDirection[0].cornx = RESX-150;
-    ListDirection[0].corny = RESY-250;
+    List->Direction[0].cornx = MainVar->resx-150;
+    List->Direction[0].corny = MainVar->resy-250;
 
-    ListDirection[1].cornx = RESX-150;
-    ListDirection[1].corny = RESY-150;
+    List->Direction[1].cornx = MainVar->resx-150;
+    List->Direction[1].corny = MainVar->resy-150;
 
-    ListDirection[2].cornx = RESX-100;
-    ListDirection[2].corny = RESY-200;
+    List->Direction[2].cornx = MainVar->resx-100;
+    List->Direction[2].corny = MainVar->resy-200;
 
-    ListDirection[3].cornx = RESX-200;
-    ListDirection[3].corny = RESY-200;
+    List->Direction[3].cornx = MainVar->resx-200;
+    List->Direction[3].corny = MainVar->resy-200;
 
-    ListDirection[4].cornx = RESX-237;
-    ListDirection[4].corny = RESY-200;
+    List->Direction[4].cornx = MainVar->resx-237;
+    List->Direction[4].corny = MainVar->resy-200;
 
-    ListDirection[5].cornx = RESX-237;
-    ListDirection[5].corny = RESY-175;
+    List->Direction[5].cornx = MainVar->resx-237;
+    List->Direction[5].corny = MainVar->resy-175;
 
 
 }
 
-Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, int soury) {
+Couple CompareChunk(St_List *List, Grid *NumberOf, St_Var *MainVar, int sourx, int soury) {
 	int i = NumberOf->Lines/2;
 	int j = NumberOf->Lines;
 	int k = NumberOf->Cols/2;
@@ -122,15 +121,15 @@ Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, in
 	START:
 
 	//first chunk X
-	if ((ListCase[y][x].posx+loc.locx)*(loc.scale+1) <= sourx
-	&& (ListCase[y][i].posx+loc.locx)*(loc.scale+1)+loc.scale >= sourx) {
+	if ((List->Cases[y][x].posx+MainVar->loc.locx)*(MainVar->loc.scale+1) <= sourx
+	&& (List->Cases[y][i].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= sourx) {
 		j = i;
 		i = (i-x)/2;
 	}
 
 	//second chunk X
-	else if ((ListCase[y][i].posx+loc.locx)*(loc.scale+1) <= sourx
-	&& (ListCase[y][j].posx+loc.locx)*(loc.scale+1)+loc.scale >= sourx) {
+	else if ((List->Cases[y][i].posx+MainVar->loc.locx)*(MainVar->loc.scale+1) <= sourx
+	&& (List->Cases[y][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= sourx) {
 		x = i;
 		i += (j-i)/2;
 	}
@@ -142,13 +141,13 @@ Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, in
 	}
 
 	//first chunk Y
-	if ((ListCase[y][x].posy+loc.locy)*(loc.scale+1) <= soury
-	&& (ListCase[k][x].posy+loc.locy)*(loc.scale+1)+loc.scale >= soury) {
+	if ((List->Cases[y][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) <= soury
+	&& (List->Cases[k][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale >= soury) {
 		l = k;
 		k = (k-y)/2;
 	}
-	else if ((ListCase[k][x].posy+loc.locy)*(loc.scale+1) <= soury
-	&& (ListCase[l][x].posy+loc.locy)*(loc.scale+1)+loc.scale >= soury) {
+	else if ((List->Cases[k][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) <= soury
+	&& (List->Cases[l][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale >= soury) {
 		y = k;
 		k += (l-k)/2;
 	}
@@ -161,35 +160,35 @@ Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, in
 	}
 
 	if (j-i<=1 && l-k<=1) {
-		if ((ListCase[y][i].posx+loc.locx)*(loc.scale+1) <= sourx
-		&& (ListCase[y][i].posx+loc.locx)*(loc.scale+1)+loc.scale >= sourx) {
+		if ((List->Cases[y][i].posx+MainVar->loc.locx)*(MainVar->loc.scale+1) <= sourx
+		&& (List->Cases[y][i].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= sourx) {
 			Ret.x = i;
 		}
 
-		else if ((ListCase[y][j].posx+loc.locx)*(loc.scale+1) <= sourx
-		&& (ListCase[y][j].posx+loc.locx)*(loc.scale+1)+loc.scale >= sourx) {
+		else if ((List->Cases[y][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1) <= sourx
+		&& (List->Cases[y][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= sourx) {
 			Ret.x = j;
 		}
 
-		else if ((ListCase[y][x].posx+loc.locx)*(loc.scale+1) <= sourx
-		&& (ListCase[y][x].posx+loc.locx)*(loc.scale+1)+loc.scale >= sourx) {
+		else if ((List->Cases[y][x].posx+MainVar->loc.locx)*(MainVar->loc.scale+1) <= sourx
+		&& (List->Cases[y][x].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= sourx) {
 			Ret.x = x;
 		}
 
 		else Ret.x=-1;
 
-		if ((ListCase[k][x].posy+loc.locy)*(loc.scale+1) <= soury
-		&& (ListCase[k][x].posy+loc.locy)*(loc.scale+1)+loc.scale >= soury) {
+		if ((List->Cases[k][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) <= soury
+		&& (List->Cases[k][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale >= soury) {
 			Ret.y = k;
 		}
 
-		else if ((ListCase[l][x].posy+loc.locx)*(loc.scale+1) <= soury
-		&& (ListCase[l][x].posy+loc.locx)*(loc.scale+1)+loc.scale >= soury) {
+		else if ((List->Cases[l][x].posy+MainVar->loc.locx)*(MainVar->loc.scale+1) <= soury
+		&& (List->Cases[l][x].posy+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale >= soury) {
 			Ret.y = l;
 		}
 
-		else if ((ListCase[y][x].posy+loc.locy)*(loc.scale+1) <= soury
-		&& (ListCase[y][x].posy+loc.locy)*(loc.scale+1)+loc.scale >= soury) {
+		else if ((List->Cases[y][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) <= soury
+		&& (List->Cases[y][x].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale >= soury) {
 			Ret.y = y;
 		}
 
@@ -202,44 +201,42 @@ Couple CompareChunk(Case **ListCase, Grid *NumberOf, location loc, int sourx, in
 
 }
 
-void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListDirection, Button *ListButton, location loc, Grid *NumberOf, int *timer, TTF_Font *police) {
+void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *NumberOf) {
 
 	//SDL_Delay(16);
-
 	SDL_SetRenderDrawColor(renderer, 100,100,100,255);
 	SDL_RenderClear(renderer);
     //Print Cases
 	for (int i=0; i<NumberOf->Lines; i++) {
 		for (int j=0; j<NumberOf->Cols; j++) {
-			ListCase[i][j].state = ListCase[i][j].nextstate;
-			if (ListCase[i][j].state == 1 && *timer != 0) {
+			List->Cases[i][j].state = List->Cases[i][j].nextstate;
+			if (List->Cases[i][j].state == 1 && MainVar->timer != 0) {
 				SDL_SetRenderDrawColor(renderer, 255,80,0,255);
 			}
-			else if (ListCase[i][j].state == 1 && *timer == 0) {
+			else if (List->Cases[i][j].state == 1 && MainVar->timer == 0) {
 				SDL_SetRenderDrawColor(renderer,0,150,255,255);
 			}
 			else SDL_SetRenderDrawColor(renderer, 40,40,40,255);
 
-			SDL_Rect RectCase = {(ListCase[i][j].posx+loc.locx)*(loc.scale+1)+(ListButton[0].resx/2-loc.scale*NumberOf->Cols/2),
-                                 (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+(ListButton[0].resy/2-loc.scale*NumberOf->Lines/2),
-                                  loc.scale,loc.scale};
+			SDL_Rect RectCase = {(List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(List->Buttons[0].resx/2-MainVar->loc.scale*NumberOf->Cols/2),
+                                 (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+(List->Buttons[0].resy/2-MainVar->loc.scale*NumberOf->Lines/2),
+                                  MainVar->loc.scale,MainVar->loc.scale};
 			SDL_RenderFillRect(renderer,&RectCase);
 		}
 	}
-
 	SDL_Color White = {255,255,255};
 
 	//Print Buttons part 1
-	//int cornx = (ListCase[0][NumberOf->Cols-1].posx+loc.locx)*(loc.scale+1)+loc.scale+10;
-	//int corny = (ListCase[0][0].posy+loc.locy)*(loc.scale+1);
+	//int cornx = (List->Cases[0][NumberOf->Cols-1].posx+MainVar->loc.locx)*(loc.scale+1)+MainVar->loc.scale+10;
+	//int corny = (List->Cases[0][0].posy+MainVar->loc.locy)*(loc.scale+1);
 	for (int i=0; i<NumberOf->Buttons; i++) {
-        if (i==11 && ListButton[i].state == 0) SDL_SetRenderDrawColor(renderer,0,150,255,255);
-		else if (ListButton[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
+        if (i==8 && List->Buttons[i].state == 0) SDL_SetRenderDrawColor(renderer,0,150,255,255);
+		else if (List->Buttons[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
 		else SDL_SetRenderDrawColor(renderer,60,60,60,255);
-        SDL_Rect RectButton = {ListButton[i].cornx,ListButton[i].corny,ListButton[i].sizex, ListButton[i].sizey};
-        SDL_Rect RectText = {ListButton[i].cornx+10,ListButton[i].corny+10,ListButton[i].sizex-20, ListButton[i].sizey-20};
+        SDL_Rect RectButton = {List->Buttons[i].cornx,List->Buttons[i].corny,List->Buttons[i].sizex, List->Buttons[i].sizey};
+        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,List->Buttons[i].sizex-20, List->Buttons[i].sizey-20};
         SDL_RenderFillRect(renderer,&RectButton);
-        SDL_Surface *surface = TTF_RenderText_Blended(police,ListButton[i].text,White);
+        SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->Buttons[i].text,White);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_RenderCopy(renderer, texture, NULL, &RectText);
         SDL_DestroyTexture(texture);
@@ -248,37 +245,36 @@ void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListDirection, 
 	}
     //print buutton left
 	for (int i=NumberOf->Buttons; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
-		if (ListButton[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
+		if (List->Buttons[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
 		else SDL_SetRenderDrawColor(renderer,60,60,60,255);
-        SDL_Rect RectButton = {ListButton[i].cornx,ListButton[i].corny,ListButton[i].sizex, ListButton[i].sizey};
-        SDL_Rect RectText = {ListButton[i].cornx+10,ListButton[i].corny+10,ListButton[i].sizex-20, ListButton[i].sizey-20};
+        SDL_Rect RectButton = {List->Buttons[i].cornx,List->Buttons[i].corny,List->Buttons[i].sizex, List->Buttons[i].sizey};
+        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,List->Buttons[i].sizex-20, List->Buttons[i].sizey-20};
         SDL_RenderFillRect(renderer,&RectButton);
-        SDL_Surface *surface = TTF_RenderText_Blended(police,ListButton[i].text,White);
+        SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->Buttons[i].text,White);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_RenderCopy(renderer, texture, NULL, &RectText);
         SDL_DestroyTexture(texture);
         SDL_FreeSurface(surface);
 
 	}
-
 	//variables for flipping
 	SDL_RendererFlip FlipNone = SDL_FLIP_NONE;
     SDL_RendererFlip FlipHor = SDL_FLIP_HORIZONTAL;
     SDL_RendererFlip FlipVer = SDL_FLIP_VERTICAL;
 
-    /*print Directions
+    //print Directions
 	for (int i=0; i<NumberOf->Direction-2; i++) {
 
 		SDL_Rect RectImage;
 
-		if (ListDirection[i].state == 0) {
-			SDL_Rect RectImage = {ListDirection[i].cornx, ListDirection[i].corny, ListDirection[i].sizex, ListDirection[i].sizey};
+		if (List->Direction[i].state == 0) {
+			SDL_Rect RectImage = {List->Direction[i].cornx, List->Direction[i].corny, List->Direction[i].sizex, List->Direction[i].sizey};
 		}
 		else {
-			SDL_Rect RectImage = {ListDirection[i].cornx-5, ListDirection[i].corny-5, ListDirection[i].sizex+5, ListDirection[i].sizey+5};
+			SDL_Rect RectImage = {List->Direction[i].cornx-5, List->Direction[i].corny-5, List->Direction[i].sizex+5, List->Direction[i].sizey+5};
 		}
-        SDL_Surface *surface = SDL_LoadBMP(ListDirection[i].img);
-        if (surface == NULL) printf("failed to open a texture %s\n", ListDirection[i].img);
+        SDL_Surface *surface = SDL_LoadBMP(List->Direction[i].img);
+        if (surface == NULL) printf("failed to open a texture %s\n", List->Direction[i].img);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
         switch (i) {
         	case 0 :
@@ -303,26 +299,24 @@ void PrintScene(SDL_Renderer *renderer, Case **ListCase, Button *ListDirection, 
 
         SDL_DestroyTexture(texture);
         SDL_FreeSurface(surface);
-	}*/
-
-	//Print Count Generations
+	}
+    //Print Count Generations
   	char CharGen[30];
   	sprintf(CharGen, "%d", NumberOf->Gen);
   	int w;
   	int h;
-    TTF_SizeText(police,CharGen,&w,&h);
-    SDL_Surface *surface = TTF_RenderText_Blended(police,CharGen,White);
+    TTF_SizeText(MainVar->police,CharGen,&w,&h);
+    SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,CharGen,White);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect RectButton = {ListButton[0].resx/2-w/2,10,w,h};
+    SDL_Rect RectButton = {List->Buttons[0].resx/2-w/2,10,w,h};
     SDL_RenderCopy(renderer, texture, NULL, &RectButton);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
-
 	SDL_RenderPresent(renderer);
 }
 
-void LifeThor(Case **LC, Grid *NumberOf) {
-
+void LifeThor(St_List *List, Grid *NumberOf) {
+    Case **LC = List->Cases;
 	int Neib;
 	int ColSup;
 	int ColInf;
@@ -380,8 +374,9 @@ void LifeThor(Case **LC, Grid *NumberOf) {
 	}
 }
 
-void LifeClosed(Case **LC, Grid *NumberOf) {
-
+void LifeClosed(St_List *List, Grid *NumberOf) {
+    
+    Case **LC = List->Cases;
 	int Neib;
 	for (int i=1; i<NumberOf->Lines-1; i++) {
 		for (int j=1; j<NumberOf->Cols-1; j++) {
@@ -406,7 +401,7 @@ void LifeClosed(Case **LC, Grid *NumberOf) {
 	}
 }
 
-void SaveMap(Case **ListCase, Grid *NumberOf, char name[]) {
+void SaveMap(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
 
     MapFile = fopen(name, "r+");
@@ -417,14 +412,14 @@ void SaveMap(Case **ListCase, Grid *NumberOf, char name[]) {
     fprintf(MapFile,"%d %d\n", NumberOf->Lines, NumberOf->Cols);
     for (int i=0; i<NumberOf->Lines; i++) {
         for (int j=0; j<NumberOf->Cols; j++) {
-            fprintf(MapFile, "%d ", ListCase[i][j].state);
+            fprintf(MapFile, "%d ", List->Cases[i][j].state);
         }
         fprintf(MapFile,"\n");
     }
 
 }
 
-void LoadMap(Case **ListCase, Grid *NumberOf, char name[]) {
+void LoadMap(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
     int FileLines;
     int FileCols;
@@ -441,14 +436,14 @@ void LoadMap(Case **ListCase, Grid *NumberOf, char name[]) {
         //load
         for (int i=0; i<FileLines; i++) {
             for (int j=0; j<FileCols; j++) {
-                fscanf(MapFile, "%d ", &ListCase[i][j].nextstate);
+                fscanf(MapFile, "%d ", &List->Cases[i][j].nextstate);
             }
         }
     }
 }
 
 /*WIP
-void LoadRle(Case **ListCase, Grid *NumberOf, char name[]) {
+void LoadRle(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
     int FileLines;
     int FileCols;
@@ -474,149 +469,378 @@ void LoadRle(Case **ListCase, Grid *NumberOf, char name[]) {
     }
 }*/
 
-void Clean(Case **ListCase, Grid *NumberOf) {
+void Clean(St_List *List, Grid *NumberOf) {
     for (int i=0; i<NumberOf->Lines; i++) {
         for (int j=0; j<NumberOf->Cols; j++) {
-            ListCase[i][j].nextstate = 0;
+            List->Cases[i][j].nextstate = 0;
         }
     }
 }
 
-void ButtonFunc(SDL_Renderer *renderer, Button *ListDirection, Button *ListButton, Case **ListCase, Grid *NumberOf, St_State *State, location loc, int *timer, TTF_Font *police, Disp *DispVar) {
-	if (ListButton[1].state == 1) {
-		Clean(ListCase,NumberOf);
-		PrintScene(renderer,ListCase, ListDirection, ListButton,loc,NumberOf,timer,police);
+void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State *State, St_Var *MainVar, Disp *DispVar) {
+	if (List->Buttons[1].state == 1) {
+		Clean(List,NumberOf);
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
 		NumberOf->Gen = 0;
-		ListButton[1].state = 0; }
+		List->Buttons[1].state = 0; }
 
-	if (ListButton[2].state == 1) {
-		SaveMap(ListCase,NumberOf,"map/buffer.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[2].state == 1) {
+		SaveMap(List,NumberOf,"map/buffer.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[2].state = 0; }
+		List->Buttons[2].state = 0; }
 
-	if (ListButton[3].state == 1) {
-		LoadMap(ListCase,NumberOf,"map/buffer.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[3].state == 1) {
+		LoadMap(List,NumberOf,"map/buffer.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[3].state = 0; }
+		List->Buttons[3].state = 0; }
 
-    if (ListButton[4].state == 1 && State->Map == 1) {
+    if (List->Buttons[4].state == 1 && State->Map == 1) {
 		State->Map = 0;
-		ListButton[5].state = 0; }
+		List->Buttons[5].state = 0; }
 
-	if (ListButton[5].state == 1 && State->Map == 0) {
+	if (List->Buttons[5].state == 1 && State->Map == 0) {
 		State->Map = 1;
-		ListButton[4].state = 0; }
+		List->Buttons[4].state = 0; }
 
-    if (ListButton[6].state == 1 && NumberOf->Time > 1) {
+    if (List->Buttons[6].state == 1 && NumberOf->Time > 1) {
 		NumberOf->Time -= 1;
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[6].state = 0; }
+		List->Buttons[6].state = 0; }
 
-	if (ListButton[7].state == 1) {
+	if (List->Buttons[7].state == 1) {
 		NumberOf->Time += 1;
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[7].state = 0; }
+		List->Buttons[7].state = 0; }
 
-	if (ListButton[9].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Planeur1.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[9].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Planeur1.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[9].state = 0; }
+		List->Buttons[9].state = 0; }
 
-	if (ListButton[10].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Planeur2.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[10].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Planeur2.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[10].state = 0; }
+		List->Buttons[10].state = 0; }
 
-	if (ListButton[11].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Grenouille.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[11].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Grenouille.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[11].state = 0; }
+		List->Buttons[11].state = 0; }
 
-	if (ListButton[12].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Clignotant.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[12].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Clignotant.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[12].state = 0; }
+		List->Buttons[12].state = 0; }
 
-	if (ListButton[13].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Canon.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[13].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Canon.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[13].state = 0; }
+		List->Buttons[13].state = 0; }
 
-	if (ListButton[14].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Pulsar.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+	if (List->Buttons[14].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Pulsar.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[14].state = 0; }
+		List->Buttons[14].state = 0; }
 
-    if (ListButton[15].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/JSP.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+    if (List->Buttons[15].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/JSP.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[15].state = 0; }
+		List->Buttons[15].state = 0; }
 
-    if (ListButton[16].state == 1) {
-        Clean(ListCase,NumberOf);
-		LoadMap(ListCase,NumberOf,"map/Sharingan.ins");
-		PrintScene(renderer,ListCase,ListDirection,ListButton,loc,NumberOf,timer,police);
+    if (List->Buttons[16].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Sharingan.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
-		ListButton[16].state = 0; }
+		List->Buttons[16].state = 0; }
 
-    if (ListButton[8].state == 1 && *timer == 0) {
-		*timer = 1;
-		strcpy(ListButton[8].text,"Arreter");
-		//ListButton[11].state = 0;
+    if (List->Buttons[8].state == 1 && MainVar->timer == 0) {
+		MainVar->timer = 1;
+		strcpy(List->Buttons[8].text,"Arreter");
+		//List->Buttons[11].state = 0;
 		}
 
-    if (ListButton[8].state == 0 && *timer >= 1) {
-		*timer = 0;
-		strcpy(ListButton[8].text,"Lancer");
+    if (List->Buttons[8].state == 0 && MainVar->timer >= 1) {
+		MainVar->timer = 0;
+		strcpy(List->Buttons[8].text,"Lancer");
 		}
 
-	if (ListDirection[0].state == 1) {
+	if (List->Direction[0].state == 1) {
 		DispVar->Vtc = 1;
 	}
-	if (ListDirection[1].state == 1) {
+	if (List->Direction[1].state == 1) {
 		DispVar->Vtc = -1;
 	}
-	if (ListDirection[2].state == 1) {
+	if (List->Direction[2].state == 1) {
 		DispVar->Hzt = -1;
 	}
-	if (ListDirection[3].state == 1) {
+	if (List->Direction[3].state == 1) {
 		DispVar->Hzt = 1;
 	}
 
-
-	return NumberOf;
-
 }
 
-//WIP
-void FreeCase(Case **ListCase,Grid *NumberOf) {
-    for (int i=0; i<NumberOf->Lines; i++) {
-        free(ListCase[i]);
+void HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
+    // quit
+    if (event->key.keysym.sym == SDLK_ESCAPE) {
+        MainVar->run = 0;
     }
 
+    //start / Stop
+    if (event->key.keysym.sym == SDLK_SPACE && MainVar->space == 0) {
+        if (MainVar->timer == 0) {
+            List->Buttons[8].state = 1;
+            strcpy(List->Buttons[8].text,"Arreter");
+            MainVar->timer = 1 ;
+        }
+        else {
+            MainVar->timer = 0;
+            List->Buttons[8].state = 0;
+            strcpy(List->Buttons[8].text,"Lancer");
+        }
+        MainVar->space = 1;
+    }
+
+    //reload
+    if (event->key.keysym.sym == SDLK_r) {
+        Clean(List,NumberOf);
+    }
+
+    //Save map
+    if (event->key.keysym.sym == SDLK_k) {
+        SaveMap(List, NumberOf,"map/buffer.ins");
+    }
+
+    //Load map
+    if (event->key.keysym.sym == SDLK_l) {
+        LoadMap(List, NumberOf,"map/buffer.ins");
+        PrintScene(renderer,List,MainVar,NumberOf);
+    }
+
+    // MainVar->timer
+    if (event->key.keysym.sym == SDLK_m && MainVar->ctrl == 0) {
+        NumberOf->Time +=1;
+        MainVar->ctrl = 1;
+    }
+
+    if (event->key.keysym.sym == SDLK_p && NumberOf->Time > 2 && MainVar->shift == 0) {
+        NumberOf->Time -=1;
+        MainVar->shift = 1;
+    }
+
+    //arrows
+    if (event->key.keysym.sym == SDLK_LEFT || event->key.keysym.sym == SDLK_q) {
+        DispVar->Hzt = 1;
+        MainVar->pressed = 1;
+    }
+    else if (event->key.keysym.sym == SDLK_RIGHT || event->key.keysym.sym == SDLK_d) {
+        DispVar->Hzt = -1;
+        MainVar->pressed = 1;
+    }
+    if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_z) {
+        DispVar->Vtc = 1;
+        MainVar->pressed = 1;
+    }
+    else if (event->key.keysym.sym == SDLK_DOWN || event->key.keysym.sym == SDLK_s) {
+        DispVar->Vtc = -1;
+        MainVar->pressed = 1;
+    }
+    //zoom
+    if (event->key.keysym.sym == SDLK_LSHIFT) {
+        DispVar->Zm = 0.1;
+        MainVar->pressed = 1;
+        //Hzt = -0.4;
+        //Vtc = -0.4;
+    }
+    else if (event->key.keysym.sym == SDLK_LCTRL) {
+        DispVar->Zm = -0.1;
+        MainVar->pressed = 1;
+        //Hzt = -0.1;
+        //Vtc = -0.1;
+    }
 }
 
+void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
+    //start stop
+    if (event->key.keysym.sym == SDLK_SPACE) MainVar->space = 0;
+
+    if (event->key.keysym.sym == SDLK_c) {
+        MainVar->loc.scale = MainVar->resy/NumberOf->Lines;
+        MainVar->loc.locx = 0;
+        MainVar->loc.locy = 0;
+    }
+
+    //Timer
+    if (event->key.keysym.sym == SDLK_m) {
+        MainVar->ctrl = 0;
+    }
+
+    if (event->key.keysym.sym == SDLK_p) {
+        MainVar->shift = 0;
+    }
+
+    //arrows
+    if (event->key.keysym.sym == SDLK_LEFT || event->key.keysym.sym == SDLK_q) {
+        DispVar->Hzt = 0;
+        MainVar->pressed = 0;
+    }
+    if (event->key.keysym.sym == SDLK_RIGHT || event->key.keysym.sym == SDLK_d) {
+        DispVar->Hzt = 0;
+        MainVar->pressed = 0;
+    }
+    if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_z) {
+        DispVar->Vtc = 0;
+        MainVar->pressed = 0;
+    }
+    if (event->key.keysym.sym == SDLK_DOWN || event->key.keysym.sym == SDLK_s) {
+        DispVar->Vtc = 0;
+        MainVar->pressed = 0;
+    }
+
+    //zoom
+    if (event->key.keysym.sym == SDLK_LSHIFT) {
+        DispVar->Zm = 0;
+        DispVar->Hzt = 0;
+        DispVar->Vtc = 0;
+        MainVar->pressed = 0;
+
+    }
+    if (event->key.keysym.sym == SDLK_LCTRL) {
+        DispVar->Zm = 0;
+        DispVar->Hzt = 0;
+        DispVar->Vtc = 0;
+        MainVar->pressed = 0;
+
+    }
+}
+
+void FindCase(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
+    /*methode 1 (WIP) for cases
+    Compare = CompareChunk(List->Cases,NumberOf, loc, event->button.x,event->button.y);
+    if (Compare.x != -1) {
+        if (List->Cases[Compare.y][Compare.x].state == 0) List->Cases[Compare.y][Compare.x].nextstate = 1;
+        else List->Cases[Compare.y][Compare.x].nextstate = 0;
+        click = 1;
+    }*/
+
+    //methode 2 for cases
+    for (int j=0; j<NumberOf->Buttons+NumberOf->ButtonLeft; j++) {
+        if (List->Buttons[j].cornx <= event->button.x && event->button.x <= List->Buttons[j].cornx + List->Buttons[j].sizex
+        && List->Buttons[j].corny <= event->button.y && event->button.y <= List->Buttons[j].corny+List->Buttons[j].sizey) {
+            if (List->Buttons[j].state == 0) List->Buttons[j].state = 1;
+            else List->Buttons[j].state = 0;
+            MainVar->click = 1;
+        }
+    }
+}
+
+void FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
+    //for directions
+    for (int k=0; k<NumberOf->Direction-2; k++) {
+        if (List->Direction[k].cornx <= event->button.x
+        && event->button.x <= List->Direction[k].cornx + List->Direction[k].sizex
+        && List->Direction[k].corny <= event->button.y
+        && event->button.y <= List->Direction[k].corny + List->Direction[k].sizey) {
+            if (List->Direction[k].state == 0) List->Direction[k].state = 1;
+            else List->Direction[k].state = 0;
+            MainVar->click = 1;
+        }
+    }
+}
+
+void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
+    //for placing cells
+    while(event->type != SDL_MOUSEBUTTONUP) {
+        for (int i=0; i<NumberOf->Lines; i++) {
+            for (int j=0; j<NumberOf->Cols; j++) {
+                if ((List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) <= event->button.x
+                && (List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) >= event->button.x
+                && (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) <= event->button.y
+                && (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) >= event->button.y) {
+                    List->Cases[i][j].nextstate = 1;
+                    MainVar->timer =0;
+                    PrintScene(renderer,List,MainVar,NumberOf);
+                }
+            }
+        }
+        SDL_PollEvent(event);
+    }
+}
+
+void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
+    while(event->type != SDL_MOUSEBUTTONUP) {
+        for (int i=0; i<NumberOf->Lines; i++) {
+            for (int j=0; j<NumberOf->Cols; j++) {
+                if ((List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) <= event->button.x
+                && (List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) >= event->button.x
+                && (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) <= event->button.y
+                && (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) >= event->button.y) {
+                    List->Cases[i][j].nextstate = 0;
+                    MainVar->timer =0;
+                    PrintScene(renderer,List,MainVar,NumberOf);
+                }
+            }
+        }
+        SDL_PollEvent(event);
+    }
+}
+
+void LoadStdin(St_List *List, Grid *NumberOf) {
+
+    printf("Pipe detected, load initial map skipped\n");
+    int FileLine;
+    int FileCol;
+    int resizex = 1;
+    int resizey = 1;
+    scanf("%d",&FileLine);
+    scanf("%d",&FileCol);
+
+    if (FileLine > NumberOf->Lines || FileCol > NumberOf->Cols) {
+        NumberOf->Lines = FileLine+2;
+        NumberOf->Cols = FileCol+2;
+    } else {
+        resizex = (NumberOf->Cols-FileCol)/2;
+        resizey = (NumberOf->Lines-FileLine)/2;
+    }
+
+    //init Cases
+    LoadCase(List,NumberOf);
+    for (int i=resizex; i<FileLine+resizex; i++) {
+        for (int j=resizey; j<FileCol+resizey; j++) {
+            scanf("%d",&List->Cases[i][j].nextstate);
+        }
+    }
+}
+
+/*WIP
+void FreeCase(St_List *List,Grid *NumberOf) {
+    for (int i=0; i<NumberOf->Lines; i++) {
+        free(List->Cases[i]);
+    }
+
+}*/
+
 /*
-void CallThread(Case **ListCase, Grid *NumberOf, location loc, SDL_Event event) {
+void CallThread(St_List *List, Grid *NumberOf, location loc, SDL_Event *event) {
 	pthread_t Listhread[8];
 	for (int i=0; i<8; i++) {
 		pthread_create(&Listhread[i], NULL, myThreadFun, NULL);
@@ -624,13 +848,13 @@ void CallThread(Case **ListCase, Grid *NumberOf, location loc, SDL_Event event) 
 	}
 }
 
-couple ThreadFunc1(Case **ListCase, Grid *NumberOf, location loc, SDL_Event event, int NumberThread) {
+couple ThreadFunc1(St_List *List, Grid *NumberOf, location loc, SDL_Event *event, int NumberThread) {
 	for (int i=0; i<NumberOf->Lines/8; i++) {
 		for (int j=0; j<NumberOf->Cols/8; j++) {
-			if ((ListCase[i][j].posx+loc.locx)*(loc.scale+1) <= event.button.x
-			&& (ListCase[i][j].posx+loc.locx)*(loc.scale+1)+loc.scale >= event.button.x
-			&& (ListCase[i][j].posy+loc.locy)*(loc.scale+1) <= event.button.y
-			&& (ListCase[i][j].posy+loc.locy)*(loc.scale+1)+loc.scale >= event.button.y) {
+			if ((List->Cases[i][j].posx+MainVar->loc.locx)*(loc.scale+1) <= event->button.x
+			&& (List->Cases[i][j].posx+MainVar->loc.locx)*(loc.scale+1)+MainVar->loc.scale >= event->button.x
+			&& (List->Cases[i][j].posy+MainVar->loc.locy)*(loc.scale+1) <= event->button.y
+			&& (List->Cases[i][j].posy+MainVar->loc.locy)*(loc.scale+1)+MainVar->loc.scale >= event->button.y) {
 				couple ret = {i,j};
 				return ret;
 			}
