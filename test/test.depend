@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1619434093 source:c:\users\titouan\titou_sync\code\projets\game_of_life\test\lib\chained_array.c
-	"chained.h"
-	<stddef.h>
-
-1619434093 c:\users\titouan\titou_sync\code\projets\game_of_life\test\lib\chained.h
-
