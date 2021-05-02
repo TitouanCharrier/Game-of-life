@@ -25,42 +25,69 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
     strcpy(List->Buttons[1].text, "Nettoyer (r)");
     strcpy(List->Buttons[2].text, "Copier (k)");
     strcpy(List->Buttons[3].text, "Coller (l)");
-    strcpy(List->Buttons[4].text, " Thorique ");
-    strcpy(List->Buttons[5].text, " Ferme ");
-    strcpy(List->Buttons[6].text, " Plus Vite ");
-    strcpy(List->Buttons[7].text, " Moins Vite ");
-    strcpy(List->Buttons[8].text, " Lancer ");
-    strcpy(List->Buttons[9].text, " Planeur 1 ");
+    strcpy(List->Buttons[4].text, "Thorique ");
+    strcpy(List->Buttons[5].text, "Fermée ");
+    strcpy(List->Buttons[6].text, "Plus Vite ");
+    strcpy(List->Buttons[7].text, "Moins Vite ");
+    strcpy(List->Buttons[8].text, "Lancer ");
+    strcpy(List->Buttons[9].text, "Planeur 1 ");
     strcpy(List->Buttons[10].text, "Cercle de Feu");
-    strcpy(List->Buttons[11].text, " Grenouille ");
-    strcpy(List->Buttons[12].text, " Clignotant ");
-    strcpy(List->Buttons[13].text, " Canon ");
-    strcpy(List->Buttons[14].text, " Pulsar ");
-    strcpy(List->Buttons[15].text, "    JSP    ");
+    strcpy(List->Buttons[11].text, "Grenouille ");
+    strcpy(List->Buttons[12].text, "Clignotant ");
+    strcpy(List->Buttons[13].text, "Canon ");
+    strcpy(List->Buttons[14].text, "Pulsar ");
+    strcpy(List->Buttons[15].text, "JSP    ");
     strcpy(List->Buttons[16].text, "Sharingan");
-    strcpy(List->Buttons[17].text, "Load rle");
+    strcpy(List->Buttons[17].text, "Drift");
+    strcpy(List->Buttons[18].text, "Scorpion");
+    strcpy(List->Buttons[19].text, "Scarabée");
+    strcpy(List->Buttons[20].text, "LightSpeed");
+    strcpy(List->Buttons[21].text, "Spirale");
+    strcpy(List->Buttons[22].text, "Expantion");
+    strcpy(List->Buttons[23].text, "Loop");
+    strcpy(List->Buttons[24].text, "Load rle");
+
+    strcpy(List->Error[0].text, "Augmentez la taille de votre carte dans les paramètres");
+    strcpy(List->Error[1].text, "X");
 
     for (int i=0; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
         List->Buttons[i].state = 0;
-        List->Buttons[i].sizex = 150;
-        List->Buttons[i].sizey = 50;
+        List->Buttons[i].sizex = MainVar->resx/9;
+        List->Buttons[i].sizey = MainVar->resy/20;
         List->Buttons[i].resx = MainVar->resx;
         List->Buttons[i].resy = MainVar->resy;
         List->Buttons[i].cornx = MainVar->resx-List->Buttons[i].sizex-10;
-        List->Buttons[i].corny = 10 + i*50+i,List->Buttons[i].sizex;
+        List->Buttons[i].corny = 10 + i*MainVar->resy/20+i,List->Buttons[i].sizex;
     }
 
     for (int i=NumberOf->Buttons; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
         List->Buttons[i].state = 0;
-        List->Buttons[i].sizex = 150;
-        List->Buttons[i].sizey = 50;
+        List->Buttons[i].sizex = MainVar->resx/9;
+        List->Buttons[i].sizey = MainVar->resy/20;
         List->Buttons[i].resx = MainVar->resx;
         List->Buttons[i].resy = MainVar->resy;
         List->Buttons[i].cornx = 10;
-        List->Buttons[i].corny = 10 + (i-NumberOf->Buttons)*50+(i-NumberOf->Buttons),List->Buttons[i].sizex;
+        List->Buttons[i].corny = 10 + (i-NumberOf->Buttons)*MainVar->resy/20+(i-NumberOf->Buttons),List->Buttons[i].sizex;
     }
 
     List->Buttons[4].state = 1;
+
+    //popup error
+    List->Error[0].state = 0;
+    List->Error[0].sizex = MainVar->resx-20;
+    List->Error[0].sizey = 50;
+    List->Error[0].cornx = 10;
+    List->Error[0].corny = MainVar->resy-50-10;
+
+    //close error
+    List->Error[1].state = 0;
+    List->Error[1].sizex = 50;
+    List->Error[1].sizey = 50;
+    List->Error[1].cornx = MainVar->resx-60;
+    List->Error[1].corny = MainVar->resy-60;
+
+
+
 
 }
 
@@ -207,6 +234,10 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 	//SDL_Delay(16);
 	SDL_SetRenderDrawColor(renderer, 100,100,100,255);
 	SDL_RenderClear(renderer);
+
+	int w;
+  	int h;
+
     //Print Cases
 	for (int i=0; i<NumberOf->Lines; i++) {
 		for (int j=0; j<NumberOf->Cols; j++) {
@@ -226,6 +257,7 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 		}
 	}
 	SDL_Color White = {255,255,255};
+	SDL_Color Red = {255,0,0};
 
 	//Print Buttons part 1
 	//int cornx = (List->Cases[0][NumberOf->Cols-1].posx+MainVar->loc.locx)*(loc.scale+1)+MainVar->loc.scale+10;
@@ -235,7 +267,8 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 		else if (List->Buttons[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
 		else SDL_SetRenderDrawColor(renderer,60,60,60,255);
         SDL_Rect RectButton = {List->Buttons[i].cornx,List->Buttons[i].corny,List->Buttons[i].sizex, List->Buttons[i].sizey};
-        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,List->Buttons[i].sizex-20, List->Buttons[i].sizey-20};
+        TTF_SizeText(MainVar->police,List->Buttons[i].text,&w,&h);
+        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,w,h};
         SDL_RenderFillRect(renderer,&RectButton);
         SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->Buttons[i].text,White);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -249,7 +282,8 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 		if (List->Buttons[i].state == 1) SDL_SetRenderDrawColor(renderer,255,80,0,255);
 		else SDL_SetRenderDrawColor(renderer,60,60,60,255);
         SDL_Rect RectButton = {List->Buttons[i].cornx,List->Buttons[i].corny,List->Buttons[i].sizex, List->Buttons[i].sizey};
-        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,List->Buttons[i].sizex-20, List->Buttons[i].sizey-20};
+        TTF_SizeText(MainVar->police,List->Buttons[i].text,&w,&h);
+        SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,w,h};
         SDL_RenderFillRect(renderer,&RectButton);
         SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->Buttons[i].text,White);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -263,7 +297,7 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
     SDL_RendererFlip FlipHor = SDL_FLIP_HORIZONTAL;
     SDL_RendererFlip FlipVer = SDL_FLIP_VERTICAL;
 
-    //print Directions
+    /*print Directions
 	for (int i=0; i<NumberOf->Direction-2; i++) {
 
 		SDL_Rect RectImage;
@@ -300,19 +334,40 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 
         SDL_DestroyTexture(texture);
         SDL_FreeSurface(surface);
-	}
+	}*/
     //Print Count Generations
   	char CharGen[30];
   	sprintf(CharGen, "%d", NumberOf->Gen);
-  	int w;
-  	int h;
-    TTF_SizeText(MainVar->police,CharGen,&w,&h);
-    SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,CharGen,White);
+
+    TTF_SizeText(MainVar->police40,CharGen,&w,&h);
+    SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police40,CharGen,White);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_Rect RectButton = {List->Buttons[0].resx/2-w/2,10,w,h};
     SDL_RenderCopy(renderer, texture, NULL, &RectButton);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
+
+    if (List->Error[0].state == 1) {
+
+        SDL_SetRenderDrawColor(renderer,155,0,0,255);
+        SDL_Rect RectError = {List->Error[0].cornx,List->Error[0].corny,List->Error[0].sizex, List->Error[0].sizey};
+        TTF_SizeText(MainVar->police,List->Error[0].text,&w,&h);
+        SDL_Rect RectText = {List->Error[0].cornx+10,List->Error[0].corny+10,w,h};
+        SDL_RenderFillRect(renderer,&RectError);
+        SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->Error[0].text,White);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_RenderCopy(renderer, texture, NULL, &RectText);
+
+        SDL_Rect RectClose = {List->Error[1].cornx,List->Error[1].corny,List->Error[1].sizex, List->Error[1].sizey};
+        surface = SDL_LoadBMP("rsc/Close.bmp");
+        if (surface == NULL) printf("failed to open a texture %s\n", List->Direction[1].img);
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_RenderCopy(renderer, texture, NULL, &RectClose);
+
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(surface);
+    }
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -376,7 +431,7 @@ void LifeThor(St_List *List, Grid *NumberOf) {
 }
 
 void LifeClosed(St_List *List, Grid *NumberOf) {
-    
+
     Case **LC = List->Cases;
 	int Neib;
 	for (int i=1; i<NumberOf->Lines-1; i++) {
@@ -405,18 +460,25 @@ void LifeClosed(St_List *List, Grid *NumberOf) {
 void SaveMap(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
 
-    MapFile = fopen(name, "r+");
-    if (MapFile == NULL) printf("ERROR : failed to open map file for saving\n");
+    //open file
+    MapFile = fopen(name, "w");
+
+    if (MapFile == NULL) {
+    	List->Error[0].state = 1;
+        strcpy(List->Error[0].text,"Fichier tampon manquant pour la sauvegarde");
+        return;
+    } 
 
     fseek(MapFile,0,SEEK_SET);
 
     fprintf(MapFile,"%d %d\n", NumberOf->Lines, NumberOf->Cols);
     for (int i=0; i<NumberOf->Lines; i++) {
         for (int j=0; j<NumberOf->Cols; j++) {
-            fprintf(MapFile, "%d ", List->Cases[i][j].state);
+            fprintf(MapFile, "%d ", List->Cases[i][j].nextstate);
         }
-        fprintf(MapFile,"\n");
     }
+    fclose(MapFile);
+    //printf("%d, %d\n", NumberOf->Lines, NumberOf->Cols);
 
 }
 
@@ -424,29 +486,46 @@ void LoadMap(St_List *List, Grid *NumberOf, char name[]) {
     FILE* MapFile = NULL;
     int FileLines;
     int FileCols;
+    int Resisx;
+    int Resisy;
+
+	Clean(List,NumberOf);    
 
     MapFile = fopen(name, "r+");
-    if (MapFile == NULL) printf("ERROR : failed to open map file for load\n");
-
+    if (MapFile == NULL) {
+        List->Error[0].state = 1;
+        strcpy(List->Error[0].text,"Fichier carte manquant");
+        return;
+    }
     fscanf(MapFile,"%d %d\n", &FileLines, &FileCols);
 
     if (FileCols > NumberOf->Cols || FileLines > NumberOf->Lines) {
-        printf("ERROR : Load map failed please increase your main map size\n");
+        List->Error[0].state = 1;
+        sprintf(List->Error[0].text,
+            "Vous essayez d'ouvrir une carte de %d par %d, modifiez les paramètres de votre carte principale",
+            FileLines,
+            FileCols);
     }
     else {
+            Resisy = (NumberOf->Lines - FileLines)/2;
+            Resisx = (NumberOf->Cols - FileCols)/2;
         //load
-        for (int i=0; i<FileLines; i++) {
-            for (int j=0; j<FileCols; j++) {
+        for (int i=Resisy; i<FileLines+Resisy; i++) {
+            for (int j=Resisx; j<FileCols+Resisx; j++) {
                 fscanf(MapFile, "%d ", &List->Cases[i][j].nextstate);
             }
         }
     }
+    fclose(MapFile);
 }
 
 void LoadRle(St_List *List, Grid *NumberOf, char name[]) {
+
     FILE* MapFile = NULL;
     int FileLines = 0;
+    int FileLines1 = 0;
     int FileCols = 0;
+    int FileCols1 = 0;
     char BuffChar1;
     int BuffNum1;
     int BuffNumF = 0;
@@ -454,61 +533,101 @@ void LoadRle(St_List *List, Grid *NumberOf, char name[]) {
     int CountCol = 0;
 
     MapFile = fopen(name, "r+");
-    if (MapFile == NULL) printf("ERROR : failed to open map file for load\n");
-
-    fscanf(MapFile,"x = %d, y = %d", &FileCols, &FileLines);
-
-    if (FileCols > NumberOf->Cols || FileLines > NumberOf->Lines) {
-        printf("ERROR : Load map failed please increase your main map size\n");
+    if (MapFile == NULL) {
+        List->Error[0].state = 1;
+        strcpy(List->Error[0].text,"Fichier carte manquant");
+        return;
     }
-    else {
 
-        //load
-        BuffChar1 = fgetc(MapFile);
-        while (BuffChar1 != EOF) {
-            //printf("%c",BuffChar1 );
-            if (BuffChar1 == 'x' || BuffChar1 == 'X' || BuffChar1 == '#') {
-                while (BuffChar1 != '\n') {
+    //load
+    BuffChar1 = fgetc(MapFile);
+    while (BuffChar1 != EOF) {
+        //printf("%c",BuffChar1 );
+        if (BuffChar1 == 'x' || BuffChar1 == '#') {
+            while (BuffChar1 != '\n') {
+                BuffChar1 = fgetc(MapFile);
+            }
+        }
+        /*
+        else if (BuffChar1 == 'x') {
+            while (!isdigit(BuffChar1)) {
+                BuffChar1 = fgetc(MapFile);
+                while (isdigit(BuffChar1)) {
+                    FileCols1 = atoi(&BuffChar1);
+                    FileCols = concat(FileCols,FileCols1);
                     BuffChar1 = fgetc(MapFile);
                 }
             }
-            
-            else if (BuffChar1 == 'o') {
-                
-                if (BuffNumF == 0) BuffNumF = 1;
-                for(int i=0; i<BuffNumF; i++) {
-                    List->Cases[Lines][CountCol].nextstate = 1;
-                    CountCol+=1;
+            while (!isdigit(BuffChar1)) {
+                BuffChar1 = fgetc(MapFile);
+                while (isdigit(BuffChar1)) {
+                    FileLines1 = atoi(&BuffChar1);
+                    FileLines = concat(FileLines,FileLines1);
+                    BuffChar1 = fgetc(MapFile);
                 }
-                BuffNumF = 0;
-                BuffNum1 = 0;  
+            }
+            while (BuffChar1 != '\n') {
+                BuffChar1 = fgetc(MapFile);
+            }
 
+        }*/
+
+        else if (BuffChar1 == 'o') {
+
+            if (BuffNumF == 0) BuffNumF = 1;
+            for(int i=0; i<BuffNumF; i++) {
+                List->Cases[Lines][CountCol].nextstate = 1;
+                CountCol+=1;
             }
-            else if (BuffChar1 == 'b') {
-                if (BuffNumF == 0) BuffNumF = 1;
-                for(int i=0; i<BuffNumF; i++) {
-                    List->Cases[Lines][CountCol].nextstate = 0;
-                    CountCol+=1;
-                }
-                BuffNumF = 0;
-                BuffNum1 = 0;
-                
-            }
-            else if (isdigit(BuffChar1)) {
-                BuffNum1 = atoi(&BuffChar1);
-                BuffNumF = concat(BuffNumF,BuffNum1);
-            }
-            else if (BuffChar1 == '$') {
-                if (BuffNumF == 0) BuffNumF = 1;
-                for(int i=0; i<BuffNumF; i++) {
-                    Lines++;
-                }
-                BuffNumF = 0;
-                CountCol = 0;
-            }
-            BuffChar1 = fgetc(MapFile);
+            BuffNumF = 0;
+            BuffNum1 = 0;
+
         }
+        else if (BuffChar1 == 'b') {
+            if (BuffNumF == 0) BuffNumF = 1;
+            for(int i=0; i<BuffNumF; i++) {
+                List->Cases[Lines][CountCol].nextstate = 0;
+                CountCol+=1;
+            }
+            BuffNumF = 0;
+            BuffNum1 = 0;
+
+        }
+        else if (isdigit(BuffChar1)) {
+            BuffNum1 = atoi(&BuffChar1);
+            BuffNumF = concat(BuffNumF,BuffNum1);
+        }
+        else if (BuffChar1 == '$') {
+            if (BuffNumF == 0) BuffNumF = 1;
+            for(int i=0; i<BuffNumF; i++) {
+                Lines++;
+            }
+            BuffNumF = 0;
+            CountCol = 0;
+        }
+        BuffChar1 = fgetc(MapFile);
     }
+    printf("%d, %d",FileCols,FileLines);
+    if (FileCols > NumberOf->Cols || FileLines > NumberOf->Lines) {
+    List->Error[0].state = 1;
+    sprintf(List->Error[0].text,
+        "Vous essayez d'ouvrir une carte de %d par %d, modifiez les paramètres de votre carte principale",
+        FileLines,
+        FileCols);
+    }
+    fclose(MapFile);
+}
+
+void LoadSettings(Grid *NumberOf) {
+
+    FILE* MapFile = NULL;
+    MapFile = fopen("settings.txt", "r+");
+    if (MapFile == NULL) printf("ERROR : failed to open settings file\n");
+
+    fscanf(MapFile,"Lignes : %d\n",&NumberOf->Lines);
+    fscanf(MapFile,"Colonnes : %d\n",&NumberOf->Cols);
+
+    fclose(MapFile);
 }
 
 void Clean(St_List *List, Grid *NumberOf) {
@@ -557,6 +676,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		NumberOf->Time += 1;
 		PrintScene(renderer,List,MainVar,NumberOf);
 		SDL_Delay(16);
+		List->Buttons[6].state = 0;
 		List->Buttons[7].state = 0; }
 
 	if (List->Buttons[9].state == 1) {
@@ -615,12 +735,61 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		SDL_Delay(16);
 		List->Buttons[16].state = 0; }
 
-        if (List->Buttons[17].state == 1) {
+    if (List->Buttons[17].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Drift.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[17].state = 0; }
+
+    if (List->Buttons[18].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Scorpion.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[18].state = 0; }
+
+    if (List->Buttons[19].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Scarabee.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[19].state = 0; }
+
+    if (List->Buttons[20].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/LightSpeed.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[20].state = 0; }
+
+    if (List->Buttons[21].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Spiral.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[21].state = 0; }
+
+    if (List->Buttons[22].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Expansion.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[22].state = 0; }
+
+    if (List->Buttons[23].state == 1) {
+        Clean(List,NumberOf);
+		LoadMap(List,NumberOf,"map/Loop.ins");
+		PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		List->Buttons[23].state = 0; }
+
+        if (List->Buttons[24].state == 1) {
         Clean(List,NumberOf);
         LoadRle(List,NumberOf,"map/Load.rle");
         PrintScene(renderer,List,MainVar,NumberOf);
         SDL_Delay(16);
-        List->Buttons[17].state = 0; }
+        List->Buttons[24].state = 0; }
 
     if (List->Buttons[8].state == 1 && MainVar->timer == 0) {
 		MainVar->timer = 1;
@@ -672,6 +841,10 @@ void HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid 
     //reload
     if (event->key.keysym.sym == SDLK_r) {
         Clean(List,NumberOf);
+        PrintScene(renderer,List,MainVar,NumberOf);
+		SDL_Delay(16);
+		NumberOf->Gen = 0;
+		List->Buttons[1].state = 0;
     }
 
     //Save map
@@ -782,27 +955,30 @@ void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *N
     }
 }
 
-void FindCase(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
-    /*methode 1 (WIP) for cases
-    Compare = CompareChunk(List->Cases,NumberOf, loc, event->button.x,event->button.y);
-    if (Compare.x != -1) {
-        if (List->Cases[Compare.y][Compare.x].state == 0) List->Cases[Compare.y][Compare.x].nextstate = 1;
-        else List->Cases[Compare.y][Compare.x].nextstate = 0;
-        click = 1;
-    }*/
+int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
 
-    //methode 2 for cases
+    //find button pressed
     for (int j=0; j<NumberOf->Buttons+NumberOf->ButtonLeft; j++) {
         if (List->Buttons[j].cornx <= event->button.x && event->button.x <= List->Buttons[j].cornx + List->Buttons[j].sizex
         && List->Buttons[j].corny <= event->button.y && event->button.y <= List->Buttons[j].corny+List->Buttons[j].sizey) {
             if (List->Buttons[j].state == 0) List->Buttons[j].state = 1;
             else List->Buttons[j].state = 0;
             MainVar->click = 1;
+            return 1;
         }
     }
+
+    if (List->Error[1].cornx <= event->button.x && event->button.x <= List->Error[1].cornx + List->Error[1].sizex
+    && List->Error[1].corny <= event->button.y && event->button.y <= List->Error[1].corny+List->Error[1].sizey) {
+        if (List->Error[0].state == 0) List->Error[0].state = 1;
+        else List->Error[0].state = 0;
+        MainVar->click = 1;
+        return 1;
+    }
+    return 0;
 }
 
-void FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
+int FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
     //for directions
     for (int k=0; k<NumberOf->Direction-2; k++) {
         if (List->Direction[k].cornx <= event->button.x
@@ -812,12 +988,22 @@ void FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainV
             if (List->Direction[k].state == 0) List->Direction[k].state = 1;
             else List->Direction[k].state = 0;
             MainVar->click = 1;
+            return 1;
         }
     }
+    return 0;
 }
 
 void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar) {
-    //for placing cells
+    /*methode 1 (WIP) for cells
+    Compare = CompareChunk(List->Cases,NumberOf, loc, event->button.x,event->button.y);
+    if (Compare.x != -1) {
+        if (List->Cases[Compare.y][Compare.x].state == 0) List->Cases[Compare.y][Compare.x].nextstate = 1;
+        else List->Cases[Compare.y][Compare.x].nextstate = 0;
+        click = 1;
+    }*/
+
+    //methode 2 for placing cells
     while(event->type != SDL_MOUSEBUTTONUP) {
         for (int i=0; i<NumberOf->Lines; i++) {
             for (int j=0; j<NumberOf->Cols; j++) {
@@ -884,7 +1070,7 @@ int concat(int x, int y) {
     int buff = 10;
     while(y >= buff)
         buff *= 10;
-    return x * buff + y;        
+    return x * buff + y;
 }
 
 /*WIP

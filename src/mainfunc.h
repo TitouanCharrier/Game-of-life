@@ -16,6 +16,8 @@
 
 int concat(int x, int y);
 
+void LoadSettings(Grid *NumberOf);
+
 void Clean(St_List *List, Grid *NumberOf);
 
 void FreeCase(St_List *List,Grid *NumberOf);
@@ -36,9 +38,9 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
 void LoadDirection(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
-void FindCase(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
+int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
-void FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
+int FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
 void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 

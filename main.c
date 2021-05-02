@@ -1,4 +1,3 @@
-#include "lib/chained.h"
 #include "src/mainfunc.h"
 #include <unistd.h>
 
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
 
 	//auto resolution
 	SDL_DisplayMode Screen;
-	SDL_GetCurrentDisplayMode(1, &Screen);
+	SDL_GetCurrentDisplayMode(0, &Screen);
 	int WIDTH = Screen.w;
 	int HEIGHT = Screen.h;
 
@@ -35,13 +34,17 @@ int main(int argc, char **argv) {
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
 
-	NumberOf->Lines = 60;
-	NumberOf->Cols = 60;
+	NumberOf->Lines = 50;
+	NumberOf->Cols = 50;
 	NumberOf->Buttons = 9;
 	NumberOf->Direction = 6;
-	NumberOf->ButtonLeft = 9;
+	NumberOf->ButtonLeft = 16;
 	NumberOf->Time = 10;
+	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
+
+	//load settings from file
+	LoadSettings(NumberOf);
 
     //List init
     St_List List_v;
@@ -51,7 +54,7 @@ int main(int argc, char **argv) {
     List->Buttons = NULL;
     List->Direction = NULL;
 
-	//Main variables 
+	//Main variables
 	St_Var mainVar;
 	St_Var *MainVar = &mainVar;
 
@@ -66,7 +69,8 @@ int main(int argc, char **argv) {
 	MainVar->resy = HEIGHT;
 	MainVar->loc.locy = 0;
 	MainVar->loc.locx = 0;
-	MainVar->police = TTF_OpenFont("fonts/arial.ttf", 65);
+	MainVar->police = TTF_OpenFont("fonts/arial.ttf", 20);
+	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 40);
 
 	//States
 	St_State state;
@@ -74,7 +78,7 @@ int main(int argc, char **argv) {
 
 	State->Map = 0;
 	State->Draw = 1;
-	
+
 	//WIP
 	//Couple Compare;
 
@@ -86,9 +90,11 @@ int main(int argc, char **argv) {
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
 
-	//init Buttons
+	//init Buttons and error button
 	List->Buttons = malloc((NumberOf->Buttons+NumberOf->ButtonLeft)*sizeof(Button));
 	assert(List->Buttons);
+	List->Error = malloc((NumberOf->Error)*sizeof(Button));
+	assert(List->Error);
 	LoadButton(List,MainVar,NumberOf);
 
 	//Load directions
@@ -119,19 +125,25 @@ int main(int argc, char **argv) {
 		//Detect Mouse Click
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			if (event.button.button == SDL_BUTTON_LEFT && MainVar->click == 0) {
-                
-                FindCase(Event,List,NumberOf,MainVar);
-				
-				FinDirection(Event,List,NumberOf,MainVar);
+
+                if (FindButton(Event,List,NumberOf,MainVar)) {
+                    goto ENDOFCHECK;
+                }
+
+				if (FinDirection(Event,List,NumberOf,MainVar)) {
+                    goto ENDOFCHECK;
+                }
 
                 PlaceCell(renderer,Event,List,NumberOf,MainVar);
 			}
-			
+
 			// for deleting cells
 			else if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
                 RemoveCell(renderer,Event,List,NumberOf,MainVar);
 			}
 		}
+
+		ENDOFCHECK:
 
 		// Detect Mouse released
 		if (event.type == SDL_MOUSEBUTTONUP) {
@@ -152,7 +164,7 @@ int main(int argc, char **argv) {
 
 		//detect keys released
 		if (event.type == SDL_KEYUP) {
-			
+
 			HandleKeyUp(renderer,List,MainVar,NumberOf,Event,DispVar);
 		}
 
@@ -163,7 +175,14 @@ int main(int argc, char **argv) {
 		MainVar->loc.locx += DispVar->Hzt;
 		MainVar->loc.locy += DispVar->Vtc;
 		MainVar->loc.scale += DispVar->Zm;
-		
+
+		//Change speed button state
+        if (NumberOf->Time == 1) {
+            strcpy(List->Buttons[6].text, "Vitesse Max");
+            List->Buttons[6].state = 1;
+        }
+        else strcpy(List->Buttons[6].text, "Plus Vite");
+
 		//update life position
 		if (MainVar->timer >= NumberOf->Time) {
 			if (State->Map == 0) LifeThor(List, NumberOf);

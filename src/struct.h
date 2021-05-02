@@ -16,7 +16,7 @@ typedef struct Button {
 	int corny;
 	int sizex;
 	int sizey;
-	char text[50];
+	char text[100];
 	int state;
 	char img[14];
 }Button;
@@ -39,6 +39,7 @@ typedef struct Grid {
 	int Direction;
 	int ButtonLeft;
 	int Time;
+	int Error;
 	long long int Gen;
 }Grid;
 
@@ -57,11 +58,13 @@ typedef struct St_List {
 	Case **Cases;
 	Button *Buttons;
 	Button *Direction;
+	Button *Error;
 }St_List;
 
 typedef struct St_Var {
 	location loc;
 	TTF_Font *police;
+	TTF_Font *police40;
 	int timer;
 	int run;
 	int space;
