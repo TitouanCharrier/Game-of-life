@@ -74,6 +74,7 @@ typedef struct St_Var {
 	int shift;
 	int resx;
 	int resy;
+	int limite;
 }St_Var;
 
 #endif

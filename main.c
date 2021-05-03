@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	//starting TTF (to display text))
-    TTF_Init();
+	TTF_Init();
 
 	//main tools of SDL
 	SDL_Renderer *renderer = NULL;
@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
 	NumberOf->Lines = 50;
 	NumberOf->Cols = 50;
 	NumberOf->Buttons = 9;
-	NumberOf->Direction = 6;
 	NumberOf->ButtonLeft = 16;
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
@@ -46,13 +45,12 @@ int main(int argc, char **argv) {
 	//load settings from file
 	LoadSettings(NumberOf);
 
-    //List init
-    St_List List_v;
-    St_List *List = &List_v;
+	//List init
+	St_List List_v;
+	St_List *List = &List_v;
 
-    List->Cases = NULL;
-    List->Buttons = NULL;
-    List->Direction = NULL;
+	List->Cases = NULL;
+	List->Buttons = NULL;
 
 	//Main variables
 	St_Var mainVar;
@@ -71,6 +69,7 @@ int main(int argc, char **argv) {
 	MainVar->loc.locx = 0;
 	MainVar->police = TTF_OpenFont("fonts/arial.ttf", 20);
 	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 40);
+	MainVar->limite = -1;
 
 	//States
 	St_State state;
@@ -97,24 +96,28 @@ int main(int argc, char **argv) {
 	assert(List->Error);
 	LoadButton(List,MainVar,NumberOf);
 
-	//Load directions
-	List->Direction = malloc(NumberOf->Direction*sizeof(Button));
-	assert(List->Direction);
-	LoadDirection(List,MainVar,NumberOf);
-
 	//detect txt file loaded in stdin
-    if (isatty (STDIN_FILENO)) {
+	if (isatty (STDIN_FILENO)) {
 		//init Cases
 		LoadCase(List,NumberOf);
-        //load menu
-        LoadMap(List,NumberOf,"map/Menu.ins");
-    }
-    else {
-        LoadStdin(List,NumberOf);
-    }
+		//load menu
+		LoadMap(List,NumberOf,"map/Menu.ins");
+	}
+	else {
+		if (LoadStdin(List,NumberOf,MainVar)) {
+			List->Buttons[4].state = 1;
+			List->Buttons[5].state = 0;
+			State->Map = 1;
+		}
+		else {
+			List->Buttons[5].state = 1;
+			List->Buttons[4].state = 0;
+			State->Map = 0;
+		}
+	}
 
-    //setup scale
-    MainVar->loc.scale = HEIGHT/NumberOf->Lines;
+	//setup scale
+	MainVar->loc.scale = HEIGHT/NumberOf->Lines;
 
 	//main loop
 	while (MainVar->run && List->Buttons[0].state == 0) {
@@ -126,20 +129,19 @@ int main(int argc, char **argv) {
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			if (event.button.button == SDL_BUTTON_LEFT && MainVar->click == 0) {
 
-                if (FindButton(Event,List,NumberOf,MainVar)) {
-                    goto ENDOFCHECK;
-                }
+				//delete error
+				List->Error[0].state = 0;
 
-				if (FinDirection(Event,List,NumberOf,MainVar)) {
-                    goto ENDOFCHECK;
-                }
+				if (FindButton(Event,List,NumberOf,MainVar)) {
+					goto ENDOFCHECK;
+				}
 
-                PlaceCell(renderer,Event,List,NumberOf,MainVar);
+			PlaceCell(renderer,Event,List,NumberOf,MainVar);
 			}
 
 			// for deleting cells
 			else if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
-                RemoveCell(renderer,Event,List,NumberOf,MainVar);
+			RemoveCell(renderer,Event,List,NumberOf,MainVar);
 			}
 		}
 
@@ -148,12 +150,6 @@ int main(int argc, char **argv) {
 		// Detect Mouse released
 		if (event.type == SDL_MOUSEBUTTONUP) {
 			if (event.button.button == SDL_BUTTON_LEFT) MainVar->click = 0;
-			for (int k=0; k<NumberOf->Direction-2; k++) {
-				List->Direction[k].state = 0;
-				DispVar->Hzt = 0;
-				DispVar->Vtc = 0;
-				DispVar->Zm = 0;
-			}
 		}
 
 		//detect keys pressed
@@ -177,11 +173,19 @@ int main(int argc, char **argv) {
 		MainVar->loc.scale += DispVar->Zm;
 
 		//Change speed button state
-        if (NumberOf->Time == 1) {
-            strcpy(List->Buttons[6].text, "Vitesse Max");
-            List->Buttons[6].state = 1;
-        }
-        else strcpy(List->Buttons[6].text, "Plus Vite");
+		if (NumberOf->Time == 1) {
+			strcpy(List->Buttons[6].text, "Vitesse Max");
+			List->Buttons[6].state = 1;
+		}
+		else strcpy(List->Buttons[6].text, "Plus Vite");
+
+		//stop when reach limite
+		if (NumberOf->Gen == MainVar->limite) {
+			MainVar->timer = 0;
+			MainVar->limite = -1;
+			strcpy(List->Buttons[8].text,"Lancer");
+			List->Buttons[8].state = 0;
+		}
 
 		//update life position
 		if (MainVar->timer >= NumberOf->Time) {

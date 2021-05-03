@@ -26,7 +26,7 @@ void LoadCase(St_List *List,Grid *NumberOf);
 
 void LifeThor(St_List *List, Grid *NumberOf);
 
-void LoadStdin(St_List *List, Grid *NumberOf);
+int LoadStdin(St_List *List, Grid *NumberOf, St_Var *MainVar);
 
 void LifeClosed(St_List *List, Grid *NumberOf);
 
@@ -35,8 +35,6 @@ void SaveMap(St_List *List, Grid *NumberOf, char name[]);
 void LoadMap(St_List *List, Grid *NumberOf, char name[]);
 
 void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
-
-void LoadDirection(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
 int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
