@@ -14,21 +14,8 @@
 #include <unistd.h>
 #include <ctype.h>
 
-int concat(int x, int y);
-
-void LoadSettings(Grid *NumberOf);
-
-void Clean(St_List *List, Grid *NumberOf);
-
-void FreeCase(St_List *List,Grid *NumberOf);
-
+//Loading / Saving : 
 void LoadCase(St_List *List,Grid *NumberOf);
-
-void LifeThor(St_List *List, Grid *NumberOf);
-
-int LoadStdin(St_List *List, Grid *NumberOf, St_Var *MainVar);
-
-void LifeClosed(St_List *List, Grid *NumberOf);
 
 void SaveMap(St_List *List, Grid *NumberOf, char name[]);
 
@@ -36,11 +23,10 @@ void LoadMap(St_List *List, Grid *NumberOf, char name[]);
 
 void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
+void LoadRle(St_List *List, Grid *NumberOf, char name[]);
+
+//Interact :
 int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
-
-int FinDirection(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
-
-void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
@@ -52,6 +38,17 @@ void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *N
 
 void HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
+int concat(int x, int y);
+
+//Printing : 
+void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
+
+//Cleaning : 
+void Clean(St_List *List, Grid *NumberOf);
+
+//WIP :
 Couple CompareChunk(St_List *List, Grid *NumberOf,St_Var *MainVar, int sourx, int soury);
+
+void FreeCase(St_List *List,Grid *NumberOf);
 
 #endif

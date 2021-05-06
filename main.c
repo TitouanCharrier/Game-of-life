@@ -1,4 +1,5 @@
-#include "src/mainfunc.h"
+#include "src/game_of_life_gui.h"
+#include "src/game_of_life.h"
 #include <unistd.h>
 
 int main(int argc, char **argv) {
@@ -67,7 +68,7 @@ int main(int argc, char **argv) {
 	MainVar->resy = HEIGHT;
 	MainVar->loc.locy = 0;
 	MainVar->loc.locx = 0;
-	MainVar->police = TTF_OpenFont("fonts/arial.ttf", 20);
+	MainVar->police = TTF_OpenFont("fonts/RedThinker-Light-Italic.ttf", 25);
 	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 40);
 	MainVar->limite = -1;
 
