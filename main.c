@@ -68,9 +68,10 @@ int main(int argc, char **argv) {
 	MainVar->resy = HEIGHT;
 	MainVar->loc.locy = 0;
 	MainVar->loc.locx = 0;
-	MainVar->police = TTF_OpenFont("fonts/RedThinker-Light-Italic.ttf", 25);
-	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 40);
+	MainVar->police = TTF_OpenFont("fonts/RedThinker-Light-Italic.ttf", 18*HEIGHT/720);
+	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 30*HEIGHT/720);
 	MainVar->limite = -1;
+	MainVar->ButtonChanged = 1;
 
 	//States
 	St_State state;
@@ -117,6 +118,9 @@ int main(int argc, char **argv) {
 		}
 	}
 
+	//Load Background
+	LoadBackground(renderer,MainVar);
+
 	//setup scale
 	MainVar->loc.scale = HEIGHT/NumberOf->Lines;
 
@@ -125,6 +129,8 @@ int main(int argc, char **argv) {
 
 		//load events
 		SDL_PollEvent(&event);
+
+		if (event.type == SDL_QUIT) MainVar->run = 0;
 
 		//Detect Mouse Click
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -137,7 +143,7 @@ int main(int argc, char **argv) {
 					goto ENDOFCHECK;
 				}
 
-			PlaceCell(renderer,Event,List,NumberOf,MainVar);
+				PlaceCell(renderer,Event,List,NumberOf,MainVar);
 			}
 
 			// for deleting cells
@@ -156,7 +162,9 @@ int main(int argc, char **argv) {
 		//detect keys pressed
 		if (event.type == SDL_KEYDOWN) {
 
-			HandleKeyDown(renderer,List,MainVar,NumberOf,Event,DispVar);
+			if (HandleKeyDown(renderer,List,MainVar,NumberOf,Event,DispVar)) {
+				MainVar->ButtonChanged = 1;
+			}
 		}
 
 		//detect keys released
@@ -178,7 +186,7 @@ int main(int argc, char **argv) {
 			strcpy(List->Buttons[6].text, "Vitesse Max");
 			List->Buttons[6].state = 1;
 		}
-		else strcpy(List->Buttons[6].text, "Plus Vite");
+		else strcpy(List->Buttons[6].text, "Plus Vite (p)");
 
 		//stop when reach limite
 		if (NumberOf->Gen == MainVar->limite) {
@@ -199,6 +207,5 @@ int main(int argc, char **argv) {
 		if (MainVar->timer != 0) MainVar->timer ++;
 		PrintScene(renderer,List,MainVar,NumberOf);
 	}
-
 	return 0;
 }

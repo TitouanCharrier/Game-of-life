@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_thread.h>
 #include <assert.h>
 #include <time.h>
 #include <string.h>
@@ -25,6 +26,8 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
 void LoadRle(St_List *List, Grid *NumberOf, char name[]);
 
+void LoadBackground(SDL_Renderer *renderer, St_Var *MainVar);
+
 //Interact :
 int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
@@ -36,12 +39,22 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 
 void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
-void HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
+int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
 int concat(int x, int y);
 
 //Printing : 
 void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
+
+void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
+
+void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+
+void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+
+void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+
+void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
 
 //Cleaning : 
 void Clean(St_List *List, Grid *NumberOf);

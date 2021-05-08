@@ -9,6 +9,15 @@ typedef struct Case {
 	int nextstate;
 }Case;
 
+
+typedef struct St_Color {
+	int r;
+	int g;
+	int b;
+	int a;
+}St_Color;
+
+
 typedef struct Button {
 	int resx;
 	int resy;
@@ -19,6 +28,10 @@ typedef struct Button {
 	char text[100];
 	int state;
 	char img[14];
+	St_Color Color;
+	SDL_Rect Rect;
+	SDL_Texture *Texture;
+	SDL_Rect RectText;
 }Button;
 
 typedef struct location {
@@ -76,6 +89,17 @@ typedef struct St_Var {
 	int resy;
 	int limite;
 	int begin;
+	int ButtonChanged;
+	SDL_Texture *TexBack;
+	SDL_Rect RectBack;
 }St_Var;
+
+typedef struct St_Thread {
+	SDL_Renderer *renderer;
+	St_List *List;
+	St_Var *MainVar;
+	Grid *NumberOf;
+	int tid;
+}St_Thread;
 
 #endif
