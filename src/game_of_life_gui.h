@@ -43,6 +43,8 @@ int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *
 
 int concat(int x, int y);
 
+int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols);
+
 //Printing : 
 void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
