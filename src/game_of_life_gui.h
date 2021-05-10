@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <ctype.h>
 
+void test();
+
 //Loading / Saving : 
 void LoadCase(St_List *List,Grid *NumberOf);
 

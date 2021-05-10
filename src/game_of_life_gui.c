@@ -1,14 +1,26 @@
 #include "game_of_life_gui.h"
 
+void test() {
+	int* coucou = NULL;
+	coucou = malloc(800);
+	printf("ca marche\n");
+}
+
 //Loading / Saving
 void LoadCase(St_List *List, Grid *NumberOf) {
-	List->Cases = malloc(NumberOf->Lines*sizeof (*List->Cases));
+	int *test = NULL;
+	printf("Load0\n");
+	test = malloc(800);
+	printf("Load1\n");
+	printf("%d, %d\n", NumberOf->Lines, sizeof(*List->Cases));
+	List->Cases = malloc(NumberOf->Lines*sizeof(*List->Cases));
+	printf("Load1.5\n");
 	assert(List->Cases);
 	time_t t;
 	srand((unsigned) time(&t));
-
+	printf("Load2\n");
 	for (int i = 0; i < NumberOf->Lines; i++) {
-		List->Cases[i] = malloc(NumberOf->Cols*sizeof (*List->Cases[i]));
+		List->Cases[i] = malloc(NumberOf->Cols*sizeof(*List->Cases[i]));
 		assert(List->Cases[i]);
 		for (int j = 0; j < NumberOf->Cols; j++) {
 			List->Cases[i][j].posx = j;
@@ -16,8 +28,10 @@ void LoadCase(St_List *List, Grid *NumberOf) {
 			//List->Cases[i][j].nextstate = rand()%2;
 			List->Cases[i][j].nextstate = 0;
 			List->Cases[i][j].state = 0;
+			printf("load3\n");
 		}
 	}
+
 }
 
 void SaveMap(St_List *List, Grid *NumberOf, char name[]) {
@@ -253,12 +267,17 @@ void LoadRle(St_List *List, Grid *NumberOf, char name[]) {
 }
 
 void LoadBackground(SDL_Renderer *renderer, St_Var *MainVar) {
-
+	printf("Back1\n");
 	int diffx = MainVar->resx-MainVar->resy;
+	printf("Back1.1\n");
 	SDL_Rect RectBack = {diffx/2,0,MainVar->resy,MainVar->resy};
+	printf("Back1.2\n");
 	MainVar->RectBack = RectBack;
+	printf("Back1.3\n");
 	SDL_Surface *surface = SDL_LoadBMP("rsc/CyLogo.bmp");
+	printf("Back1.4\n");
 	if (surface == NULL) printf("error loading texture");
+	printf("Back1.5\n");
 	MainVar->TexBack = SDL_CreateTextureFromSurface(renderer,surface);
 }
 
