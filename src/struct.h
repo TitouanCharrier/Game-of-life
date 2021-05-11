@@ -81,6 +81,7 @@ typedef struct St_Var {
 	location loc;
 	TTF_Font *police;
 	TTF_Font *police40;
+	TTF_Font *policeNbr;
 	int timer;
 	int run;
 	int space;

@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <ctype.h>
 
+void test();
+
 //Loading / Saving : 
 void LoadCase(St_List *List,Grid *NumberOf);
 
@@ -42,6 +44,8 @@ void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *N
 int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
 int concat(int x, int y);
+
+int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols);
 
 //Printing : 
 void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
