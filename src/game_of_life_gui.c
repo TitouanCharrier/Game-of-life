@@ -2,7 +2,7 @@
 
 //Loading / Saving
 void LoadCase(St_List *List, Grid *NumberOf) {
-	List->Cases = malloc(NumberOf->Lines*sizeof (*List->Cases));
+	List->Cases = malloc(sizeof *List->Cases * NumberOf->Lines);
 	assert(List->Cases);
 	time_t t;
 	srand((unsigned) time(&t));
@@ -14,6 +14,28 @@ void LoadCase(St_List *List, Grid *NumberOf) {
 			List->Cases[i][j].posx = j;
 			List->Cases[i][j].posy = i;
 			//List->Cases[i][j].nextstate = rand()%2;
+			List->Cases[i][j].nextstate = 0;
+			List->Cases[i][j].state = 0;
+		}
+	}
+}
+
+void ReLoadCase(St_List *List, Grid *NumberOf) {
+	Case **ListTmp;
+	ListTmp = List->Cases;
+	List->Cases = realloc(ListTmp, sizeof *List->Cases * NumberOf->Lines);
+	assert(List->Cases);
+	
+	Case *Tmp;
+
+	printf("debug\n");
+	for (int i = 0; i < NumberOf->Lines; i++) {
+		List->Cases[i] = Tmp;
+		List->Cases[i] = realloc(Tmp, sizeof *List->Cases[i] * NumberOf->Cols);
+		assert(List->Cases[i]);
+		for (int j = 0; j < NumberOf->Cols; j++) {
+			List->Cases[i][j].posx = j;
+			List->Cases[i][j].posy = i;
 			List->Cases[i][j].nextstate = 0;
 			List->Cases[i][j].state = 0;
 		}
@@ -684,6 +706,13 @@ int concat(int x, int y) {
 	while(y >= buff)
 		buff *= 10;
 	return x * buff + y;
+}
+
+int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols) {
+	
+		NumberOf->Lines = NewLines;
+		NumberOf->Cols = NewCols;
+		ReLoadCase(List,NumberOf);
 }
 
 //Printing : 
