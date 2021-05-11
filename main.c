@@ -39,7 +39,6 @@ int main(int argc, char **argv) {
 	NumberOf->Cols = 50;
 	NumberOf->Buttons = 9;
 	NumberOf->ButtonLeft = 16;
-	NumberOf->ButtonSize = 8;
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
@@ -95,8 +94,7 @@ int main(int argc, char **argv) {
 	ChangeMapSize(List,NumberOf,10,10);
 
 	//init Buttons and error button
-	int total = (NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize);
-	List->Buttons = malloc(sizeof(*List->Buttons) * total);
+	List->Buttons = malloc((NumberOf->Buttons+NumberOf->ButtonLeft)*sizeof(Button));
 	assert(List->Buttons);
 	List->Error = malloc((NumberOf->Error)*sizeof(Button));
 	assert(List->Error);
@@ -105,7 +103,7 @@ int main(int argc, char **argv) {
 	//detect txt file loaded in stdin
 	if (isatty (STDIN_FILENO)) {
 		//init Cases
-		ReLoadCase(List,NumberOf);
+		LoadCase(List,NumberOf);
 		//load menu
 		LoadMap(List,NumberOf,"map/Menu.ins");
 	}

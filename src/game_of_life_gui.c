@@ -129,14 +129,6 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 	strcpy(List->Buttons[22].text, "Expantion");
 	strcpy(List->Buttons[23].text, "Loop");
 	strcpy(List->Buttons[24].text, "Load rle");
-	strcpy(List->Buttons[25].text, "500x500");
-	strcpy(List->Buttons[26].text, "400x400");
-	strcpy(List->Buttons[27].text, "200x200");
-	strcpy(List->Buttons[28].text, "100x100");
-	strcpy(List->Buttons[29].text, "50x50");
-	strcpy(List->Buttons[30].text, "10x10");
-	strcpy(List->Buttons[31].text, "Manuel");
-	strcpy(List->Buttons[32].text, "Grille");
 
 	strcpy(List->Error[0].text, "Augmentez la taille de votre carte dans les param?res");
 	strcpy(List->Error[1].text, "X");
@@ -160,24 +152,7 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 		List->Buttons[i].cornx = 10;
 		List->Buttons[i].corny = 10 + (i-NumberOf->Buttons)*MainVar->resy/20+(i-NumberOf->Buttons),List->Buttons[i].sizex;
 	}
-	
-	for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-		List->Buttons[i].state = 0;
-		List->Buttons[i].sizex = MainVar->resx/9;
-		List->Buttons[i].sizey = MainVar->resy/20;
-		List->Buttons[i].resx = MainVar->resx;
-		List->Buttons[i].resy = MainVar->resy;
-		List->Buttons[i].cornx = MainVar->resx-List->Buttons[i].sizex-10;
-		List->Buttons[i].corny = MainVar->resy-(30 + (i-(NumberOf->Buttons+NumberOf->ButtonLeft))*MainVar->resy/20+i);
 
-	}
-	
-	List->Buttons[32].cornx = 10;
-	List->Buttons[32].corny = MainVar->resy-(20+MainVar->resy/20);
-
-	List->Buttons[33].cornx = MainVar->resx-List->Buttons[33].sizex-10;
-	List->Buttons[33].corny = List->Buttons[8].corny + (List->Buttons[31].corny - List->Buttons[8].corny)/2;
-	
 	List->Buttons[4].state = 1;
 
 	//popup error
@@ -557,8 +532,6 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 }
 
 int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
-	
-	if (event->key.keysym.sym == SDLK_ESCAPE) MainVar->run = 0;
 
 	//start / Stop
 	if (event->key.keysym.sym == SDLK_SPACE && MainVar->space == 0) {
