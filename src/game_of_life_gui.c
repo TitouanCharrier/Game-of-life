@@ -8,27 +8,20 @@ void test() {
 
 //Loading / Saving
 void LoadCase(St_List *List, Grid *NumberOf) {
-	int *test = NULL;
-	printf("Load0\n");
-	test = malloc(800);
-	printf("Load1\n");
-	printf("%d, %d\n", NumberOf->Lines, sizeof(*List->Cases));
-	List->Cases = malloc(NumberOf->Lines*sizeof(*List->Cases));
-	printf("Load1.5\n");
+	
+	Case **ListTmp;
+	Case *Tmp;
+	ListTmp = List->Cases;
+	List->Cases = realloc(ListTmp, sizeof(*List->Cases) * NumberOf->Lines);
 	assert(List->Cases);
-	time_t t;
-	srand((unsigned) time(&t));
-	printf("Load2\n");
 	for (int i = 0; i < NumberOf->Lines; i++) {
-		List->Cases[i] = malloc(NumberOf->Cols*sizeof(*List->Cases[i]));
+		List->Cases[i] = realloc(Tmp, sizeof(*List->Cases[i]) * NumberOf->Cols);
 		assert(List->Cases[i]);
 		for (int j = 0; j < NumberOf->Cols; j++) {
 			List->Cases[i][j].posx = j;
 			List->Cases[i][j].posy = i;
-			//List->Cases[i][j].nextstate = rand()%2;
 			List->Cases[i][j].nextstate = 0;
 			List->Cases[i][j].state = 0;
-			printf("load3\n");
 		}
 	}
 

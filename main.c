@@ -94,25 +94,20 @@ int main(int argc, char **argv) {
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
 
-	printf("debug1\n");
 	test();
-	printf("test\n");
 	//init Buttons and error button
-	List->Buttons = malloc((NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize)*sizeof(*List->Buttons));
+	int total = (NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize);
+	List->Buttons = malloc(sizeof(*List->Buttons) * total);
 	assert(List->Buttons);
-	printf("Debug1.1\n");
 	List->Error = malloc((NumberOf->Error)*sizeof(*List->Buttons));
 	assert(List->Error);
-	printf("Debug1.2\n");
 	LoadButton(List,MainVar,NumberOf);
-	printf("Debug1.3\n");
 
 	//detect txt file loaded in stdin
 	if (isatty (STDIN_FILENO)) {
 		//init Cases
 
 		LoadCase(List,NumberOf);
-		printf("Debug1.4\n");
 		//load menu
 		if (NumberOf->Lines >= 400 && NumberOf->Cols >= 400 ) LoadMap(List,NumberOf,"map/MenuH.ins");
 		else LoadMap(List,NumberOf,"map/Menu.ins");
@@ -135,7 +130,6 @@ int main(int argc, char **argv) {
 
 	//setup scale
 	MainVar->loc.scale = HEIGHT/NumberOf->Lines;
-	printf("debug2\n");
 	//main loop
 	while (MainVar->run && List->Buttons[0].state == 0) {
 
