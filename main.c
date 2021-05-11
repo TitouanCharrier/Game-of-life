@@ -91,6 +91,8 @@ int main(int argc, char **argv) {
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
 
+	ChangeMapSize(List,NumberOf,10,10);
+
 	//init Buttons and error button
 	List->Buttons = malloc((NumberOf->Buttons+NumberOf->ButtonLeft)*sizeof(Button));
 	assert(List->Buttons);
