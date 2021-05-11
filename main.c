@@ -132,7 +132,7 @@ int main(int argc, char **argv) {
 
 
 	//main loop
-	while (MainVar->run && List->Buttons[0].state == 0) {
+	while (List->Buttons[0].state == 0) {
 		
 		//load events
 		SDL_PollEvent(&event);
