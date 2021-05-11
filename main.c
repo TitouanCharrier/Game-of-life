@@ -35,18 +35,17 @@ int main(int argc, char **argv) {
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
 
-	NumberOf->Lines = 100;
-	NumberOf->Cols = 100;
+	NumberOf->Lines = 50;
+	NumberOf->Cols = 50;
 	NumberOf->Buttons = 9;
 	NumberOf->ButtonLeft = 16;
 	NumberOf->ButtonSize = 8;
-
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
 
 	//load settings from file
-	//LoadSettings(NumberOf);
+	LoadSettings(NumberOf);
 
 	//List init
 	St_List List_v;
@@ -71,8 +70,7 @@ int main(int argc, char **argv) {
 	MainVar->resy = HEIGHT;
 	MainVar->loc.locy = 0;
 	MainVar->loc.locx = 0;
-	MainVar->police = TTF_OpenFont("fonts/HEMIHEAD.TTF", 20*HEIGHT/720);
-	MainVar->policeNbr = TTF_OpenFont("fonts/HEMIHEAD.TTF", 20*HEIGHT/720);
+	MainVar->police = TTF_OpenFont("fonts/HEMIHEAD.TTF", 18*HEIGHT/720);
 	MainVar->police40 = TTF_OpenFont("fonts/HEMIHEAD.TTF", 30*HEIGHT/720);
 	MainVar->limite = -1;
 	MainVar->ButtonChanged = 1;
@@ -96,8 +94,6 @@ int main(int argc, char **argv) {
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
 
-	ChangeMapSize(List,NumberOf,10,10);
-
 	//init Buttons and error button
 	List->Buttons = malloc(sizeof(*List->Buttons) * (NumberOf->Buttons+NumberOf->ButtonLeft));
 	assert(List->Buttons);
@@ -110,11 +106,9 @@ int main(int argc, char **argv) {
 	//detect txt file loaded in stdin
 	if (isatty (STDIN_FILENO)) {
 		//init Cases
-
 		LoadCase(List,NumberOf);
 		//load menu
-		if (NumberOf->Lines >= 400 && NumberOf->Cols >= 400 ) LoadMap(List,NumberOf,"map/MenuH.ins");
-		else LoadMap(List,NumberOf,"map/Menu.ins");
+		LoadMap(List,NumberOf,"map/MenuH.ins");
 	}
 	else {
 		if (LoadStdin(List,NumberOf,MainVar)) {
@@ -134,9 +128,12 @@ int main(int argc, char **argv) {
 
 	//setup scale
 	MainVar->loc.scale = HEIGHT/NumberOf->Lines;
+
+
+
 	//main loop
 	while (MainVar->run && List->Buttons[0].state == 0) {
-
+		
 		//load events
 		SDL_PollEvent(&event);
 
@@ -158,7 +155,7 @@ int main(int argc, char **argv) {
 
 			// for deleting cells
 			else if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
-				RemoveCell(renderer,Event,List,NumberOf,MainVar);
+			RemoveCell(renderer,Event,List,NumberOf,MainVar);
 			}
 		}
 

@@ -1,2 +1,2 @@
 Lignes : 400
-Colonnes : 400
+Colonnes : 500
