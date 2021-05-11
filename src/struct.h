@@ -51,6 +51,7 @@ typedef struct Grid {
 	int Buttons;
 	int Direction;
 	int ButtonLeft;
+	int ButtonSize;
 	int Time;
 	int Error;
 	long long int Gen;
