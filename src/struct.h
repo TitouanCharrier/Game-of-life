@@ -27,6 +27,7 @@ typedef struct Button {
 	int sizey;
 	char text[100];
 	int state;
+	int visual;
 	char img[14];
 	St_Color Color;
 	SDL_Rect Rect;
@@ -51,6 +52,7 @@ typedef struct Grid {
 	int Buttons;
 	int Direction;
 	int ButtonLeft;
+	int ButtonSize;
 	int Time;
 	int Error;
 	long long int Gen;
@@ -72,6 +74,7 @@ typedef struct St_List {
 	Button *Buttons;
 	Button *Direction;
 	Button *Error;
+	Button *ButtonSize;
 }St_List;
 
 typedef struct St_Var {
@@ -90,6 +93,7 @@ typedef struct St_Var {
 	int limite;
 	int begin;
 	int ButtonChanged;
+	int Ruled;
 	SDL_Texture *TexBack;
 	SDL_Rect RectBack;
 }St_Var;

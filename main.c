@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
 	NumberOf->Cols = 50;
 	NumberOf->Buttons = 9;
 	NumberOf->ButtonLeft = 16;
+	NumberOf->ButtonSize = 8;
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
 
 	List->Cases = NULL;
 	List->Buttons = NULL;
+	List->ButtonSize = NULL;
 
 	//Main variables
 	St_Var mainVar;
@@ -72,6 +74,7 @@ int main(int argc, char **argv) {
 	MainVar->police40 = TTF_OpenFont("fonts/arial.ttf", 30*HEIGHT/720);
 	MainVar->limite = -1;
 	MainVar->ButtonChanged = 1;
+	MainVar->Ruled = 0;
 
 	//States
 	St_State state;
@@ -94,8 +97,10 @@ int main(int argc, char **argv) {
 	ChangeMapSize(List,NumberOf,10,10);
 
 	//init Buttons and error button
-	List->Buttons = malloc((NumberOf->Buttons+NumberOf->ButtonLeft)*sizeof(Button));
+	List->Buttons = malloc(sizeof(*List->Buttons) * (NumberOf->Buttons+NumberOf->ButtonLeft));
 	assert(List->Buttons);
+	List->ButtonSize = malloc(sizeof(*List->ButtonSize) * NumberOf->ButtonSize);
+	assert(List->ButtonSize);
 	List->Error = malloc((NumberOf->Error)*sizeof(Button));
 	assert(List->Error);
 	LoadButton(List,MainVar,NumberOf);
