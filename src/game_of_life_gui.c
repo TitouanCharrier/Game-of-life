@@ -8,14 +8,32 @@ void test() {
 
 //Loading / Saving
 void LoadCase(St_List *List, Grid *NumberOf) {
-	
+	List->Cases = malloc(sizeof *List->Cases * NumberOf->Lines);
+	assert(List->Cases);
+
+	for (int i = 0; i < NumberOf->Lines; i++) {
+		List->Cases[i] = realloc(Tmp, sizeof(*List->Cases[i]) * NumberOf->Cols);
+		assert(List->Cases[i]);
+		for (int j = 0; j < NumberOf->Cols; j++) {
+			List->Cases[i][j].posx = j;
+			List->Cases[i][j].posy = i;
+
+			List->Cases[i][j].nextstate = 0;
+			List->Cases[i][j].state = 0;
+		}
+	}
+}
+
+void ReLoadCase(St_List *List, Grid *NumberOf) {
 	Case **ListTmp;
 	Case *Tmp;
 	ListTmp = List->Cases;
-	List->Cases = realloc(ListTmp, sizeof(*List->Cases) * NumberOf->Lines);
+	List->Cases = realloc(ListTmp, sizeof *List->Cases * NumberOf->Lines);
 	assert(List->Cases);
+
 	for (int i = 0; i < NumberOf->Lines; i++) {
-		List->Cases[i] = realloc(Tmp, sizeof(*List->Cases[i]) * NumberOf->Cols);
+		List->Cases[i] = Tmp;
+		List->Cases[i] = realloc(Tmp, sizeof *List->Cases[i] * NumberOf->Cols);
 		assert(List->Cases[i]);
 		for (int j = 0; j < NumberOf->Cols; j++) {
 			List->Cases[i][j].posx = j;
@@ -114,16 +132,14 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 	strcpy(List->Buttons[22].text, "Expantion");
 	strcpy(List->Buttons[23].text, "Loop");
 	strcpy(List->Buttons[24].text, "Load rle");
-	strcpy(List->Buttons[25].text, "1000x1000");
-	strcpy(List->Buttons[26].text, "500x500");
-	strcpy(List->Buttons[27].text, "400x400");
-	strcpy(List->Buttons[28].text, "200x200");
-	strcpy(List->Buttons[29].text, "100x100");
-	strcpy(List->Buttons[30].text, "50x50");
-	strcpy(List->Buttons[31].text, "10x10");
-	strcpy(List->Buttons[32].text, "Manuel");
-	strcpy(List->Buttons[33].text, "Grille");
-
+	strcpy(List->ButtonSize[0].text, "500x500");
+	strcpy(List->ButtonSize[1].text, "400x400");
+	strcpy(List->ButtonSize[2].text, "200x200");
+	strcpy(List->ButtonSize[3].text, "100x100");
+	strcpy(List->ButtonSize[4].text, " 50x50 ");
+	strcpy(List->ButtonSize[5].text, " 10x10 ");
+	strcpy(List->ButtonSize[6].text, "Manuel");
+	strcpy(List->ButtonSize[7].text, "Grille");
 
 	strcpy(List->Error[0].text, "Augmentez la taille de votre carte dans les parametres");
 	strcpy(List->Error[1].text, "X");
@@ -148,23 +164,24 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 		List->Buttons[i].corny = 10 + (i-NumberOf->Buttons)*MainVar->resy/20+(i-NumberOf->Buttons),List->Buttons[i].sizex;
 	}
 
-	for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize+1; i++) {
-		List->Buttons[i].state = 0;
-		List->Buttons[i].sizex = MainVar->resx/9;
-		List->Buttons[i].sizey = MainVar->resy/20;
-		List->Buttons[i].resx = MainVar->resx;
-		List->Buttons[i].resy = MainVar->resy;
-		List->Buttons[i].cornx = MainVar->resx-List->Buttons[i].sizex-10;
-		List->Buttons[i].corny = MainVar->resy-(30 + (i-(NumberOf->Buttons+NumberOf->ButtonLeft))*MainVar->resy/20+i);
-		List->Buttons[i].visual = 0;
+	for (int i=0; i<NumberOf->ButtonSize; i++) {
+		List->ButtonSize[i].state = 0;
+		List->ButtonSize[i].sizex = MainVar->resx/9;
+		List->ButtonSize[i].sizey = MainVar->resy/20;
+		List->ButtonSize[i].resx = MainVar->resx;
+		List->ButtonSize[i].resy = MainVar->resy;
+		List->ButtonSize[i].cornx = MainVar->resx-MainVar->resx/9-10;
+		List->ButtonSize[i].corny = MainVar->resy-(30+(i+1) * MainVar->resy/20 +i);
+		List->ButtonSize[i].visual = 0;
 
 	}
 
-	List->Buttons[32].cornx = 10;
-	List->Buttons[32].corny = MainVar->resy-(20+MainVar->resy/20);
+	List->ButtonSize[6].cornx = 10;
+	List->ButtonSize[6].corny = MainVar->resy-(20+MainVar->resy/20);
 
-	List->Buttons[33].cornx = MainVar->resx-List->Buttons[33].sizex-10;
-	List->Buttons[33].corny = List->Buttons[8].corny + (List->Buttons[31].corny - List->Buttons[8].corny)/2;
+	List->ButtonSize[7].cornx = MainVar->resx-List->ButtonSize[7].sizex-10;
+	List->ButtonSize[7].corny = List->Buttons[8].corny + (List->ButtonSize[5].corny - List->Buttons[8].corny)/2;
+
 
 	List->Buttons[4].state = 1;
 
@@ -289,6 +306,17 @@ int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
 		}
 	}
 
+	for (int j=0; j<NumberOf->ButtonSize; j++) {
+		if (List->ButtonSize[j].cornx <= event->button.x && event->button.x <= List->ButtonSize[j].cornx + List->ButtonSize[j].sizex
+		&& List->ButtonSize[j].corny <= event->button.y && event->button.y <= List->ButtonSize[j].corny+List->ButtonSize[j].sizey) {
+			if (List->ButtonSize[j].state == 0) List->ButtonSize[j].state = 1;
+			else if (j!= 4 && j!=5) List->ButtonSize[j].state = 0;
+			MainVar->click = 1;
+			MainVar->ButtonChanged = 1;
+			return 1;
+		}
+	}
+
 	if (List->Error[1].cornx <= event->button.x && event->button.x <= List->Error[1].cornx + List->Error[1].sizex
 	&& List->Error[1].corny <= event->button.y && event->button.y <= List->Error[1].corny+List->Error[1].sizey) {
 		if (List->Error[0].state == 0) List->Error[0].state = 1;
@@ -297,6 +325,8 @@ int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
 		MainVar->ButtonChanged = 1;
 		return 1;
 	}
+
+
 	return 0;
 }
 
@@ -544,104 +574,100 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
 			List->Buttons[i].visual = 0;
 		}
 		List->Buttons[24].visual = 1;
 		List->Buttons[24].state = 0; }
 
-	if (List->Buttons[25].state == 1) {
-		Clean(List,NumberOf);
-		ChangeMapSize(List,NumberOf,1000,1000);
-		PrintScene(renderer,List,MainVar,NumberOf);
-		MainVar->ButtonChanged = 1;
-		NumberOf->Gen = 0;
-		SDL_Delay(16);
-		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
-		}
-		List->Buttons[25].visual = 1;
-		List->Buttons[25].state = 0; }
-
-	if (List->Buttons[26].state == 1) {
+	if (List->ButtonSize[0].state == 1) {
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,500,500);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[26].visual = 1;
-		List->Buttons[26].state = 0; }
+		List->ButtonSize[0].visual = 1;
+		List->ButtonSize[0].state = 0; }
 
-	if (List->Buttons[27].state == 1) {
+	if (List->ButtonSize[1].state == 1) {
+
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,400,400);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[27].visual = 1;
-		List->Buttons[27].state = 0; }
+		List->ButtonSize[1].visual = 1;
+		List->ButtonSize[1].state = 0; }
 
-	if (List->Buttons[28].state == 1) {
+	if (List->ButtonSize[2].state == 1) {
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,200,200);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[28].visual = 1;
-		List->Buttons[28].state = 0; }
+		List->ButtonSize[2].visual = 1;
+		List->ButtonSize[2].state = 0; }
 
-	if (List->Buttons[29].state == 1) {
+	if (List->ButtonSize[3].state == 1) {
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,100,100);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[29].visual = 1;
-		List->Buttons[29].state = 0; }
+		List->ButtonSize[3].visual = 1;
+		List->ButtonSize[3].state = 0; }
 
-	if (List->Buttons[30].state == 1) {
+	if (List->ButtonSize[4].state == 1) {
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,50,50);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[30].visual = 1;
-		List->Buttons[30].state = 0; }
+		List->ButtonSize[4].visual = 1;
+		List->ButtonSize[4].state = 0; }
 
-	if (List->Buttons[31].state == 1) {
+	if (List->ButtonSize[5].state == 1) {
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,10,10);
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
+    
 		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[31].visual = 1;
-		List->Buttons[31].state = 0; }
+		List->ButtonSize[5].visual = 1;
+		List->ButtonSize[5].state = 0; }
 
-	if (List->Buttons[32].state == 1) {
+	if (List->ButtonSize[6].state == 1) {
+
 		Clean(List,NumberOf);
 		ChangeMapSize(List,NumberOf,400,400);
 		LoadMap(List,NumberOf,"map/MenuH.ins");
@@ -649,21 +675,22 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->loc.locx = 0;
 		MainVar->loc.locy = 0;
 		MainVar->timer = 0;
-		List->Buttons[8].state = 0;
+		List->ButtonSize[8].state = 0;
 		PrintScene(renderer,List,MainVar,NumberOf);
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-			List->Buttons[i].visual = 0;
+    
+		for (int i=0;i<NumberOf->ButtonSize; i++) {
+			List->ButtonSize[i].visual = 0;
 		}
-		List->Buttons[27].visual = 1;
-		List->Buttons[32].state = 0; }
+		List->ButtonSize[1].visual = 1;
+		List->ButtonSize[6].state = 0; }
 
-	if (List->Buttons[33].state == 1) {
+	if (List->ButtonSize[7].state == 1) {
 		MainVar->Ruled = 0;
 	}
-	else MainVar->Ruled = 2;
+	else MainVar->Ruled = 1;
 
 }
 
@@ -821,25 +848,9 @@ int concat(int x, int y) {
 
 int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols) {
 	
-	
-	if (NewCols>NumberOf->Cols || NewLines>NumberOf->Lines) {
 		NumberOf->Lines = NewLines;
 		NumberOf->Cols = NewCols;
-		LoadCase(List,NumberOf);
-	}
-	else {
-		NumberOf->Lines = NewLines;
-		NumberOf->Cols = NewCols;
-		for (int i = 0; i < NumberOf->Lines; i++) {
-			for (int j = 0; j < NumberOf->Cols; j++) {
-				List->Cases[i][j].posx = j;
-				List->Cases[i][j].posy = i;
-				List->Cases[i][j].nextstate = 0;
-				List->Cases[i][j].state = 0;
-			}
-		}
-	}
-	
+		ReLoadCase(List,NumberOf);
 }
 
 //Printing : 
@@ -875,7 +886,8 @@ void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *Num
 
 			SDL_Rect RectCase = {(List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(MainVar->resx/2-(MainVar->loc.scale+1)*NumberOf->Cols/2),
 								 (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+(MainVar->resy/2-(MainVar->loc.scale+1)*NumberOf->Lines/2),
-								  MainVar->loc.scale+MainVar->Ruled,MainVar->loc.scale+MainVar->Ruled};
+								  MainVar->loc.scale+2*MainVar->Ruled,MainVar->loc.scale+2*MainVar->Ruled};
+
 			SDL_RenderFillRect(renderer,&RectCase);
 		}
 	}
@@ -942,27 +954,27 @@ void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid 
 	}
 
 	//refresh button Size
-	for (int i=NumberOf->Buttons+NumberOf->ButtonLeft; i<NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize; i++) {
-		if (List->Buttons[i].state == 1 || List->Buttons[i].visual == 1) {
-			List->Buttons[i].Color.r = 255;
-			List->Buttons[i].Color.g = 80;
-			List->Buttons[i].Color.b = 0;
-			List->Buttons[i].Color.a = 255;
+	for (int i=0; i<NumberOf->ButtonSize; i++) {
+		if (List->ButtonSize[i].state == 1) {
+			List->ButtonSize[i].Color.r = 255;
+			List->ButtonSize[i].Color.g = 80;
+			List->ButtonSize[i].Color.b = 0;
+			List->ButtonSize[i].Color.a = 255;
 		}
 
 		else {
-			List->Buttons[i].Color.r = 60;
-			List->Buttons[i].Color.g = 60;
-			List->Buttons[i].Color.b = 60;
-			List->Buttons[i].Color.a = 255;
+			List->ButtonSize[i].Color.r = 60;
+			List->ButtonSize[i].Color.g = 60;
+			List->ButtonSize[i].Color.b = 60;
+			List->ButtonSize[i].Color.a = 255;
 		}
-		SDL_Rect RectButton = {List->Buttons[i].cornx,List->Buttons[i].corny,List->Buttons[i].sizex, List->Buttons[i].sizey};
-		TTF_SizeText(MainVar->policeNbr,List->Buttons[i].text,&w,&h);
-		SDL_Rect RectText = {List->Buttons[i].cornx+10,List->Buttons[i].corny+10,w,h};
-		SDL_Surface *surface = TTF_RenderText_Blended(MainVar->policeNbr,List->Buttons[i].text,White);
-		List->Buttons[i].Texture = SDL_CreateTextureFromSurface(renderer, surface);
-		List->Buttons[i].Rect = RectButton;
-		List->Buttons[i].RectText = RectText;
+		SDL_Rect RectButton = {List->ButtonSize[i].cornx,List->ButtonSize[i].corny,List->ButtonSize[i].sizex, List->ButtonSize[i].sizey};
+		TTF_SizeText(MainVar->police,List->ButtonSize[i].text,&w,&h);
+		SDL_Rect RectText = {List->ButtonSize[i].cornx+10,List->ButtonSize[i].corny+10,w,h};
+		SDL_Surface *surface = TTF_RenderText_Blended(MainVar->police,List->ButtonSize[i].text,White);
+		List->ButtonSize[i].Texture = SDL_CreateTextureFromSurface(renderer, surface);
+		List->ButtonSize[i].Rect = RectButton;
+		List->ButtonSize[i].RectText = RectText;
 		SDL_FreeSurface(surface);
 	}
 
@@ -978,6 +990,11 @@ void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *N
 		SDL_RenderCopy(renderer, List->Buttons[i].Texture, NULL, &List->Buttons[i].RectText);
 	}
 	
+	for (int i=0; i<NumberOf->ButtonSize; i++) {
+		SDL_SetRenderDrawColor(renderer,List->ButtonSize[i].Color.r,List->ButtonSize[i].Color.g,List->ButtonSize[i].Color.b,List->ButtonSize[i].Color.a);
+		SDL_RenderFillRect(renderer,&List->ButtonSize[i].Rect);
+		SDL_RenderCopy(renderer, List->ButtonSize[i].Texture, NULL, &List->ButtonSize[i].RectText);
+	}
 	
 }
 

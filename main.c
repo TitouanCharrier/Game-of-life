@@ -39,7 +39,8 @@ int main(int argc, char **argv) {
 	NumberOf->Cols = 100;
 	NumberOf->Buttons = 9;
 	NumberOf->ButtonLeft = 16;
-	NumberOf->ButtonSize = 9;
+	NumberOf->ButtonSize = 8;
+
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
@@ -53,6 +54,7 @@ int main(int argc, char **argv) {
 
 	List->Cases = NULL;
 	List->Buttons = NULL;
+	List->ButtonSize = NULL;
 
 	//Main variables
 	St_Var mainVar;
@@ -94,12 +96,14 @@ int main(int argc, char **argv) {
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
 
-	test();
+	ChangeMapSize(List,NumberOf,10,10);
+
 	//init Buttons and error button
-	int total = (NumberOf->Buttons+NumberOf->ButtonLeft+NumberOf->ButtonSize);
-	List->Buttons = malloc(sizeof(*List->Buttons) * total);
+	List->Buttons = malloc(sizeof(*List->Buttons) * (NumberOf->Buttons+NumberOf->ButtonLeft));
 	assert(List->Buttons);
-	List->Error = malloc((NumberOf->Error)*sizeof(*List->Buttons));
+	List->ButtonSize = malloc(sizeof(*List->ButtonSize) * NumberOf->ButtonSize);
+	assert(List->ButtonSize);
+	List->Error = malloc((NumberOf->Error)*sizeof(Button));
 	assert(List->Error);
 	LoadButton(List,MainVar,NumberOf);
 

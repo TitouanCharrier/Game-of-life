@@ -74,6 +74,7 @@ typedef struct St_List {
 	Button *Buttons;
 	Button *Direction;
 	Button *Error;
+	Button *ButtonSize;
 }St_List;
 
 typedef struct St_Var {
