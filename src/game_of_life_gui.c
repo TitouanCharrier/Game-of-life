@@ -99,22 +99,22 @@ void LoadMap(St_List *List, Grid *NumberOf, char name[]) {
 
 void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 
-	strcpy(List->Buttons[0].text, "Quitter" );
+	strcpy(List->Buttons[0].text, "Quitter");
 	strcpy(List->Buttons[1].text, "Nettoyer (r)");
 	strcpy(List->Buttons[2].text, "Copier (k)");
 	strcpy(List->Buttons[3].text, "Coller (l)");
-	strcpy(List->Buttons[4].text, "Thorique");
-	strcpy(List->Buttons[5].text, "Fermee");
+	strcpy(List->Buttons[4].text, "Thorique ");
+	strcpy(List->Buttons[5].text, "Fermee ");
 	strcpy(List->Buttons[6].text, "Plus Vite (p)");
 	strcpy(List->Buttons[7].text, "Moins Vite (m)");
-	strcpy(List->Buttons[8].text, "Lancer");
-	strcpy(List->Buttons[9].text, "Planeur");
+	strcpy(List->Buttons[8].text, "Lancer ");
+	strcpy(List->Buttons[9].text, "Planeur ");
 	strcpy(List->Buttons[10].text, "Cercle de Feu");
-	strcpy(List->Buttons[11].text, "Grenouille");
-	strcpy(List->Buttons[12].text, "Clignotant");
-	strcpy(List->Buttons[13].text, "Canon");
-	strcpy(List->Buttons[14].text, "Pulsar");
-	strcpy(List->Buttons[15].text, "JSP");
+	strcpy(List->Buttons[11].text, "Grenouille ");
+	strcpy(List->Buttons[12].text, "Clignotant ");
+	strcpy(List->Buttons[13].text, "Canon ");
+	strcpy(List->Buttons[14].text, "Pulsar ");
+	strcpy(List->Buttons[15].text, "JSP    ");
 	strcpy(List->Buttons[16].text, "Sharingan");
 	strcpy(List->Buttons[17].text, "Drift");
 	strcpy(List->Buttons[18].text, "Scorpion");
@@ -173,7 +173,6 @@ void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf) {
 
 	List->ButtonSize[7].cornx = MainVar->resx-List->ButtonSize[7].sizex-10;
 	List->ButtonSize[7].corny = List->Buttons[8].corny + (List->ButtonSize[5].corny - List->Buttons[8].corny)/2;
-	List->ButtonSize[7].state = 1;
 
 	List->Buttons[4].state = 1;
 
@@ -349,10 +348,10 @@ void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *N
 	while(event->type != SDL_MOUSEBUTTONUP) {
 		for (int i=0; i<NumberOf->Lines; i++) {
 			for (int j=0; j<NumberOf->Cols; j++) {
-				if ((List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) <= event->button.x
-				&& (List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resx/2-MainVar->loc.scale*NumberOf->Cols/2) >= event->button.x
-				&& (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) <= event->button.y
-				&& (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resy/2-MainVar->loc.scale*NumberOf->Lines/2) >= event->button.y) {
+				if ((List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+(MainVar->resx/2-(MainVar->loc.scale+1)*NumberOf->Cols/2) <= event->button.x
+				&& (List->Cases[i][j].posx+MainVar->loc.locx)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resx/2-(MainVar->loc.scale+1)*NumberOf->Cols/2) >= event->button.x
+				&& (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1) +(MainVar->resy/2-(MainVar->loc.scale+1)*NumberOf->Lines/2) <= event->button.y
+				&& (List->Cases[i][j].posy+MainVar->loc.locy)*(MainVar->loc.scale+1)+MainVar->loc.scale +(MainVar->resy/2-(MainVar->loc.scale+1)*NumberOf->Lines/2) >= event->button.y) {
 					List->Cases[i][j].nextstate = 0;
 					MainVar->timer =0;
 					PrintScene(renderer,List,MainVar,NumberOf);
@@ -673,7 +672,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
 	
 	//Quit
-	if (event->key.keysym.sym == SDLK_ESCAPE) List->Buttons[0].state = 1;
+	if (event->key.keysym.sym == SDLK_ESCAPE) MainVar->run = 0;
 
 	//start / Stop
 	if (event->key.keysym.sym == SDLK_SPACE && MainVar->space == 0) {
@@ -689,13 +688,6 @@ int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *
 		}
 		MainVar->space = 1;
 		return 1;
-	}
-
-	//Center
-	if (event->key.keysym.sym == SDLK_c) {
-		MainVar->loc.scale = MainVar->resy/NumberOf->Lines;
-		MainVar->loc.locx = 0;
-		MainVar->loc.locy = 0;
 	}
 
 	//reload
@@ -772,6 +764,12 @@ int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *
 void HandleKeyUp(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
 	//start stop
 	if (event->key.keysym.sym == SDLK_SPACE) MainVar->space = 0;
+
+	if (event->key.keysym.sym == SDLK_c) {
+		MainVar->loc.scale = MainVar->resy/NumberOf->Lines;
+		MainVar->loc.locx = 0;
+		MainVar->loc.locy = 0;
+	}
 
 	//Timer
 	if (event->key.keysym.sym == SDLK_m) {

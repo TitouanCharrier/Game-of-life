@@ -1,18 +1,59 @@
-# Game-of-life
+### Jeu de la vie
 
-Voici le jeu de la vie codé en C avec SDL2
+Voici le jeu de la vie codé en C
 
-Quand les cellules sont bleues le jeu est en pause, 
-Espace pour lancer
+##### Installation sous linux
 
-Cliquez sur les cases pour faire naître des cellules
+Ce programme requiert les librairies :
 
-ECHAP vous fera quitter le jeu
+1. SDL2
+2. SDL2_ttf
+3. assert
+4. time
+5. string
+6. unistd
+7. ctype
 
-Utilisez les flèches pour vous déplacer
+Les 5 dernières librairies sont probablement déjà dans votre système.
 
-Utilisez L-Ctrl et L-Shift pour zoomer
+une fois installé la commande 
+```
+make
+```
+lancera la compilation
 
-Utilisez r pour nettoyer
+##### Lancement
 
-Utilisez p et m pour contrôler le temps 
+Vous pouvez lancer le programme grâce à la commande 
+```
+./main
+```
+
+vous pouvez également utiliser 
+``` 
+./main < motif.txt
+```
+
+ou encore 
+```
+cat motif.txt | ./main
+```
+
+pour charger un motif particulier
+
+##### Utilisation
+
+Chacun des boutons de l'interface est cliquable.
+
+Vous avez également des raccourcis clavier a votre dispotition :
+
+ - CTRL (gauche) : dézoomer
+ - MAJ (gauche) : zoomer
+ - z,q,s,d ou les flèches directionnelles : se déplacer
+ - c : centrer
+ - p : accélérer la génération
+ - m : ralentir la génération
+ - k : copier le motif actuel dans le tampon
+ - l : coller le motif du tampon
+ - r : nettoyer la grille
+ - echap : quitter le jeu

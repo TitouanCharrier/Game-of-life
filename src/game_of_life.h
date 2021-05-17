@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include "struct.h"
 #include "game_of_life_gui.h"
-#include <pthread.h>
 
 void LoadSettings(Grid *NumberOf);
 
