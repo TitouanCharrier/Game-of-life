@@ -1,8 +1,8 @@
-### Jeu de la vie
+# Jeu de la vie
 
 Voici le jeu de la vie codé en C
 
-##### Installation sous linux
+### Installation sous linux
 
 Ce programme requiert les librairies :
 
@@ -22,7 +22,7 @@ make
 ```
 lancera la compilation
 
-##### Lancement
+### Lancement
 
 Vous pouvez lancer le programme grâce à la commande 
 ```
@@ -41,7 +41,7 @@ cat motif.txt | ./main
 
 pour charger un motif particulier
 
-##### Utilisation
+### Utilisation
 
 Chacun des boutons de l'interface est cliquable.
 
@@ -57,3 +57,8 @@ Vous avez également des raccourcis clavier a votre dispotition :
  - l : coller le motif du tampon
  - r : nettoyer la grille
  - echap : quitter le jeu
+
+### Notes
+
+Le jeu peut être très lent avec des grandes grilles
+en fonction de votre ordinateur
