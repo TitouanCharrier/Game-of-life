@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
 
 				//Down
 				if (event.wheel.y < 0) {
-					DispVar->Zm = -MainVar->loc.scale/5-1;
+					DispVar->Zm = -(MainVar->loc.scale/5+1);
 					event.wheel.y = 0;
 				} break;
 		}
