@@ -47,8 +47,7 @@ Chacun des boutons de l'interface est cliquable.
 
 Vous avez également des raccourcis clavier a votre dispotition :
 
- - CTRL (gauche) : dézoomer
- - MAJ (gauche) : zoomer
+ - Molette : zoomer / dézoomer
  - z,q,s,d ou les flèches directionnelles : se déplacer
  - c : centrer
  - p : accélérer la génération
