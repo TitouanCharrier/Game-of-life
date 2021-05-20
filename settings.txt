@@ -1,2 +1,8 @@
-Lignes : 400
-Colonnes : 400
+Lignes : 100
+Colonnes : 100
+Couleur dominante rouge : 255
+Couleur dominante vert : 80
+Couleur dominante bleu : 0
+Couleur secondaire rouge : 0
+Couleur secondaire vert : 150
+Couleur secondaire bleu : 255

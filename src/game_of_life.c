@@ -1,6 +1,6 @@
 #include "game_of_life.h"
 
-void LoadSettings(Grid *NumberOf) {
+void LoadSettings(Grid *NumberOf,St_Var *MainVar) {
 
 	FILE* MapFile = NULL;
 	MapFile = fopen("settings.txt", "r+");
@@ -8,6 +8,12 @@ void LoadSettings(Grid *NumberOf) {
 
 	fscanf(MapFile,"Lignes : %d\n",&NumberOf->Lines);
 	fscanf(MapFile,"Colonnes : %d\n",&NumberOf->Cols);
+	fscanf(MapFile,"Couleur dominante rouge : %d\n",&MainVar->MainColor.r);
+	fscanf(MapFile,"Couleur dominante vert : %d\n",&MainVar->MainColor.g);
+	fscanf(MapFile,"Couleur dominante bleu : %d\n",&MainVar->MainColor.b);
+	fscanf(MapFile,"Couleur secondaire rouge : %d\n",&MainVar->SecondColor.r);
+	fscanf(MapFile,"Couleur secondaire vert : %d\n",&MainVar->SecondColor.g);
+	fscanf(MapFile,"Couleur secondaire bleu : %d\n",&MainVar->SecondColor.b);
 
 	fclose(MapFile);
 }

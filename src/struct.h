@@ -96,6 +96,8 @@ typedef struct St_Var {
 	int Ruled;
 	SDL_Texture *TexBack;
 	SDL_Rect RectBack;
+	St_Color MainColor;
+	St_Color SecondColor;
 }St_Var;
 
 typedef struct St_Thread {

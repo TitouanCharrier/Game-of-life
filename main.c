@@ -4,6 +4,10 @@
 
 int main(int argc, char **argv) {
 
+	/*
+	Init SDL2 : ----------------------------------------------------------------
+	*/
+
 	//Starting SL2
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -27,6 +31,10 @@ int main(int argc, char **argv) {
 	window = SDL_CreateWindow("name",0,0,WIDTH,HEIGHT,0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+	/*
+	Define my variables : ------------------------------------------------------
+	*/
+
 	//set event var to store events
 	SDL_Event event;
 	SDL_Event *Event = &event;
@@ -35,17 +43,14 @@ int main(int argc, char **argv) {
 	Grid numberOf;
 	Grid *NumberOf = &numberOf;
 
-	NumberOf->Lines = 50;
-	NumberOf->Cols = 50;
+	NumberOf->Lines = 100;
+	NumberOf->Cols = 100;
 	NumberOf->Buttons = 9;
 	NumberOf->ButtonLeft = 16;
 	NumberOf->ButtonSize = 8;
 	NumberOf->Time = 10;
 	NumberOf->Error = 2;
 	NumberOf->Gen = 0;
-
-	//load settings from file
-	LoadSettings(NumberOf);
 
 	//List init
 	St_List List_v;
@@ -83,9 +88,6 @@ int main(int argc, char **argv) {
 	State->Map = 0;
 	State->Draw = 1;
 
-	//WIP
-	//Couple Compare;
-
 	//displacement var
 	Disp dispVar;
 	Disp *DispVar = &dispVar;
@@ -93,6 +95,13 @@ int main(int argc, char **argv) {
 	DispVar->Hzt = 0;
 	DispVar->Vtc = 0;
 	DispVar->Zm = 0;
+
+	/*
+	Initial loading : ----------------------------------------------------------
+	*/
+
+	//load settings from file
+	LoadSettings(NumberOf, MainVar);
 
 	//init Buttons and error button
 	List->Buttons = malloc(sizeof(*List->Buttons) * (NumberOf->Buttons+NumberOf->ButtonLeft));
@@ -108,7 +117,7 @@ int main(int argc, char **argv) {
 		//init Cases
 		LoadCase(List,NumberOf);
 		//load menu
-		LoadMap(List,NumberOf,"map/MenuH.ins");
+		LoadMap(List,NumberOf,"map/AnimeHi.ins");
 	}
 	else {
 		if (LoadStdin(List,NumberOf,MainVar)) {
@@ -129,73 +138,96 @@ int main(int argc, char **argv) {
 	//setup scale
 	MainVar->loc.scale = HEIGHT/NumberOf->Lines;
 
+	/*
+	Begining of the main loop : ------------------------------------------------
+	*/
 
-
-	//main loop
+	//Main loop
 	while (List->Buttons[0].state == 0 && MainVar->run == 1) {
 		
-		//load events
+		//Load events
 		SDL_PollEvent(&event);
 
-		if (event.type == SDL_QUIT) MainVar->run = 0;
 
-		//Detect Mouse Click
-		if (event.type == SDL_MOUSEBUTTONDOWN) {
-			if (event.button.button == SDL_BUTTON_LEFT && MainVar->click == 0) {
+		///Handle events///
+		switch(event.type) {
 
-				//delete error
-				List->Error[0].state = 0;
+			case SDL_QUIT :
+				MainVar->run = 0;
+				break;
 
-				if (FindButton(Event,List,NumberOf,MainVar)) {
-					goto ENDOFCHECK;
+			//Detect Mouse Click
+			case SDL_MOUSEBUTTONDOWN :
+				if (event.button.button == SDL_BUTTON_LEFT && MainVar->click == 0) {
+
+					//Delete error
+					List->Error[0].state = 0;
+	
+					if (FindButton(Event,List,NumberOf,MainVar)) break;				
+	
+					PlaceCell(renderer,Event,List,NumberOf,MainVar);
+				} break;
+
+			//for deleting cells
+			case SDL_BUTTON_RIGHT : 
+				if (MainVar->click == 0) {
+					RemoveCell(renderer,Event,List,NumberOf,MainVar);
+				} break;
+
+			//Detect Mouse released
+			case SDL_MOUSEBUTTONUP :
+				if (event.button.button == SDL_BUTTON_LEFT) MainVar->click = 0;
+				break;
+			
+			//Detect keys pressed
+			case SDL_KEYDOWN :
+				if (HandleKeyDown(renderer,List,MainVar,NumberOf,Event,DispVar)) {
+					MainVar->ButtonChanged = 1;
+				} break;
+
+			//Detect keys released
+			case SDL_KEYUP :
+				HandleKeyUp(List,MainVar,NumberOf,Event,DispVar);
+				break;
+
+			//Detect mouse scroll
+			case SDL_MOUSEWHEEL :
+			
+				//Up
+				if (event.wheel.y > 0) {
+					DispVar->Zm = MainVar->loc.scale/5+1;
+					event.wheel.y = 0;
+					break;
 				}
 
-				PlaceCell(renderer,Event,List,NumberOf,MainVar);
-			}
-
-			// for deleting cells
-			else if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
-			RemoveCell(renderer,Event,List,NumberOf,MainVar);
-			}
+				//Down
+				if (event.wheel.y < 0) {
+					DispVar->Zm = -MainVar->loc.scale/5-1;
+					event.wheel.y = 0;
+				} break;
 		}
-
-		ENDOFCHECK:
-
-		// Detect Mouse released
-		if (event.type == SDL_MOUSEBUTTONUP) {
-			if (event.button.button == SDL_BUTTON_LEFT) MainVar->click = 0;
-		}
-
-		//detect keys pressed
-		if (event.type == SDL_KEYDOWN) {
-
-			if (HandleKeyDown(renderer,List,MainVar,NumberOf,Event,DispVar)) {
-				MainVar->ButtonChanged = 1;
-			}
-		}
-
-		//detect keys released
-		if (event.type == SDL_KEYUP) {
-
-			HandleKeyUp(renderer,List,MainVar,NumberOf,Event,DispVar);
-		}
+		
+		///Main part///
 
 		//Functions to execute by buttons
-		ButtonFunc(renderer, List, NumberOf, State, MainVar, DispVar);
+		ButtonFunc(renderer, List, NumberOf, State, MainVar);
 
-		//displacement
+		//Update displacement
 		MainVar->loc.locx += DispVar->Hzt;
 		MainVar->loc.locy += DispVar->Vtc;
 		MainVar->loc.scale += DispVar->Zm;
 
-		//Change speed button state
+		//Reset zoom to 0
+		DispVar->Zm = 0;
+
+		//Change speed button's state
 		if (NumberOf->Time == 1) {
 			strcpy(List->Buttons[6].text, "Vitesse Max");
 			List->Buttons[6].state = 1;
 		}
 		else strcpy(List->Buttons[6].text, "Plus Vite (p)");
 
-		//stop when reach limite
+		//Stop when reach limite
 		if (NumberOf->Gen == MainVar->limite) {
 			MainVar->timer = 0;
 			MainVar->limite = -1;
@@ -203,14 +235,14 @@ int main(int argc, char **argv) {
 			List->Buttons[8].state = 0;
 		}
 
-		//update life position
+		//Update life position
 		if (MainVar->timer >= NumberOf->Time) {
 			if (State->Map == 0) LifeThor(List, NumberOf);
 			else LifeClosed(List, NumberOf);
 			NumberOf->Gen ++;
 			MainVar->timer = 1;
 		}
-		//print the entire screen
+		//Print the entire screen
 		if (MainVar->timer != 0) MainVar->timer ++;
 		PrintScene(renderer,List,MainVar,NumberOf);
 	}
