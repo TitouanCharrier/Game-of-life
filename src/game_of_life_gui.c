@@ -813,13 +813,12 @@ void PrintScene(SDL_Renderer *renderer,St_List *List, St_Var *MainVar, Grid *Num
 	SDL_SetRenderDrawColor(renderer, 80,80,80,255);
 	SDL_RenderClear(renderer);
 
-	SDL_Color White = {255,255,255};
 	SDL_RenderCopy(renderer,MainVar->TexBack,NULL,&MainVar->RectBack);
 	PrintCases(renderer,List,MainVar,NumberOf);
-	if (MainVar->ButtonChanged) RefreshButtons(renderer,List,MainVar,NumberOf,White);
-	PrintButtons(renderer,List,MainVar,NumberOf,White);
-	PrintCount(renderer,List,MainVar,NumberOf,White);
-	PrintError(renderer,List,MainVar,NumberOf,White);
+	if (MainVar->ButtonChanged) RefreshButtons(renderer,List,MainVar,NumberOf);
+	PrintButtons(renderer,List,MainVar,NumberOf);
+	PrintCount(renderer,List,MainVar,NumberOf);
+	PrintError(renderer,List,MainVar,NumberOf);
 
 	SDL_RenderPresent(renderer);
 }
@@ -845,10 +844,11 @@ void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *Num
 	}
 }
 
-void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White) {
+void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf) {
 
 	int w;
 	int h;
+	SDL_Color White = {255,255,255,255};
 
 	//refresh button right
 	for (int i=0; i<NumberOf->Buttons; i++) {
@@ -934,7 +934,11 @@ void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid 
 
 }
 
-void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White) {
+void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf) {
+
+	//define text color
+	SDL_Color White = {255,255,255,255};
+
 	//Print Buttons part 1
 	for (int i=0; i<NumberOf->Buttons+NumberOf->ButtonLeft; i++) {
 		SDL_SetRenderDrawColor(renderer,List->Buttons[i].Color.r,List->Buttons[i].Color.g,List->Buttons[i].Color.b,List->Buttons[i].Color.a);
@@ -949,8 +953,10 @@ void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *N
 	}
 }
 
-void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White){
+void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf){
 	
+	SDL_Color White = {255,255,255,255};
+
 	//Print Count Generations
 	char CharGen[30];
 	sprintf(CharGen, "%d", NumberOf->Gen);
@@ -966,8 +972,10 @@ void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *Num
 	SDL_FreeSurface(surface);
 }
 
-void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White) {
-		
+void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf) {
+	
+	SDL_Color White = {255,255,255,255};
+
 	int w;
 	int h;
 

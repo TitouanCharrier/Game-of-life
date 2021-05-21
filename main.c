@@ -233,6 +233,7 @@ int main(int argc, char **argv) {
 			MainVar->limite = -1;
 			strcpy(List->Buttons[8].text,"Lancer");
 			List->Buttons[8].state = 0;
+			RefreshButtons(renderer,List,MainVar,NumberOf);
 		}
 
 		//Update life position

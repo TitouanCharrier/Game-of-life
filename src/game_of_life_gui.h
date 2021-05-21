@@ -77,16 +77,16 @@ void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *Num
 
 //Called when an action change a button to avoid charging texture all the time
 //Change buttons attributes
-void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 //Place and write on the renderer the Buttons
-void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 //Place and write on the renderer the Counter
-void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 //Place and write on the renderer the Errors
-void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf, SDL_Color White);
+void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 /*
 //Cleaning : -------------------------------------------------------------------
