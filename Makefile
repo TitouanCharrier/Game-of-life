@@ -1,6 +1,6 @@
 PROG := main
 CC := gcc
-CFLAGS := -Wall -Wextra -g -O -std=c99 
+CFLAGS := -g -O -std=c99 
 CFLAGS += $(shell pkg-config --cflags SDL2_ttf)
 LDFLAGS := $(shell pkg-config --libs SDL2_ttf)
 
