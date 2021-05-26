@@ -166,11 +166,10 @@ int main(int argc, char **argv) {
 					if (FindButton(Event,List,NumberOf,MainVar)) break;				
 	
 					PlaceCell(renderer,Event,List,NumberOf,MainVar);
-				} break;
+				}
 
-			//for deleting cells
-			case SDL_BUTTON_RIGHT : 
-				if (MainVar->click == 0) {
+				//for deleting cells
+				if (event.button.button == SDL_BUTTON_RIGHT && MainVar->click == 0) {
 					RemoveCell(renderer,Event,List,NumberOf,MainVar);
 				} break;
 

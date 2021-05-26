@@ -362,7 +362,6 @@ void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *N
 				}
 			}
 		}
-		SDL_Delay(10);
 		SDL_PollEvent(event);
 	}
 }
@@ -575,7 +574,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[0].visual = 1;
@@ -588,7 +587,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[1].visual = 1;
@@ -601,7 +600,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[2].visual = 1;
@@ -614,7 +613,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[3].visual = 1;
@@ -627,7 +626,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[4].visual = 1;
@@ -640,7 +639,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[5].visual = 1;
@@ -659,7 +658,7 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 		MainVar->ButtonChanged = 1;
 		NumberOf->Gen = 0;
 		SDL_Delay(16);
-		for (int i=0; i<NumberOf->ButtonSize; i++) {
+		for (int i=0; i<NumberOf->ButtonSize-1; i++) {
 			List->ButtonSize[i].visual = 0;
 		}
 		List->ButtonSize[1].visual = 1;
@@ -667,8 +666,12 @@ void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State 
 
 	if (List->ButtonSize[7].state == 1) {
 		MainVar->Ruled = 0;
+		List->ButtonSize[7].visual = 1;
 	}
-	else MainVar->Ruled = 1;
+	else {
+		MainVar->Ruled = 1;
+		List->ButtonSize[7].visual = 0;
+	}
 }
 
 int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
