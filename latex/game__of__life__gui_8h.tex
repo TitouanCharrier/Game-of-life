@@ -1,0 +1,590 @@
+\hypertarget{game__of__life__gui_8h}{}\doxysection{game\+\_\+of\+\_\+life\+\_\+gui.\+h File Reference}
+\label{game__of__life__gui_8h}\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+
+
+Define all function to setup the graphical user interface.  
+
+
+{\ttfamily \#include \char`\"{}struct.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$SDL2/\+SDL.\+h$>$}\newline
+{\ttfamily \#include $<$SDL2/\+SDL\+\_\+ttf.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{game__of__life__gui_8h_a1daf785e3f68d293c7caa1c756d5cb74}\label{game__of__life__gui_8h_a1daf785e3f68d293c7caa1c756d5cb74}} 
+\#define {\bfseries pi}~3.\+1415926535897932384626433
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a0a6147e400f8be409d19388da2f9cb9e}{Load\+Case}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Allocate a 2D array containing the main grid. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a138c710ecc862e5bec03f0dfd3bc2b0c}{Save\+Map}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, char name\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Copie the actual states of cases on a file (format .ins) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a48237ce5299798362a071120624422a1}{Load\+Map}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, char name\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Change the actual state of cases to match a file.\+ins. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a118d5d941f870cb45c9299ea4c755ee2}{Load\+Button}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Allocate and define all buttons used for the interface. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_ab2add1b567d12812bed7fec781f35b39}{Load\+Rle}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, char name\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Change the actual state of cases to match a file.\+rle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_af0e3e2a2cd5029bfdf3b85dcf186b67d}{Load\+Background}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Define the Background. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game__of__life__gui_8h_af4956d49bbc8a4f680a9ffe16c6eb192}{Find\+Button}} (SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Search the button matching the mouse coords. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a25495bb73f6d9d8b87621ebca4174bb2}{Place\+Cell}} (SDL\+\_\+\+Renderer $\ast$renderer, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Search the \mbox{\hyperlink{structCase}{Case}} matching the mouse coords once done, set its state on. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a7aed99649690406613da92a4e90c3913}{Remove\+Cell}} (SDL\+\_\+\+Renderer $\ast$renderer, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Search the \mbox{\hyperlink{structCase}{Case}} matching the mouse coords once done, set its state off. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_af27d1fa588e6fbbe9ace9042108c93a5}{Button\+Func}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__State}{St\+\_\+\+State}} $\ast$State, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Define all actions which buttons must perform. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a3ddccd96b94bfddcb031734788332bda}{Handle\+Key\+Up}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structDisp}{Disp}} $\ast$Disp\+Var)
+\begin{DoxyCompactList}\small\item\em Define all actions which keys (released) must perform. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game__of__life__gui_8h_a562fa800da03fc6cd940e675b733e6b3}{Handle\+Key\+Down}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structDisp}{Disp}} $\ast$Disp\+Var)
+\begin{DoxyCompactList}\small\item\em Define all actions which keys (pressed) must perform. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a1ae3905edf0ac48467b1e708f4556ee4}{Change\+Map\+Size}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, int New\+Lines, int New\+Cols)
+\begin{DoxyCompactList}\small\item\em Reallocate \mbox{\hyperlink{structCase}{Case}} array to match desired size. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game__of__life__gui_8h_a71e8f98b526ac713d371b0068eae998b}{concat}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em NOT my function, I take it on internet. It just concatenate 2 int. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_ac1b60985c01297dd517d576121c16d30}{Print\+Scene}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Call all function begining by \char`\"{}\+Print\char`\"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_aa4a884d0d5244729f59e3fe0d71249a2}{Print\+Cases}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Place and write on the renderer the cases. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a344bb922c8d943bd8d6fe315ddbe873a}{Refresh\+Buttons}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Called when an action change a button to avoid charging texture each time. Change buttons attributes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a67d45b34e3a6c8cb2e84384cf3cc486b}{Print\+Buttons}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Place and write on the renderer the Buttons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_afa705e5c656834584a2dbbc4b4e62861}{Print\+Count}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Place and write on the renderer the Counter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a072066683d3bfc06dc4f1c88a5ddb54a}{Print\+Error}} (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Place and write on the renderer the Errors. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life__gui_8h_a0ca890ae7825e354c12a0ff39ff5e413}{Clean}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Reset all cases\textquotesingle{}s state to 0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCouple}{Couple}} \mbox{\hyperlink{game__of__life__gui_8h_a04486cf933edcfcb193e6e05b138be4a}{Compare\+Chunk}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var, int sourx, int soury)
+\begin{DoxyCompactList}\small\item\em This is an other methode to find a clicked case. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define all function to setup the graphical user interface. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{game__of__life__gui_8h_af27d1fa588e6fbbe9ace9042108c93a5}\label{game__of__life__gui_8h_af27d1fa588e6fbbe9ace9042108c93a5}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!ButtonFunc@{ButtonFunc}}
+\index{ButtonFunc@{ButtonFunc}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{ButtonFunc()}{ButtonFunc()}}
+{\footnotesize\ttfamily void Button\+Func (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__State}{St\+\_\+\+State}} $\ast$}]{State,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Define all actions which buttons must perform. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 5 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__State}{St\+\_\+\+State}} $\ast$\+State, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a1ae3905edf0ac48467b1e708f4556ee4}\label{game__of__life__gui_8h_a1ae3905edf0ac48467b1e708f4556ee4}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!ChangeMapSize@{ChangeMapSize}}
+\index{ChangeMapSize@{ChangeMapSize}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{ChangeMapSize()}{ChangeMapSize()}}
+{\footnotesize\ttfamily void Change\+Map\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{int}]{New\+Lines,  }\item[{int}]{New\+Cols }\end{DoxyParamCaption})}
+
+
+
+Reallocate \mbox{\hyperlink{structCase}{Case}} array to match desired size. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, int New\+Lines, int New\+Cols) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a0ca890ae7825e354c12a0ff39ff5e413}\label{game__of__life__gui_8h_a0ca890ae7825e354c12a0ff39ff5e413}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!Clean@{Clean}}
+\index{Clean@{Clean}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{Clean()}{Clean()}}
+{\footnotesize\ttfamily void Clean (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Reset all cases\textquotesingle{}s state to 0. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a04486cf933edcfcb193e6e05b138be4a}\label{game__of__life__gui_8h_a04486cf933edcfcb193e6e05b138be4a}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!CompareChunk@{CompareChunk}}
+\index{CompareChunk@{CompareChunk}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{CompareChunk()}{CompareChunk()}}
+{\footnotesize\ttfamily void Compare\+Chunk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{int}]{sourx,  }\item[{int}]{soury }\end{DoxyParamCaption})}
+
+
+
+This is an other methode to find a clicked case. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 5 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, int sourx, int soury) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structCouple}{Couple}} of coordinates
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+We divide the grid in 4 chunk, check if the click is inside one Then repeat the operation until we find the case in theorie that work, in fact I havent succed. 
+\end{DoxyRemark}
+\mbox{\Hypertarget{game__of__life__gui_8h_a71e8f98b526ac713d371b0068eae998b}\label{game__of__life__gui_8h_a71e8f98b526ac713d371b0068eae998b}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!concat@{concat}}
+\index{concat@{concat}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{concat()}{concat()}}
+{\footnotesize\ttfamily int concat (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+NOT my function, I take it on internet. It just concatenate 2 int. 
+
+\begin{DoxyAuthor}{Author}
+Internet
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (int x, int y) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+concatenation of the 2 integers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_af4956d49bbc8a4f680a9ffe16c6eb192}\label{game__of__life__gui_8h_af4956d49bbc8a4f680a9ffe16c6eb192}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!FindButton@{FindButton}}
+\index{FindButton@{FindButton}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{FindButton()}{FindButton()}}
+{\footnotesize\ttfamily void Find\+Button (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Event $\ast$}]{event,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Search the button matching the mouse coords. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a562fa800da03fc6cd940e675b733e6b3}\label{game__of__life__gui_8h_a562fa800da03fc6cd940e675b733e6b3}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!HandleKeyDown@{HandleKeyDown}}
+\index{HandleKeyDown@{HandleKeyDown}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{HandleKeyDown()}{HandleKeyDown()}}
+{\footnotesize\ttfamily int Handle\+Key\+Down (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{SDL\+\_\+\+Event $\ast$}]{event,  }\item[{\mbox{\hyperlink{structDisp}{Disp}} $\ast$}]{Disp\+Var }\end{DoxyParamCaption})}
+
+
+
+Define all actions which keys (pressed) must perform. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 6 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structDisp}{Disp}} $\ast$\+Disp\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if a key is detected 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a3ddccd96b94bfddcb031734788332bda}\label{game__of__life__gui_8h_a3ddccd96b94bfddcb031734788332bda}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!HandleKeyUp@{HandleKeyUp}}
+\index{HandleKeyUp@{HandleKeyUp}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{HandleKeyUp()}{HandleKeyUp()}}
+{\footnotesize\ttfamily void Handle\+Key\+Up (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{SDL\+\_\+\+Event $\ast$}]{event,  }\item[{\mbox{\hyperlink{structDisp}{Disp}} $\ast$}]{Disp\+Var }\end{DoxyParamCaption})}
+
+
+
+Define all actions which keys (released) must perform. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 5 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structDisp}{Disp}} $\ast$\+Disp\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_af0e3e2a2cd5029bfdf3b85dcf186b67d}\label{game__of__life__gui_8h_af0e3e2a2cd5029bfdf3b85dcf186b67d}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!LoadBackground@{LoadBackground}}
+\index{LoadBackground@{LoadBackground}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{LoadBackground()}{LoadBackground()}}
+{\footnotesize\ttfamily void Load\+Background (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Define the Background. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a118d5d941f870cb45c9299ea4c755ee2}\label{game__of__life__gui_8h_a118d5d941f870cb45c9299ea4c755ee2}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!LoadButton@{LoadButton}}
+\index{LoadButton@{LoadButton}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{LoadButton()}{LoadButton()}}
+{\footnotesize\ttfamily void Load\+Button (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Allocate and define all buttons used for the interface. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 3 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a0a6147e400f8be409d19388da2f9cb9e}\label{game__of__life__gui_8h_a0a6147e400f8be409d19388da2f9cb9e}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!LoadCase@{LoadCase}}
+\index{LoadCase@{LoadCase}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{LoadCase()}{LoadCase()}}
+{\footnotesize\ttfamily void Load\+Case (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Allocate a 2D array containing the main grid. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a48237ce5299798362a071120624422a1}\label{game__of__life__gui_8h_a48237ce5299798362a071120624422a1}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!LoadMap@{LoadMap}}
+\index{LoadMap@{LoadMap}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{LoadMap()}{LoadMap()}}
+{\footnotesize\ttfamily void Load\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{char}]{name\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Change the actual state of cases to match a file.\+ins. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 3 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, char name\mbox{[}\mbox{]}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_ab2add1b567d12812bed7fec781f35b39}\label{game__of__life__gui_8h_ab2add1b567d12812bed7fec781f35b39}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!LoadRle@{LoadRle}}
+\index{LoadRle@{LoadRle}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{LoadRle()}{LoadRle()}}
+{\footnotesize\ttfamily void Load\+Rle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{char}]{name\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Change the actual state of cases to match a file.\+rle. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 3 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, char name\mbox{[}\mbox{]}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a25495bb73f6d9d8b87621ebca4174bb2}\label{game__of__life__gui_8h_a25495bb73f6d9d8b87621ebca4174bb2}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PlaceCell@{PlaceCell}}
+\index{PlaceCell@{PlaceCell}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PlaceCell()}{PlaceCell()}}
+{\footnotesize\ttfamily void Place\+Cell (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{SDL\+\_\+\+Event $\ast$}]{event,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Search the \mbox{\hyperlink{structCase}{Case}} matching the mouse coords once done, set its state on. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 5 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a67d45b34e3a6c8cb2e84384cf3cc486b}\label{game__of__life__gui_8h_a67d45b34e3a6c8cb2e84384cf3cc486b}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PrintButtons@{PrintButtons}}
+\index{PrintButtons@{PrintButtons}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PrintButtons()}{PrintButtons()}}
+{\footnotesize\ttfamily void Print\+Buttons (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Place and write on the renderer the Buttons. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_aa4a884d0d5244729f59e3fe0d71249a2}\label{game__of__life__gui_8h_aa4a884d0d5244729f59e3fe0d71249a2}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PrintCases@{PrintCases}}
+\index{PrintCases@{PrintCases}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PrintCases()}{PrintCases()}}
+{\footnotesize\ttfamily void Print\+Cases (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Place and write on the renderer the cases. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_afa705e5c656834584a2dbbc4b4e62861}\label{game__of__life__gui_8h_afa705e5c656834584a2dbbc4b4e62861}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PrintCount@{PrintCount}}
+\index{PrintCount@{PrintCount}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PrintCount()}{PrintCount()}}
+{\footnotesize\ttfamily void Print\+Count (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Place and write on the renderer the Counter. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a072066683d3bfc06dc4f1c88a5ddb54a}\label{game__of__life__gui_8h_a072066683d3bfc06dc4f1c88a5ddb54a}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PrintError@{PrintError}}
+\index{PrintError@{PrintError}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PrintError()}{PrintError()}}
+{\footnotesize\ttfamily void Print\+Error (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Place and write on the renderer the Errors. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_ac1b60985c01297dd517d576121c16d30}\label{game__of__life__gui_8h_ac1b60985c01297dd517d576121c16d30}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!PrintScene@{PrintScene}}
+\index{PrintScene@{PrintScene}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{PrintScene()}{PrintScene()}}
+{\footnotesize\ttfamily void Print\+Scene (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Call all function begining by \char`\"{}\+Print\char`\"{}. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a344bb922c8d943bd8d6fe315ddbe873a}\label{game__of__life__gui_8h_a344bb922c8d943bd8d6fe315ddbe873a}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!RefreshButtons@{RefreshButtons}}
+\index{RefreshButtons@{RefreshButtons}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{RefreshButtons()}{RefreshButtons()}}
+{\footnotesize\ttfamily void Refresh\+Buttons (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Called when an action change a button to avoid charging texture each time. Change buttons attributes. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 4 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List,\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a7aed99649690406613da92a4e90c3913}\label{game__of__life__gui_8h_a7aed99649690406613da92a4e90c3913}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!RemoveCell@{RemoveCell}}
+\index{RemoveCell@{RemoveCell}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{RemoveCell()}{RemoveCell()}}
+{\footnotesize\ttfamily void Remove\+Cell (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{SDL\+\_\+\+Event $\ast$}]{event,  }\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Search the \mbox{\hyperlink{structCase}{Case}} matching the mouse coords once done, set its state off. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 5 \\
+\hline
+{\em argv} & \+: (SDL\+\_\+\+Renderer $\ast$renderer, SDL\+\_\+\+Event $\ast$event, \mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life__gui_8h_a138c710ecc862e5bec03f0dfd3bc2b0c}\label{game__of__life__gui_8h_a138c710ecc862e5bec03f0dfd3bc2b0c}} 
+\index{game\_of\_life\_gui.h@{game\_of\_life\_gui.h}!SaveMap@{SaveMap}}
+\index{SaveMap@{SaveMap}!game\_of\_life\_gui.h@{game\_of\_life\_gui.h}}
+\doxysubsubsection{\texorpdfstring{SaveMap()}{SaveMap()}}
+{\footnotesize\ttfamily void Save\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{char}]{name\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Copie the actual states of cases on a file (format .ins) 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 3 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, char name\mbox{[}\mbox{]}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}

@@ -1,0 +1,61 @@
+Voici le jeu de la vie codé en C\hypertarget{md_README_autotoc_md1}{}\doxysubsection{Installation sous linux}\label{md_README_autotoc_md1}
+Ce programme requiert les librairies \+:
+
+
+\begin{DoxyEnumerate}
+\item SDL2
+\item SDL2\+\_\+ttf
+\item assert
+\item time
+\item string
+\item unistd
+\item ctype
+\end{DoxyEnumerate}
+
+Les 5 dernières librairies sont probablement déjà dans votre système.
+
+une fois installé la commande 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+ lancera la compilation\hypertarget{md_README_autotoc_md2}{}\doxysubsection{Lancement}\label{md_README_autotoc_md2}
+Vous pouvez lancer le programme grâce à la commande 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./main}
+
+\end{DoxyCode}
+
+
+vous pouvez également utiliser 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./main < motif.txt}
+
+\end{DoxyCode}
+
+
+ou encore 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cat motif.txt | ./main}
+
+\end{DoxyCode}
+
+
+pour charger un motif particulier\hypertarget{md_README_autotoc_md3}{}\doxysubsection{Utilisation}\label{md_README_autotoc_md3}
+Chacun des boutons de l\textquotesingle{}interface est cliquable.
+
+Vous avez également des raccourcis clavier a votre dispotition \+:
+
+
+\begin{DoxyItemize}
+\item Molette \+: zoomer / dézoomer
+\item z,q,s,d ou les flèches directionnelles \+: se déplacer
+\item c \+: centrer
+\item p \+: accélérer la génération
+\item m \+: ralentir la génération
+\item k \+: copier le motif actuel dans le tampon
+\item l \+: coller le motif du tampon
+\item r \+: nettoyer la grille
+\item echap \+: quitter le jeu
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysubsection{Notes}\label{md_README_autotoc_md4}
+Le jeu peut être très lent avec des grandes grilles en fonction de votre ordinateur 

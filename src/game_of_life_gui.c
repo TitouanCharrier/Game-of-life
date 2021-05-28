@@ -752,6 +752,8 @@ int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *
 		MainVar->pressed = 1;
 		return 1;
 	}
+
+	return 0;
 }
 
 void HandleKeyUp(St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar) {
@@ -792,11 +794,11 @@ void HandleKeyUp(St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *even
 	}
 }
 
-int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols) {
+void ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols) {
 	
-		NumberOf->Lines = NewLines;
-		NumberOf->Cols = NewCols;
-		ReLoadCase(List,NumberOf);
+	NumberOf->Lines = NewLines;
+	NumberOf->Cols = NewCols;
+	ReLoadCase(List,NumberOf);
 }
 
 int concat(int x, int y) {

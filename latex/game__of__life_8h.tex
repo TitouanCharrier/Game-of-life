@@ -1,0 +1,125 @@
+\hypertarget{game__of__life_8h}{}\doxysection{game\+\_\+of\+\_\+life.\+h File Reference}
+\label{game__of__life_8h}\index{game\_of\_life.h@{game\_of\_life.h}}
+
+
+Define all function essentials to make the game of life.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}struct.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}game\+\_\+of\+\_\+life\+\_\+gui.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{game__of__life_8h_a1599a0c170b80343e437f4639be3b84e}{Load\+Settings}} (\mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Change Game\textquotesingle{}s first grid size and colors from settings.\+txt. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life_8h_a6dc652b3e361074660242555de946074}{Life\+Thor}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Define rules for cell\textquotesingle{}s life and death (thorique matrix) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game__of__life_8h_a77b5d389ba1e412b6fc0c4b7665bc6b8}{Life\+Closed}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of)
+\begin{DoxyCompactList}\small\item\em Define rules for cell\textquotesingle{}s life and death (closed matrix) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game__of__life_8h_abe16ac62503b0e1f208339e860e1f07b}{Load\+Stdin}} (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$Main\+Var)
+\begin{DoxyCompactList}\small\item\em Ask stdin for load a pattern using a pipe on launch. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define all function essentials to make the game of life. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{game__of__life_8h_a77b5d389ba1e412b6fc0c4b7665bc6b8}\label{game__of__life_8h_a77b5d389ba1e412b6fc0c4b7665bc6b8}} 
+\index{game\_of\_life.h@{game\_of\_life.h}!LifeClosed@{LifeClosed}}
+\index{LifeClosed@{LifeClosed}!game\_of\_life.h@{game\_of\_life.h}}
+\doxysubsubsection{\texorpdfstring{LifeClosed()}{LifeClosed()}}
+{\footnotesize\ttfamily Life\+Closed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Define rules for cell\textquotesingle{}s life and death (closed matrix) 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life_8h_a6dc652b3e361074660242555de946074}\label{game__of__life_8h_a6dc652b3e361074660242555de946074}} 
+\index{game\_of\_life.h@{game\_of\_life.h}!LifeThor@{LifeThor}}
+\index{LifeThor@{LifeThor}!game\_of\_life.h@{game\_of\_life.h}}
+\doxysubsubsection{\texorpdfstring{LifeThor()}{LifeThor()}}
+{\footnotesize\ttfamily void Life\+Thor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of }\end{DoxyParamCaption})}
+
+
+
+Define rules for cell\textquotesingle{}s life and death (thorique matrix) 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life_8h_a1599a0c170b80343e437f4639be3b84e}\label{game__of__life_8h_a1599a0c170b80343e437f4639be3b84e}} 
+\index{game\_of\_life.h@{game\_of\_life.h}!LoadSettings@{LoadSettings}}
+\index{LoadSettings@{LoadSettings}!game\_of\_life.h@{game\_of\_life.h}}
+\doxysubsubsection{\texorpdfstring{LoadSettings()}{LoadSettings()}}
+{\footnotesize\ttfamily void Load\+Settings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Change Game\textquotesingle{}s first grid size and colors from settings.\+txt. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game__of__life_8h_abe16ac62503b0e1f208339e860e1f07b}\label{game__of__life_8h_abe16ac62503b0e1f208339e860e1f07b}} 
+\index{game\_of\_life.h@{game\_of\_life.h}!LoadStdin@{LoadStdin}}
+\index{LoadStdin@{LoadStdin}!game\_of\_life.h@{game\_of\_life.h}}
+\doxysubsubsection{\texorpdfstring{LoadStdin()}{LoadStdin()}}
+{\footnotesize\ttfamily void Load\+Stdin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$}]{List,  }\item[{\mbox{\hyperlink{structGrid}{Grid}} $\ast$}]{Number\+Of,  }\item[{\mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$}]{Main\+Var }\end{DoxyParamCaption})}
+
+
+
+Ask stdin for load a pattern using a pipe on launch. 
+
+\begin{DoxyAuthor}{Author}
+Les\+\_\+\+Mecs\+\_\+\+Paumees
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \+: 2 \\
+\hline
+{\em argv} & \+: (\mbox{\hyperlink{structSt__List}{St\+\_\+\+List}} $\ast$\+List, \mbox{\hyperlink{structGrid}{Grid}} $\ast$\+Number\+Of, \mbox{\hyperlink{structSt__Var}{St\+\_\+\+Var}} $\ast$\+Main\+Var) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}

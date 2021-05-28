@@ -1,3 +1,11 @@
+/*! \file struct.h
+ *  \author Les_Mecs_Paumees
+ *  \brief Define all structures used in the functions
+ */
+
+/*! \page struct.h
+ */
+
 #ifndef STRUCT
 #define STRUCT
 #include "SDL2/SDL_ttf.h"

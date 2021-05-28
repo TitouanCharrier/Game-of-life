@@ -1,3 +1,11 @@
+/*! \file game_of_life_gui.h
+ *  \author Les_Mecs_Paumees
+ *  \brief Define all function to setup the graphical user interface
+ */
+
+/*! \page game_of_life_gui.h
+ */
+
 #ifndef MAINFUNC
 #define MAINFUNC
 
@@ -18,91 +26,269 @@
 Loading / Saving : -------------------------------------------------------------
 */
 
-//Allocate a 2D array containing the main grid
+/*! \fn void LoadCase(St_List *List,Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Allocate a 2D array containing the main grid
+ *
+ * \param argc : 2
+ * \param argv : (St_List *List,Grid *NumberOf)
+ * \return void
+ */
 void LoadCase(St_List *List,Grid *NumberOf);
 
-//Copie the actual states of cases on a file (format .ins)
+/*! \fn void SaveMap(St_List *List, Grid *NumberOf, char name[])
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Copie the actual states of cases on a file (format .ins)
+ *
+ * \param argc : 3
+ * \param argv : (St_List *List, Grid *NumberOf, char name[])
+ * \return void
+ */
 void SaveMap(St_List *List, Grid *NumberOf, char name[]);
 
-//Change the actual state of cases to match a file.ins 
+/*! \fn void LoadMap(St_List *List, Grid *NumberOf, char name[])
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Change the actual state of cases to match a file.ins 
+ *
+ * \param argc : 3
+ * \param argv : (St_List *List, Grid *NumberOf, char name[])
+ * \return void
+ */
 void LoadMap(St_List *List, Grid *NumberOf, char name[]);
 
-//Allocate and define all buttons used for the interface
+/*! \fn void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Allocate and define all buttons used for the interface
+ *
+ * \param argc : 3
+ * \param argv : (St_List *List, St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void LoadButton(St_List *List, St_Var *MainVar, Grid *NumberOf);
 
-//Change the actual state of cases to match a file.rle
+/*! \fn void LoadRle(St_List *List, Grid *NumberOf, char name[])
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Change the actual state of cases to match a file.rle
+ *
+ * \param argc : 3
+ * \param argv : (St_List *List, Grid *NumberOf, char name[])
+ * \return void
+ */
 void LoadRle(St_List *List, Grid *NumberOf, char name[]);
 
-//Define the Background
+/*! \fn void LoadBackground(SDL_Renderer *renderer, St_Var *MainVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Define the Background
+ *
+ * \param argc : 2
+ * \param argv : (SDL_Renderer *renderer, St_Var *MainVar)
+ * \return void
+ */
 void LoadBackground(SDL_Renderer *renderer, St_Var *MainVar);
 
 /*
 Interact : ---------------------------------------------------------------------
 */
 
-//Search the button matching the mouse coords
+/*! \fn void FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Search the button matching the mouse coords
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ * \return void
+ */
 int FindButton(SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
-//Search the Case matching the mouse coords once done, set its state on
+/*! \fn void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Search the Case matching the mouse coords once done, set its state on
+ *
+ * \param argc : 5
+ * \param argv : (SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ * \return void
+ */
 void PlaceCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
-//Search the Case matching the mouse coords once done, set its state off
+/*! \fn void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Search the Case matching the mouse coords once done, set its state off
+ *
+ * \param argc : 5
+ * \param argv : (SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar)
+ * \return void
+ */
 void RemoveCell(SDL_Renderer *renderer, SDL_Event *event, St_List *List, Grid *NumberOf, St_Var *MainVar);
 
-//Define all actions which buttons must perform
+/*! \fn void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State *State, St_Var *MainVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Define all actions which buttons must perform
+ *
+ * \param argc : 5
+ * \param argv : (SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State *State, St_Var *MainVar)
+ * \return void
+ */
 void ButtonFunc(SDL_Renderer *renderer, St_List *List, Grid *NumberOf, St_State *State, St_Var *MainVar);
 
-//Define all actions which keys (released) must perform
+/*! \fn void HandleKeyUp(St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Define all actions which keys (released) must perform
+ *
+ * \param argc : 5
+ * \param argv : (St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar)
+ * \return void
+ */
 void HandleKeyUp(St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
-//Define all actions which keys (pressed) must perform
+/*! \fn int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Define all actions which keys (pressed) must perform
+ *
+ * \param argc : 6
+ * \param argv : (SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar)
+ * \return 
+ * 1 if a key is detected
+ * 0 if not
+ */
 int HandleKeyDown(SDL_Renderer *renderer, St_List *List, St_Var *MainVar, Grid *NumberOf, SDL_Event *event, Disp *DispVar);
 
-//Reallocate Case array to match desired size
-int ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols);
+/*! \fn void ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Reallocate Case array to match desired size
+ *
+ * \param argc : 4
+ * \param argv : (St_List *List, Grid *NumberOf, int NewLines, int NewCols)
+ * \return void
+ */
+void ChangeMapSize(St_List *List, Grid *NumberOf, int NewLines, int NewCols);
 
-//NOT my function, I take it on internet but I understand pretty well how its work
-//It just concatenate 2 int
+/*! \fn int concat(int x, int y)
+ *  \author Internet
+ *
+ *  \brief NOT my function, I take it on internet. It just concatenate 2 int
+ *
+ * \param argc : 2
+ * \param argv : (int x, int y)
+ * \return concatenation of the 2 integers
+ */
 int concat(int x, int y);
 
 /*
 Printing : ---------------------------------------------------------------------
 */
 
-//Call all function begining by "Print" 
+/*! \fn void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Call all function begining by "Print" 
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void PrintScene(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
-//Place and write on the renderer the cases
+/*! \fn void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Place and write on the renderer the cases
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void PrintCases(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
-//Called when an action change a button to avoid charging texture all the time
-//Change buttons attributes
+/*! \fn void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Called when an action change a button to avoid charging texture each time. Change buttons attributes
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void RefreshButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
-//Place and write on the renderer the Buttons
+/*! \fn void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Place and write on the renderer the Buttons
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void PrintButtons(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
-//Place and write on the renderer the Counter
+/*! \fn void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Place and write on the renderer the Counter
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void PrintCount(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
-//Place and write on the renderer the Errors
+/*! \fn void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Place and write on the renderer the Errors
+ *
+ * \param argc : 4
+ * \param argv : (SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf)
+ * \return void
+ */
 void PrintError(SDL_Renderer *renderer, St_List *List,St_Var *MainVar, Grid *NumberOf);
 
 /*
-//Cleaning : -------------------------------------------------------------------
+Cleaning : -------------------------------------------------------------------
 */
 
-//Reset all cases's state to 0
+/*! \fn void Clean(St_List *List, Grid *NumberOf)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief Reset all cases's state to 0
+ *
+ * \param argc : 2
+ * \param argv : (St_List *List, Grid *NumberOf)
+ * \return void
+ */
 void Clean(St_List *List, Grid *NumberOf);
 
 /*
-//Work In Progress : -----------------------------------------------------------
+Work In Progress : -----------------------------------------------------------
 */
 
-//This is an other methode to find a matching 
-//We divide the grid in 4 chunk, check if the click is inside one
-//Then repeat the operation until we find the case
-//in theorie that work, in fact I havent succed.
+/*! \fn void CompareChunk(St_List *List, Grid *NumberOf,St_Var *MainVar, int sourx, int soury)
+ *  \author Les_Mecs_Paumees
+ *
+ *  \brief This is an other methode to find a clicked case
+ *
+ * \param argc : 5
+ * \param argv : (St_List *List, Grid *NumberOf,St_Var *MainVar, int sourx, int soury)
+ * \return Couple of coordinates
+ * 
+ * \remarks
+ * We divide the grid in 4 chunk, check if the click is inside one
+ * Then repeat the operation until we find the case
+ * in theorie that work, in fact I havent succed.
+ */
 Couple CompareChunk(St_List *List, Grid *NumberOf,St_Var *MainVar, int sourx, int soury);
 
 #endif

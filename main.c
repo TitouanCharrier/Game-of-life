@@ -1,3 +1,36 @@
+/*! \file main.c
+ *  \author Groupe 
+ *  \version 54
+ *  \date Wed Aug 29 16:21:13 2007
+ *  \brief Main function of the game
+ */
+
+/*! \page main.c
+ *  \section Introduction
+ *  This programme execute the game of life by Conway
+ *  He can be used to create, load and save patterns
+ *  
+ * \section main
+ * Divided in 5 parts :
+ *  - Initialize SDL2 (setup window renderer and event variable)
+ *  - Define variables that I need
+ *  - Call the functions to load the initial map
+ *  - Detecting events
+ * 
+ *  - Update cells position
+ * 
+ * \section Dependences
+ * This function depends of to files :
+ *  - src/game_of_life_gui.h
+ *  - src/game_of_life.h
+ * 
+ * gui is for graphical user interface
+ * and handle all the graphic part
+ * 
+ * and the second dependence handle the
+ * life function to respect Conway's rules
+ */
+
 #include "src/game_of_life_gui.h"
 #include "src/game_of_life.h"
 #include <unistd.h>
